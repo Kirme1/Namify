@@ -61,7 +61,7 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-2-5 sentences describing what the system does
+The purpose is to allow users to look up names and create ratings and comments on them. As a user, you can add names to the website which allows other users to vote on the names, create comments and tags. Users also have access to a name chart where the most liked and disliked names are displayed, along with a random name generator. The random name generator will generate a name according to the users preferences.
 
 ### Pages
 
