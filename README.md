@@ -65,8 +65,10 @@ The purpose is to allow users to look up new names in a fun way and create ratin
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+* Name: Displays rating and comments for a given name. This page allows the user to leave comments on names and rate them.
+* Account: Displays user information if the user has an account. If the user does not have an account it will show a button saying create account. This page allows the user to create an account.
+* Home: Displays a search bar. This page allows the user to look up names and sort names by criterias.
+* Randomiser: Displays a number of names from the database. The page allows the user to get a number of random names from the database. 
 
 ### Entity-Relationship (ER) Diagram
 
