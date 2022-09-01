@@ -70,7 +70,7 @@ The purpose is to allow users to look up new names in a fun way and create ratin
 
 ### Entity-Relationship (ER) Diagram
 
-![ER Diagram](./images/er_diagram.png)
+![ER Diagram](./images/ER_Diagram.drawio.png)
 
 ## Teaser (MS3)
 
