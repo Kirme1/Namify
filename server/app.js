@@ -32,7 +32,6 @@ app.use(cors());
 
 // Import routes
 app.get('/api', function(req, res) {
-    res.send(prompt("What is your name?"));
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
