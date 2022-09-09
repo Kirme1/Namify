@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 var nameSchema = new Schema(
     {
-    id: { type: String},
+    _id: { type: String},
     likes: { type: Number,
     min: 0,
     },
