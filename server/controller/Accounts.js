@@ -17,6 +17,19 @@ router.get("/api/accounts", function (req, res) {
     });
 });
 
+//Postman 
+
+router.post("/api/accounts", function (req, res, next) {
+  var account = new Account(req.body);
+  account.save(function (err) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    console.log("New Account ", account._id, "created");
+    return res.status(201).json(account);
+  });
+});
+
 // Show Account with username
 router.get("/api/accounts/:id", function (req, res) {
   Account
@@ -78,14 +91,14 @@ router.patch("/api/accounts/:id", (req, res) => {
 // Delete an account by username
 router.delete("/api/accounts/:id", function (req, res) {
   const id = req.params.id;
-  username.findByIdAndDelete(id, function (err, account) {
+  _id.findByIdAndDelete(id, function (err, account) {
     if (err) {
       return res.status(500).send(err);
     }
     if (account == null) {
       return res.status(404).json({ message: "Account not found" });
     }
-    console.log("Account is successfully deleted:", account.name);
+    console.log("Account is successfully deleted:", account._id);
     res.status(200).json({ message: "Account successfully deleted:", account });
   });
 });
