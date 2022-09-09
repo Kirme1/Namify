@@ -1,5 +1,5 @@
 var express = require("express");
-const account = require("../schema/Account");
+var Account = require("../schema/Account");
 var router = express.Router();
 
 //Create a comment 
@@ -8,8 +8,7 @@ var router = express.Router();
 // Accounts - database functions
 // Show the list of Accounts
 router.get("/api/accounts", function (req, res) {
-  account
-    .find(function (err, accounts) {
+  Account.find(function (err, accounts) {
       if (err) {
         return res.status(500).send(err);
       }
@@ -20,7 +19,7 @@ router.get("/api/accounts", function (req, res) {
 
 // Show Account with username
 router.get("/api/accounts/:username", function (req, res) {
-  account
+  Account
     .findByUsername(req.params.username)
     .then((response) => {
       res.status(200).json({  //found
