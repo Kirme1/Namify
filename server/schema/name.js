@@ -9,7 +9,8 @@ var nameSchema = new Schema(
     },
     dislikes: { type: Number,
     min: 0,
-    }
+    },
+    comments: [{ type: Schema.Types.ObjectId, ref: 'comments'}],
     }
 );
 
