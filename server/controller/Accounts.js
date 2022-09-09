@@ -18,9 +18,9 @@ router.get("/api/accounts", function (req, res) {
 });
 
 // Show Account with username
-router.get("/api/accounts/:username", function (req, res) {
+router.get("/api/accounts/:id", function (req, res) {
   Account
-    .findByUsername(req.params.username)
+    .findById(req.params.id)
     .then((response) => {
       res.status(200).json({  //found
         response,
@@ -34,12 +34,12 @@ router.get("/api/accounts/:username", function (req, res) {
 });
 
 //Update an account
-router.put("/api/accounts/:username", async (req, res) => {
-  const Account = account.findByUsername(req.params.username);
-  if (Account.username === req.body.username)
+router.put("/api/accounts/:id", async (req, res) => {
+  const Account = account.findById(req.params.id);
+  if (Account.id === req.body.id)
     updateAccount = account
-      .findByUsernameAndUpdate(
-        req.params.username,
+      .findByIdAndUpdate(
+        req.params.id,
         {
           $set: req.body,
         },
@@ -59,8 +59,8 @@ router.put("/api/accounts/:username", async (req, res) => {
 
 //change one attribute
 
-router.patch("/api/accounts/:username", (req, res) => {
-  account.findByUsernameAndUpdate(req.params.username, req.body, {
+router.patch("/api/accounts/:id", (req, res) => {
+  account.findByIdUpdate(req.params.id, req.body, {
       new: true,
       useFindAndModify: false,
     })
@@ -76,16 +76,16 @@ router.patch("/api/accounts/:username", (req, res) => {
 });
 
 // Delete an account by username
-router.delete("/api/accounts/:username", function (req, res) {
-  const username = req.params.username;
-  username.findByUssernameAndDelete(username, function (err, account) {
+router.delete("/api/accounts/:id", function (req, res) {
+  const id = req.params.id;
+  username.findByIdAndDelete(id, function (err, account) {
     if (err) {
       return res.status(500).send(err);
     }
-    if (username == null) {
+    if (account == null) {
       return res.status(404).json({ message: "Account not found" });
     }
-    console.log("Account is successfully deleted:", account.username);
+    console.log("Account is successfully deleted:", account.name);
     res.status(200).json({ message: "Account successfully deleted:", account });
   });
 });
