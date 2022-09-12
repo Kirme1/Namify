@@ -58,4 +58,26 @@ router.post("/api/names/:id/comments", function (req, res) {
     });
   });
 
+  router.delete("/api/names", function (req, res) {
+    Name.deleteMany(function (err, name) {
+      if(err) {
+        return res.status(500).send(err);
+      }
+      res.status(200).json(name);
+    });
+  });
+
+  router.delete("/api/names/:id", function(req, res) {
+    var id = req.params.id;
+    Name.findByIdAndDelete(id, function(err, name) {
+      if(err) {
+        return res.status(500).send(err);
+      }
+      if (name == null) {
+        return res.status(404).json({ message: "Name was not found"});
+      }
+      res.status(200).json(name);
+    });
+  });
+
 module.exports = router
