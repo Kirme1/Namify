@@ -30,7 +30,7 @@ function createNames(url, res) {
     })
 }
 
-router.post("/api/nameFetch", function(req, res) {
+router.post("/api/populate", function(req, res) {
     createNames(womenurl, res);
     createNames(menurl, res);
     res.status(200).json({ message: 'success!'})
