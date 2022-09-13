@@ -6,6 +6,7 @@ var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
 var namesController = require('./controller/names');
+var nameFetcher = require('./externalApi/populate');
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
@@ -39,6 +40,7 @@ app.get('/api', function(req, res) {
 
 // use Controllers
 app.use(namesController);
+app.use(nameFetcher);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
