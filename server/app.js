@@ -5,6 +5,8 @@ var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
+var accountController = require('./controller/Accounts');
+
 var tagsController = require('./controller/tags');
 
 // Variables
@@ -37,6 +39,8 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
+
+app.use(accountController);
 
 
 
