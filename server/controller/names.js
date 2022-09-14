@@ -61,6 +61,24 @@ router.get('/api/names/:id/tags', function(req, res) {
   });
 });
 
+router.get('/api/names?tags=:tags', function (req, res) {
+  console.log("finding");
+  var tagId = '';
+  Tag.find({tag: req.params.tags})
+  .exec(function (err, tags) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    tagId = tags._id;
+  });
+  Name.filter(name=> name.tags.tag === tagId).exec(function (err, name) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.status(200).json(name);
+  });
+});
+
 router.post("/api/names", function (req, res) {
     var name = new Name(req.body);
     name.save(function (err) {
