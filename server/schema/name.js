@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 var nameSchema = new Schema(
     {
-    _id: { type: String, required: true},
+    name: {type: String, required: true},
     likes: { type: Number,
     min: 0, required: true
     },
@@ -11,6 +11,7 @@ var nameSchema = new Schema(
     min: 0, required: true
     },
     comments: [{ type: Schema.Types.ObjectId, ref: 'comments'}],
+    tags: [{ type: Schema.Types.ObjectId, ref: 'tags'}],
     }
 );
 

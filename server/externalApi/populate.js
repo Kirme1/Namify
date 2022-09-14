@@ -16,7 +16,7 @@ function createNames(url, res) {
             var numOfNames = data.data.length;
             for (var i = 0;i < numOfNames; i++) {
                 var nameData = data.data[i];
-                var nameObject = { _id: nameData.key[0].substring(1), likes: 0, dislikes: 0};
+                var nameObject = { name: nameData.key[0].substring(1), likes: 0, dislikes: 0};
                 var name = new Name(nameObject)
                 name.save(function (err) {
                     if (err) {
