@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-var Name = require('../schema/name')
+var Name = require('../schema/name');
 var Comment = require('../schema/comment');
 const comment = require('../schema/comment');
-
 
 // Names - C.R.U.D functions
 router.get('/api/names', function (req, res) {
@@ -24,6 +23,31 @@ router.get('/api/names/:id', function(req, res){
         }
         return res.status(200).send(name);
     });
+});
+
+router.get('/api/names/:id/comments', function(req, res) {
+  Name.findById({_id: req.params.id})
+  .populate("comments")
+  .exec(function (err, name) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.status(200).send(name.comments);
+  });
+});
+
+router.get('/api/names/:name_id/comments/:comment_id', function(req, res) {
+  Comment.findOne({name: req.params.name_id})
+  .where({_id: req.params.comment_id})
+  .exec(function (err, comment) {
+    if(err) {
+      return res.status(500).send(err);
+    }
+    if(comment == null){
+      return res.status(404).json({message: "comment does not exist"});
+    }
+    return res.status(200).send(comment);
+  });
 });
 
 router.post("/api/names", function (req, res) {
@@ -77,6 +101,34 @@ router.post("/api/names/:id/comments", function (req, res) {
         return res.status(404).json({ message: "Name was not found"});
       }
       res.status(200).json(name);
+    });
+  });
+
+  router.patch("/api/names/:id", function(req, res) {
+    var id = req.params.id;
+    Name.findByIdAndUpdate(id, req.body, { likes: req.likes, dislikes: req.dislikes})
+    .then(function (name) {
+      if (name == null) {
+        return res.status(404).send();
+      }
+      res.status(204).send(name);
+    })
+    .catch( function (err) {
+      res.status(500).send(err);
+    });
+  });
+
+  router.delete('/api/names/:name_id/comments/:comment_id', function(req, res) {
+    Comment.findOneAndDelete({name: req.params.name_id})
+    .where({_id: req.params.comment_id})
+    .exec(function (err, comment) {
+      if(err) {
+        return res.status(500).send(err);
+      }
+      if(comment == null){
+        return res.status(404).json({message: "comment does not exist"});
+      }
+      return res.status(200).send(comment);
     });
   });
 
