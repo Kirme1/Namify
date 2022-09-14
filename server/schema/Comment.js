@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 var commentSchema = new Schema(
     {
+        id: {type: String, required: true},
         text: {type: String, required: true},
         likes: {type: Number, min: 0},
-        dislikes: {type: Number, min: 0},
-        name: {type: String, required: true}
-    },
+        dislikes: {type: Number, min: 0}
+    }
 );
 
 module.exports = mongoose.model('comments', commentSchema);
