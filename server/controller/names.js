@@ -37,22 +37,24 @@ router.get('/api/names/:id/comments', function(req, res) {
 });
 
 router.get('/api/names/:name_id/comments/:comment_id', function(req, res) {
-  Comment.findOne({name: req.params.name_id})
-  .where({_id: req.params.comment_id})
-  .exec(function (err, comment) {
+  Name.findById({_id: req.params.name_id})
+  .populate({path: "comments", 
+    match: { _id: { $eq: req.params.comment_id } },
+  })
+  .exec(function (err, name, comment) {
     if(err) {
       return res.status(500).send(err);
     }
-    if(comment == null){
+    if(comment === null || name === null){
       return res.status(404).json({message: "comment does not exist"});
     }
-    return res.status(200).send(comment);
+    return res.status(200).send(name.comments);
   });
 });
 
 router.get('/api/names/:id/tags', function(req, res) {
   Name.findById({_id: req.params.id})
-  .populate("tags")
+  .populate('tags')
   .exec(function (err, name) {
     if (err) {
       return res.status(500).send(err);
@@ -61,7 +63,23 @@ router.get('/api/names/:id/tags', function(req, res) {
   });
 });
 
-router.get('/api/names?tags=:tags', function (req, res) {
+router.get('/api/names/:name_id/tags/:tag_id', function(req, res) {
+  Name.findById({_id: req.params.name_id})
+  .populate({path: "tags", 
+    match: { _id: { $eq: req.params.tag_id } },
+  })
+  .exec(function (err, name, tag) {
+    if(err) {
+      return res.status(500).send(err);
+    }
+    if(tag === null || name === null){
+      return res.status(404).json({message: "tag does not exist"});
+    }
+    return res.status(200).send(name.tags);
+  });
+});
+
+router.get('/api/names?likes=:likes', function(req, res) {
   console.log("finding");
   var tagId = '';
   Tag.find({tag: req.params.tags})
@@ -134,8 +152,7 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
 
   router.delete('/api/names/:name_id/comments/:comment_id', function(req, res) {
-    Comment.findOneAndDelete({name: req.params.name_id})
-    .where({_id: req.params.comment_id})
+    Comment.findOneAndDelete({_id: req.params.comment_id})
     .exec(function (err, comment) {
       if(err) {
         return res.status(500).send(err);
@@ -148,35 +165,36 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
 
   router.delete("/api/names/:name_id/tags/:tag_id", function (req, res) {
-    var tag = '';
-    Tag.findById({_id: req.params.tag_id}, function (err, foundTag) {
-      if (err) {
-        return res.status(500);
-      }
-      if (foundTag == null) {
-        return res.status(404).json({ message: "Tag not found" });
-      }
-      tag = foundTag;
-    })
-    Name.findById({_id: req.params.name_id}, function (err, name) {
-      if (err) {
-        return res.status(500);
-      }
-      if (name == null) {
-        return res.status(404).json({ message: "Name not found" });
-      }
-      name.tags.pull(tag);
-      name.save(function (err) {
-        if (err) {
-          return res.status(500);
-        }
-        console.log(tags._id + " created.");
-      });
-      return res.status(201).json(name);
-    });
+    Name.findByIdAndUpdate({_id: req.params.name_id})
+    .populate("tags")
+    .exec(function (err, name, tag) {
+    if(err) {
+      return res.status(500).send(err);
+    }
+    if(tag === null || name === null){
+      return res.status(404).json({message: "comment does not exist"});
+    }
+    name.tags.pull({_id: req.params.tag_id});
+    name.save();
+    return res.status(200).send(name.comments);
+  });
   });
 
   router.patch("/api/names/:id", function(req, res) {
+    var id = req.params.id;
+    Name.findByIdAndUpdate(id, req.body, { likes: req.likes, dislikes: req.dislikes})
+    .then(function (name) {
+      if (name == null) {
+        return res.status(404).send();
+      }
+      res.status(204).send(name);
+    })
+    .catch( function (err) {
+      res.status(500).send(err);
+    });
+  });
+
+  router.patch("/api/names/:name_id/comments/:comment_id", function(req, res) {
     var id = req.params.id;
     Name.findByIdAndUpdate(id, req.body, { likes: req.likes, dislikes: req.dislikes})
     .then(function (name) {
@@ -214,7 +232,7 @@ router.post("/api/names/:id/comments", function (req, res) {
         if (err) {
           return res.status(500);
         }
-        console.log(tags._id + " created.");
+        console.log(tag._id + " created.");
       });
       return res.status(201).json(name);
     });
