@@ -8,8 +8,9 @@ var history = require('connect-history-api-fallback');
 
 
 var tagsController = require('./controller/tags')
-
 var accountController = require('./controller/accounts');
+var namesController = require('./controller/names');
+var nameFetcher = require('./externalApi/populate');
 
 
 
@@ -44,10 +45,12 @@ app.get('/api', function(req, res) {
 });
 
 
-
+// use Controllers
+app.use(namesController);
+app.use(nameFetcher);
+app.use(accountController);
 app.use(tagsController);
 
-app.use(accountController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
