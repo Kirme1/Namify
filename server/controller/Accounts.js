@@ -48,9 +48,9 @@ router.get("/api/accounts/:id", function (req, res) {
 
 //Update an account
 router.put("/api/accounts/:id", async (req, res) => {
-  const Account = account.findById(req.params.id);
-  if (Account.id === req.body.id)
-    updateAccount = account
+  const account = Account.findById(req.params.id);
+  if (account.id === req.body.id)
+    updateAccount = Account
       .findByIdAndUpdate(
         req.params.id,
         {
@@ -73,7 +73,7 @@ router.put("/api/accounts/:id", async (req, res) => {
 //change one attribute
 
 router.patch("/api/accounts/:id", (req, res) => {
-  account.findByIdUpdate(req.params.id, req.body, {
+  Account.findById(req.params.id, req.body, {
       new: true,
       useFindAndModify: false,
     })
@@ -91,7 +91,7 @@ router.patch("/api/accounts/:id", (req, res) => {
 // Delete an account by username
 router.delete("/api/accounts/:id", function (req, res) {
   const id = req.params.id;
-  _id.findByIdAndDelete(id, function (err, account) {
+  Account.findByIdAndDelete(id, function (err, account) {
     if (err) {
       return res.status(500).send(err);
     }
