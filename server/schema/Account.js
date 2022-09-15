@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 var accountSchema = new Schema(
     {
-        _id: { type: String, required: true },
+        name: { type: String, required: true },
         email: { type: String},
         password: { type: String},
 
