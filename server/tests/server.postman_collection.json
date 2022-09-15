@@ -85,7 +85,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\" : \"Test\"\r\n}",
+							"raw": "{\r\n    \"_id\" : \"Hellooo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -93,12 +93,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/tags",
-							"protocol": "http",
+							"raw": "{{host}}/api/tags",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"tags"
@@ -126,14 +124,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/tags/Test",
+							"raw": "{{host}}/api/tags/Hellooo",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"tags",
-								"Test"
+								"Hellooo"
 							]
 						}
 					},
@@ -162,15 +160,19 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/api/tags/Test",
+							"raw": "{{host}}/api/tags/Hellooo",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"tags",
-								"Test"
+								"Hellooo"
 							]
 						}
 					},
@@ -195,14 +197,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/tags/Test",
+							"raw": "{{host}}/api/tags/Hellooo",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"tags",
-								"Test"
+								"Hellooo"
 							]
 						}
 					},
@@ -432,7 +434,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE /api/accounts/:id Copy",
+					"name": "DELETE /api/accounts/:id",
 					"event": [
 						{
 							"listen": "test",

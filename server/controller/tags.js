@@ -35,15 +35,20 @@ router.post('/api/tags', function (req, res) {
 
 router.delete("/api/tags/:id", function (req, res) {
     var id = req.params.id;
-    Tag.findByIdAndDelete(id, function (err, tag) {
+    Tag.findById(id, function (err, tag) {
       if (err) {
         return res.status(500).send(err);
       }
       if (tag == null) {
         return res.status(404).json({ message: "Tag not found" });
       }
-      console.log("Tag successfully deleted :", tag._id);
-      res.status(200).json(tag);
+      Tag.findByIdAndDelete(id, function (err, tag) {
+        if (err) {
+            return res.status(500).send(err);
+          }
+          console.log("Tag successfully deleted :", tag.id);
+          res.status(200).json(tag);
+      })
     });
   });
 
