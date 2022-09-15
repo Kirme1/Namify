@@ -15,6 +15,8 @@ router.get('/api/names', function (req, res) {
     });
 });
 
+
+//get specific name
 router.get('/api/names/:id', function(req, res){
     Name.findById({_id: req.params.id})
     .populate('comments').exec(function (err, name){
@@ -25,6 +27,7 @@ router.get('/api/names/:id', function(req, res){
     });
 });
 
+//get all comments for specific name
 router.get('/api/names/:id/comments', function(req, res) {
   Name.findById({_id: req.params.id})
   .populate("comments")
@@ -36,6 +39,7 @@ router.get('/api/names/:id/comments', function(req, res) {
   });
 });
 
+//get specific comment for specific name
 router.get('/api/names/:name_id/comments/:comment_id', function(req, res) {
   Name.findById({_id: req.params.name_id})
   .populate({path: "comments", 
@@ -52,6 +56,7 @@ router.get('/api/names/:name_id/comments/:comment_id', function(req, res) {
   });
 });
 
+// get all tags for specific name
 router.get('/api/names/:id/tags', function(req, res) {
   Name.findById({_id: req.params.id})
   .populate('tags')
@@ -63,6 +68,7 @@ router.get('/api/names/:id/tags', function(req, res) {
   });
 });
 
+//get specific tag for specific name
 router.get('/api/names/:name_id/tags/:tag_id', function(req, res) {
   Name.findById({_id: req.params.name_id})
   .populate({path: "tags", 
@@ -79,10 +85,11 @@ router.get('/api/names/:name_id/tags/:tag_id', function(req, res) {
   });
 });
 
-router.get('/api/names?likes=:likes', function(req, res) {
+//get all names with tag (not working)
+router.get('/api/names?tag=:tag', function(req, res) {
   console.log("finding");
   var tagId = '';
-  Tag.find({tag: req.params.tags})
+  Tag.find({tag: req.params.tag})
   .exec(function (err, tags) {
     if (err) {
       return res.status(500).send(err);
@@ -97,6 +104,7 @@ router.get('/api/names?likes=:likes', function(req, res) {
   });
 });
 
+//create new name
 router.post("/api/names", function (req, res) {
     var name = new Name(req.body);
     name.save(function (err) {
@@ -107,6 +115,7 @@ router.post("/api/names", function (req, res) {
     })
 });
 
+//create comment for specific name
 router.post("/api/names/:id/comments", function (req, res) {
     Name.findById({_id: req.params.id}, function (err, name) {
       if (err) {
@@ -129,6 +138,7 @@ router.post("/api/names/:id/comments", function (req, res) {
     });
   });
 
+  //delete all names
   router.delete("/api/names", function (req, res) {
     Name.deleteMany(function (err, name) {
       if(err) {
@@ -138,6 +148,7 @@ router.post("/api/names/:id/comments", function (req, res) {
     });
   });
 
+  //delete specific name
   router.delete("/api/names/:id", function(req, res) {
     var id = req.params.id;
     Name.findByIdAndDelete(id, function(err, name) {
@@ -151,6 +162,7 @@ router.post("/api/names/:id/comments", function (req, res) {
     });
   });
 
+  //delete specific comment from specific name
   router.delete('/api/names/:name_id/comments/:comment_id', function(req, res) {
     Comment.findOneAndDelete({_id: req.params.comment_id})
     .exec(function (err, comment) {
@@ -164,6 +176,7 @@ router.post("/api/names/:id/comments", function (req, res) {
     });
   });
 
+  //remove specific tag from specific name
   router.delete("/api/names/:name_id/tags/:tag_id", function (req, res) {
     Name.findByIdAndUpdate({_id: req.params.name_id})
     .populate("tags")
@@ -180,6 +193,7 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
   });
 
+  //change number of likes and dislikes for a specific name
   router.patch("/api/names/:id", function(req, res) {
     var id = req.params.id;
     Name.findByIdAndUpdate(id, req.body, { likes: req.likes, dislikes: req.dislikes})
@@ -194,14 +208,15 @@ router.post("/api/names/:id/comments", function (req, res) {
     });
   });
 
+  //change number of likes and dislikes for specific comment
   router.patch("/api/names/:name_id/comments/:comment_id", function(req, res) {
-    var id = req.params.id;
-    Name.findByIdAndUpdate(id, req.body, { likes: req.likes, dislikes: req.dislikes})
-    .then(function (name) {
-      if (name == null) {
+    var id = req.params.comment_id;
+    Comment.findByIdAndUpdate(id, req.body, { likes: req.likes, dislikes: req.dislikes})
+    .then(function (comment) {
+      if (comment == null) {
         return res.status(404).send();
       }
-      res.status(204).send(name);
+      res.status(204).send(comment);
     })
     .catch( function (err) {
       res.status(500).send(err);
