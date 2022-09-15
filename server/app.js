@@ -7,10 +7,10 @@ var history = require('connect-history-api-fallback');
 
 
 
+var tagsController = require('./controller/tags')
 
 var accountController = require('./controller/accounts');
 
-var tagsController = require('./controller/tags')
 
 
 // Variables
