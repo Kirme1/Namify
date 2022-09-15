@@ -3,6 +3,7 @@ const router = express.Router();
 var Tag = require('../schema/tag');
 
 // Create tag C.R.U.D. functions
+//Get all tags
 router.get('/api/tags', function (req, res) {
     Tag.find(function (err, tags) {
         if(err) {
@@ -13,6 +14,7 @@ router.get('/api/tags', function (req, res) {
     });
 });
 
+//Get specific tag
 router.get('/api/tags/:id', function (req, res) {
     Tag.findById({_id: req.params.id}).exec(function (err, tag) {
         if (err) {
@@ -22,6 +24,7 @@ router.get('/api/tags/:id', function (req, res) {
     });
 });
 
+//Create new tag
 router.post('/api/tags', function (req, res) {
     var tag = new Tag(req.body); 
     tag.save(function (err) {
@@ -33,17 +36,23 @@ router.post('/api/tags', function (req, res) {
     });
 });
 
+//delete tag
 router.delete("/api/tags/:id", function (req, res) {
     var id = req.params.id;
-    Tag.findByIdAndDelete(id, function (err, tag) {
+    Tag.findById(id, function (err, tag) {
       if (err) {
         return res.status(500).send(err);
       }
       if (tag == null) {
         return res.status(404).json({ message: "Tag not found" });
       }
-      console.log("Tag successfully deleted :", tag._id);
-      res.status(200).json(tag);
+      Tag.findByIdAndDelete(id, function (err, tag) {
+        if (err) {
+            return res.status(500).send(err);
+          }
+          console.log("Tag successfully deleted :", tag.id);
+          res.status(200).json(tag);
+      })
     });
   });
 
