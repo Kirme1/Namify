@@ -60,4 +60,13 @@ router.delete("/api/tags/:id", function (req, res) {
     });
   });
 
+  router.delete("/api/tags", function (req, res) {
+    Tag.deleteMany(function (err, tag) {
+      if(err) {
+        return res.status(500).send(err);
+      }
+      res.status(200).json(tag);
+    });
+  });
+
 module.exports = router;

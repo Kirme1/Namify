@@ -10,8 +10,8 @@ var nameSchema = new Schema(
     dislikes: { type: Number,
     min: 0, required: true
     },
-    comments: [{ type: Schema.Types.ObjectId, ref: 'comments'}],
-    tags: [{ type: Schema.Types.ObjectId, ref: 'tags'}]
+    comments: [{ type: Schema.Types.String, ref: 'comments'}],
+    tags: [{ type: Schema.Types.String, ref: 'tags'}]
     }
 );
 

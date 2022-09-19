@@ -43,13 +43,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{host}}/api/tags",
+							"raw": "{{host}}/api/tags/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"tags"
+								"tags",
+								""
 							]
 						}
 					},
@@ -85,7 +86,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\" : \"Hellooo\"\r\n}",
+							"raw": "{\r\n    \"_id\" : \"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -124,87 +125,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/tags/Hellooo",
+							"raw": "{{host}}/api/tags/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"tags",
-								"Hellooo"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE /api/tags/:id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"\r",
-									"pm.test(\"Tag deleted successfully\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/tags/Hellooo",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"tags",
-								"Hellooo"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE /api/tags/:id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Tag not found\", function () {\r",
-									"    pm.response.to.have.status(404);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/tags/Hellooo",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"tags",
-								"Hellooo"
+								"test"
 							]
 						}
 					},
@@ -253,7 +181,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"account is created\", function () {\r",
+									"pm.test(\"Account is created\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
 									"});"
 								],
@@ -469,12 +397,664 @@
 			]
 		},
 		{
-			"name": "Comments",
-			"item": []
-		},
-		{
 			"name": "Names",
-			"item": []
+			"item": [
+				{
+					"name": "POST /api/names",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Name is created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\" : \"test\",\r\n    \"likes\" : 0,\r\n    \"dislikes\" : 0,\r\n    \"comments\" : [],\r\n    \"tags\" : []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/names",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/names",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Names retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/names/:id/comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Comment is created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n    \"_id\" : \"test\",\r\n    \"text\" : \"This is a test\",\r\n    \"likes\" : 2,\r\n    \"dislikes\" : 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/names/test/comments",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/names/:id/comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Comments retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names/test/comments",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/names/:id/comments/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Comment retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names/test/comments/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test",
+								"comments",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /api/names/:id/comments/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Name updated successfully\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"likes\" : 69,\r\n    \"dislikes\" : 420\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/names/test/comments/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test",
+								"comments",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/names/:id/comments/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Comment deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names/test/comments/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test",
+								"comments",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /api/names/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Name updated successfully\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"likes\" : 69,\r\n    \"dislikes\" : 420\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/names/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /api/names/:id/tags/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tag added to name successfully\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/names/test/tags/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test",
+								"tags",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/names/:id/tags",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tags retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names/test/tags",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/names/:id/tags/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tags retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names/test/tags/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test",
+								"tags",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/names/:id/comments/:id Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tag deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names/test/tags/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test",
+								"tags",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/names/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Name retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/names/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Name deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/names/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Name not found\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/names/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"names",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/tags/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Tag deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/tags/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/tags",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Tags deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/tags",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/tags/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tag not found\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tags/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
