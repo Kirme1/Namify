@@ -16,75 +16,6 @@ router.get('/api/names', function (req, res) {
 });
 
 
-//get specific name
-router.get('/api/names/:id', function(req, res){
-    Name.findById({_id: req.params.id})
-    .populate('comments').exec(function (err, name){
-        if(err) {
-            return res.status(500).send(err);
-        }
-        return res.status(200).send(name);
-    });
-});
-
-//get all comments for specific name
-router.get('/api/names/:id/comments', function(req, res) {
-  Name.findById({_id: req.params.id})
-  .populate("comments")
-  .exec(function (err, name) {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.status(200).send(name.comments);
-  });
-});
-
-//get specific comment for specific name
-router.get('/api/names/:name_id/comments/:comment_id', function(req, res) {
-  Name.findById({_id: req.params.name_id})
-  .populate({path: "comments", 
-    match: { _id: { $eq: req.params.comment_id } },
-  })
-  .exec(function (err, name, comment) {
-    if(err) {
-      return res.status(500).send(err);
-    }
-    if(comment === null || name === null){
-      return res.status(404).json({message: "comment does not exist"});
-    }
-    return res.status(200).send(name.comments);
-  });
-});
-
-// get all tags for specific name
-router.get('/api/names/:id/tags', function(req, res) {
-  Name.findById({_id: req.params.id})
-  .populate('tags')
-  .exec(function (err, name) {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.status(200).send(name.tags);
-  });
-});
-
-//get specific tag for specific name
-router.get('/api/names/:name_id/tags/:tag_id', function(req, res) {
-  Name.findById({_id: req.params.name_id})
-  .populate({path: "tags", 
-    match: { _id: { $eq: req.params.tag_id } },
-  })
-  .exec(function (err, name, tag) {
-    if(err) {
-      return res.status(500).send(err);
-    }
-    if(tag === null || name === null){
-      return res.status(404).json({message: "tag does not exist"});
-    }
-    return res.status(200).send(name.tags);
-  });
-});
-
 //get all names with tag (not working)
 router.get('/api/names?tag=:tag', function(req, res) {
   console.log("finding");
@@ -115,6 +46,18 @@ router.post("/api/names", function (req, res) {
     })
 });
 
+//Is this necessary? 
+ //delete all names
+ router.delete("/api/names", function (req, res) {
+  Name.deleteMany(function (err, name) {
+    if(err) {
+      return res.status(500).send(err);
+    }
+    res.status(200).json(name);
+  });
+});
+
+
 //create comment for specific name
 router.post("/api/names/:id/comments", function (req, res) {
     Name.findById({_id: req.params.id}, function (err, name) {
@@ -138,16 +81,7 @@ router.post("/api/names/:id/comments", function (req, res) {
     });
   });
 
-  //delete all names
-  router.delete("/api/names", function (req, res) {
-    Name.deleteMany(function (err, name) {
-      if(err) {
-        return res.status(500).send(err);
-      }
-      res.status(200).json(name);
-    });
-  });
-
+ 
   //delete specific name
   router.delete("/api/names/:id", function(req, res) {
     var id = req.params.id;
@@ -164,7 +98,8 @@ router.post("/api/names/:id/comments", function (req, res) {
 
   //delete specific comment from specific name
   router.delete('/api/names/:name_id/comments/:comment_id', function(req, res) {
-    Comment.findOneAndDelete({_id: req.params.comment_id})
+    var id = req.params.comment_id;
+    Comment.findById(id)
     .exec(function (err, comment) {
       if(err) {
         return res.status(500).send(err);
@@ -172,7 +107,31 @@ router.post("/api/names/:id/comments", function (req, res) {
       if(comment == null){
         return res.status(404).json({message: "comment does not exist"});
       }
-      return res.status(200).json(comment);
+      Comment.findByIdAndDelete(id, function (err, comment) {
+        if (err) {
+            return res.status(500).send(err);
+          }
+
+          //Remove comment from array
+          Name.findById({_id: req.params.name_id}).exec(function (err, name) {
+            if (err) {
+              return res.status(500).send(err);
+            }
+            if(name === null){
+              return res.status(404).json({message: "Name does not exist"});
+            }
+            var index = name.comments.indexOf(id);
+            if (index > -1) { 
+              // Only splice array when item is found
+              name.comments.splice(index, 1);
+              name.save();
+            }
+            else {return res.status(500).send(err);}
+          });
+
+          console.log("Tag successfully deleted :", comment.id);
+          res.status(200).json(comment);
+      })
     });
   });
 
@@ -252,5 +211,85 @@ router.post("/api/names/:id/comments", function (req, res) {
       return res.status(201).json(name);
     });
   });
+
+  //get specific name
+router.get('/api/names/:id', function(req, res){
+  Name.findById({_id: req.params.id})
+  .populate('comments').exec(function (err, id){
+      if(err) {
+          return res.status(500).send(err);
+      }
+      if (id == null) {
+        return res.status(404).json({ message: "Name not found" });
+      }
+      return res.status(200).json(id);
+  });
+});
+
+//get all comments for specific name
+router.get('/api/names/:id/comments', function(req, res) {
+  Name.findById({_id: req.params.id})
+  .populate("comments")
+  .exec(function (err, name) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    if(name === null){
+      return res.status(404).json({message: "Name does not exist"});
+    }
+    res.json({comments: name.comments})
+    return res.status(200);
+  });
+});
+
+//get specific comment for specific name
+router.get('/api/names/:name_id/comments/:comment_id', function(req, res) {
+  Name.findById({_id: req.params.name_id})
+  .populate({path: "comments", 
+    match: { _id: { $eq: req.params.comment_id } },
+  })
+  .exec(function (err, name, comment) {
+    if(err) {
+      return res.status(500).send(err);
+    }
+    if(comment === null){
+      return res.status(404).json({message: "comment does not exist"});
+    }
+    if(name === null){
+      return res.status(404).json({message: "Name does not exist"});
+    }
+    res.json({comments: name.comments})
+    return res.status(200);
+  });
+});
+
+// get all tags for specific name
+router.get('/api/names/:id/tags', function(req, res) {
+  Name.findById({_id: req.params.id})
+  .populate('tags')
+  .exec(function (err, name) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.status(200).send(name.tags);
+  });
+});
+
+//get specific tag for specific name
+router.get('/api/names/:name_id/tags/:tag_id', function(req, res) {
+  Name.findById({_id: req.params.name_id})
+  .populate({path: "tags", 
+    match: { _id: { $eq: req.params.tag_id } },
+  })
+  .exec(function (err, name, tag) {
+    if(err) {
+      return res.status(500).send(err);
+    }
+    if(tag === null || name === null){
+      return res.status(404).json({message: "tag does not exist"});
+    }
+    return res.status(200).send(name.tags);
+  });
+});
 
 module.exports = router

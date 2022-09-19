@@ -20,6 +20,10 @@ router.get('/api/tags/:id', function (req, res) {
         if (err) {
             return res.status(500).send(err);
         }
+        if(tag == null)
+        {
+          return res.status(404).json({ message: "Tag not found" });
+        }
         return res.status(200).send(tag);
     });
 });
@@ -53,6 +57,15 @@ router.delete("/api/tags/:id", function (req, res) {
           console.log("Tag successfully deleted :", tag.id);
           res.status(200).json(tag);
       })
+    });
+  });
+
+  router.delete("/api/tags", function (req, res) {
+    Tag.deleteMany(function (err, tag) {
+      if(err) {
+        return res.status(500).send(err);
+      }
+      res.status(200).json(tag);
     });
   });
 
