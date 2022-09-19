@@ -20,6 +20,10 @@ router.get('/api/tags/:id', function (req, res) {
         if (err) {
             return res.status(500).send(err);
         }
+        if(tag == null)
+        {
+          return res.status(404).json({ message: "Tag not found" });
+        }
         return res.status(200).send(tag);
     });
 });

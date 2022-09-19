@@ -11,7 +11,7 @@ var nameSchema = new Schema(
     min: 0, required: true
     },
     comments: [{ type: Schema.Types.ObjectId, ref: 'comments'}],
-    tags: [{ type: Schema.Types.ObjectId, ref: 'tags'}],
+    tags: [{ type: Schema.Types.ObjectId, ref: 'tags'}]
     }
 );
 

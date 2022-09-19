@@ -19,11 +19,11 @@ router.get('/api/names', function (req, res) {
 //get specific name
 router.get('/api/names/:id', function(req, res){
     Name.findById({_id: req.params.id})
-    .populate('comments').exec(function (err, name){
+    .populate('comments').exec(function (err, id){
         if(err) {
             return res.status(500).send(err);
         }
-        return res.status(200).send(name);
+        return res.status(200).send(id);
     });
 });
 
@@ -35,6 +35,7 @@ router.get('/api/names/:id/comments', function(req, res) {
     if (err) {
       return res.status(500).send(err);
     }
+    res.json({comments: name.comments})
     return res.status(200).send(name.comments);
   });
 });
@@ -164,7 +165,8 @@ router.post("/api/names/:id/comments", function (req, res) {
 
   //delete specific comment from specific name
   router.delete('/api/names/:name_id/comments/:comment_id', function(req, res) {
-    Comment.findOneAndDelete({_id: req.params.comment_id})
+    var id = req.params.comment_id;
+    Comment.findById(id)
     .exec(function (err, comment) {
       if(err) {
         return res.status(500).send(err);
@@ -172,7 +174,13 @@ router.post("/api/names/:id/comments", function (req, res) {
       if(comment == null){
         return res.status(404).json({message: "comment does not exist"});
       }
-      return res.status(200).json(comment);
+      Comment.findByIdAndDelete(id, function (err, comment) {
+        if (err) {
+            return res.status(500).send(err);
+          }
+          console.log("Tag successfully deleted :", comment.id);
+          res.status(200).json(comment);
+      })
     });
   });
 
