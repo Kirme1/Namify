@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 var commentSchema = new Schema(
     {
+        
         _id: {type: String, required: true},
         text: {type: String, required: true},
         likes: {type: Number, min: 0},
