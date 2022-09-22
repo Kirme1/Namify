@@ -1,19 +1,26 @@
 <template>
   <div>
-    <b-jumbotron header="DIT342 Frontend" lead="Welcome to your DIT342 Frontend Vue.js App">
-      <b-button class="btn_message" variant="primary" v-on:click="getMessage()" >Get Message from Server</b-button>
-      <p>Message from the server:<br/>
-      {{ message }}</p>
-    </b-jumbotron>
+    <b-jumbotron header="DIT342 Frontend" lead="Welcome to your DIT342 Frontend Vue.js App"></b-jumbotron>
+    <b-container>
+        <b-row>
+          <b-col>
+            <router-link to="name" tag="button">Names</router-link>
+          </b-col>
+          <b-col>
+            <router-link to="account" tag="button">Account</router-link>
+          </b-col>
+        </b-row>
+      </b-container>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import { Api } from '@/Api'
+// import nameItem from '@/components/nameItem.vue'
 
 export default {
-  name: 'home',
+  name: 'names',
   data() {
     return {
       message: 'none'
@@ -21,9 +28,9 @@ export default {
   },
   methods: {
     getMessage() {
-      Api.get('/')
+      Api.get('/names')
         .then(response => {
-          this.message = response.data.message
+          this.names = response
         })
         .catch(error => {
           this.message = error
