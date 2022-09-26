@@ -15,23 +15,48 @@ router.get('/api/names', function (req, res) {
     });
 });
 
-
-//get all names with tag (not working)
-router.get('/api/names?tag=:tag', function(req, res) {
-  console.log("finding");
-  var tagId = '';
-  Tag.find({tag: req.params.tag})
-  .exec(function (err, tags) {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    tagId = tags._id;
+//get names sorted based on request body
+router.get('/api/names/sort', function (req, res) {
+  var sortedLikes = [];
+  Name.find(function (err, names) {
+      if(err) {
+          return res.status(500).send(err);
+      }
+      if(req.body.sortingParameter === 'likes'){
+        for (var name in names) {
+          sortedLikes.push([names[name].likes, names[name]]);
+        }
+      }
+      if(req.body.sortingParameter === 'dislikes'){
+        for (var name in names) {
+          sortedLikes.push([names[name].dislikes, names[name]]);
+        }
+      }
+      if(req.body.sortingParameter === 'controversial'){
+        for (var name in names) {
+          var likes = names[name].likes;
+          var dislikes = names[name].dislikes;
+          sortedLikes.push([likes + dislikes, names[name]]);
+        }
+      }
+    
+    sortedLikes.sort(function(a, b) {
+        return b[0] - a[0];
+    });
+      res.json({ names: sortedLikes});
+      res.status(200);
   });
-  Name.filter(name=> name.tags.tag === tagId).exec(function (err, name) {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.status(200).json(name);
+});
+
+router.get('/api/names/shuffle', function (req, res) {
+  Name.find(function (err, names) {
+      if(err) {
+          return res.status(500).send(err);
+      }
+      var random = Math.floor(Math.random() * names.length);
+      var name = names[random];
+      res.json({name});
+      res.status(200);
   });
 });
 
@@ -212,7 +237,7 @@ router.post("/api/names/:id/comments", function (req, res) {
     });
   });
 
-  //get specific name
+//get specific name
 router.get('/api/names/:id', function(req, res){
   Name.findById({_id: req.params.id})
   .populate('comments').exec(function (err, id){

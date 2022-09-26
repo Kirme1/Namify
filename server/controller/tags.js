@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var Tag = require('../schema/tag');
+var Name = require('../schema/name');
 
 // Create tag C.R.U.D. functions
 //Get all tags
@@ -26,6 +27,20 @@ router.get('/api/tags/:id', function (req, res) {
         }
         return res.status(200).send(tag);
     });
+});
+
+// filter by tag
+router.get('/api/tags/:id/names', function(req, res) {
+  console.log("finding");
+  Name.find({tags: req.params.id}).exec(function (
+    err,
+    name
+  ) {
+    if (err) {
+      return res.status(500).send(err.message);
+    }
+    return res.status(200).json(name);
+  });
 });
 
 //Create new tag
