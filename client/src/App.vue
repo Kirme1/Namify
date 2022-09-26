@@ -2,9 +2,11 @@
   <div id="app">
     <div id="nav">
       <b-navbar toggleable="lg" type="dark" variant="info">
-        <router-link to="/">
-          <b-navbar-brand href="/">Namify</b-navbar-brand>
-        </router-link>
+        <div id="logo">
+          <router-link to="/">
+            <b-navbar-brand href="/">Namify</b-navbar-brand>
+          </router-link>
+        </div>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
