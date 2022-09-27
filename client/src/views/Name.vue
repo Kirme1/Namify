@@ -1,5 +1,4 @@
 <template>
-    <div>
         <div id="box">
             <div id="name">
                 <h1>{{this.name._id}}</h1>
@@ -10,7 +9,6 @@
                 </p1>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
