@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-var Account = require("../schema/account");
+var Account = require("../schema/Account");
 
 //Create a comment 
 

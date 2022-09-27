@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs")
-const Account = require("../schema/account")
+const Account = require("../schema/Account")
 const jwt = require('jsonwebtoken');
 
 //Registeration
@@ -14,7 +14,7 @@ router.post("/api/accounts", async (req, res, next) => {
     console.log(newAccount);
     try {
       var savedAccount = await newAccount.save();
-      res.status(200).json({
+      res.status(201).json({
         savedAccount,
         title: 'Signup Success' })
     } 
