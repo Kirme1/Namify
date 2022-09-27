@@ -50,7 +50,7 @@ router.get("/api/accounts/:id", function (req, res) {
 //Update an account
 router.put("/api/accounts/:id", async (req, res) => {
   const account = Account.findById(req.params.id);
-  if (account.id === req.body.id)
+  if (account._id === req.body.id)
     updateAccount = Account
       .findByIdAndUpdate(
         req.params.id,
