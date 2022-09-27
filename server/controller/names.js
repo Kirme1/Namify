@@ -82,7 +82,6 @@ router.post("/api/names", function (req, res) {
   });
 });
 
-
 //create comment for specific name
 router.post("/api/names/:id/comments", function (req, res) {
     Name.findById({_id: req.params.id}, function (err, name) {
@@ -105,7 +104,6 @@ router.post("/api/names/:id/comments", function (req, res) {
       return res.status(201).json(comment);
     });
   });
-
  
   //delete specific name
   router.delete("/api/names/:id", function(req, res) {
@@ -263,6 +261,29 @@ router.get('/api/names/:id/comments', function(req, res) {
       return res.status(404).json({message: "Name does not exist"});
     }
     res.json({comments: name.comments})
+    return res.status(200);
+  });
+});
+
+//get 
+router.get('/api/names/:id/comments/sorted', function(req, res) {
+  sortedComments = [];
+  Name.findById({_id: req.params.id})
+  .populate("comments")
+  .exec(function (err, name) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    if(name === null){
+      return res.status(404).json({message: "Name does not exist"});
+    }
+    for (var i = 0; i < name.comments.length; i++) {
+      sortedComments.push([name.comments[i].likes, name.comments[i]]);
+    }
+    sortedComments.sort(function(a, b) {
+      return b[0] - a[0];
+    });
+    res.send({comments: sortedComments})
     return res.status(200);
   });
 });
