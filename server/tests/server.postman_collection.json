@@ -249,14 +249,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{host}}/api/accounts/",
+							"raw": "{{host}}/api/accounts",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"accounts",
-								""
+								"accounts"
 							]
 						}
 					},
@@ -1071,14 +1070,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
 		}
 	],
 	"event": [
