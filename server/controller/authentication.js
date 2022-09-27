@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs")
-const Account = require("../schema/account")
+const Account = require("../schema/Account")
 const jwt = require('jsonwebtoken');
 
 //Registeration
