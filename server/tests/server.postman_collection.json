@@ -144,37 +144,6 @@
 			"name": "Accounts",
 			"item": [
 				{
-					"name": "GET /api/accounts",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Accounts retrieved successfully\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/accounts",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"accounts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "POST /api/accounts",
 					"event": [
 						{
@@ -194,7 +163,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\" : \"test\",\r\n    \"email\" : \"test\",\r\n    \"password\" : \"test\"\r\n}",
+							"raw": "{\r\n    \"name\" : \"test\",\r\n    \"email\" : \"test\",\r\n    \"password\" : \"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -215,7 +184,48 @@
 					"response": []
 				},
 				{
-					"name": "GET /api/accounts/:id",
+					"name": "POST /api/accounts/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Account is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"test\",\r\n    \"email\" : \"test\",\r\n    \"password\" : \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/accounts/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/accounts",
 					"event": [
 						{
 							"listen": "test",
@@ -231,16 +241,21 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJ0ZXN0IiwiaWF0IjoxNjY0MjY5NTEyfQ.6PZXsOwhHt-F8k0zfzXqXQ4GQdKwAPBQ2LTg5F-Rpns",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{host}}/api/accounts/test",
+							"raw": "{{host}}/api/accounts",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"accounts",
-								"test"
+								"accounts"
 							]
 						}
 					},

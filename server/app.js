@@ -11,6 +11,7 @@ var tagsController = require('./controller/tags')
 var accountController = require('./controller/accounts');
 var namesController = require('./controller/names');
 var nameFetcher = require('./externalApi/populate');
+var authenticationController = require('./controller/authentication');
 
 
 
@@ -50,7 +51,7 @@ app.use(namesController);
 app.use(nameFetcher);
 app.use(accountController);
 app.use(tagsController);
-
+app.use(authenticationController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {

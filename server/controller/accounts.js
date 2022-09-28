@@ -7,6 +7,7 @@ var Account = require("../schema/Account");
 
 // Accounts - database functions
 // Show the list of Accounts
+/*
 router.get("/api/accounts", function (req, res) {
   Account.find(function (err, accounts) {
       if (err) {
@@ -45,11 +46,11 @@ router.get("/api/accounts/:id", function (req, res) {
       });
     });
 });
-
+*/
 //Update an account
 router.put("/api/accounts/:id", async (req, res) => {
   const account = Account.findById(req.params.id);
-  if (account.id === req.body.id)
+  if (account._id === req.body.id)
     updateAccount = Account
       .findByIdAndUpdate(
         req.params.id,
