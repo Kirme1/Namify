@@ -15,35 +15,61 @@ router.get('/api/names', function (req, res) {
     });
 });
 
-//get names sorted based on request body
-router.get('/api/names/sort', function (req, res) {
+//get names sorted by likes
+router.get('/api/names/sortLikes', function (req, res) {
   var sortedLikes = [];
   Name.find(function (err, names) {
       if(err) {
           return res.status(500).send(err);
       }
-      if(req.body.sortingParameter === 'likes'){
-        for (var name in names) {
-          sortedLikes.push([names[name].likes, names[name]]);
-        }
-      }
-      if(req.body.sortingParameter === 'dislikes'){
-        for (var name in names) {
-          sortedLikes.push([names[name].dislikes, names[name]]);
-        }
-      }
-      if(req.body.sortingParameter === 'controversial'){
-        for (var name in names) {
-          var likes = names[name].likes;
-          var dislikes = names[name].dislikes;
-          sortedLikes.push([likes + dislikes, names[name]]);
-        }
+      for (var i = 0; i < names.length; i++) {
+        sortedLikes.push([names[i].likes, names[i]]);
       }
     
     sortedLikes.sort(function(a, b) {
         return b[0] - a[0];
     });
-      res.json({ names: sortedLikes});
+      res.json(sortedLikes);
+      res.status(200);
+  });
+});
+
+//get names sorted by dislikes
+router.get('/api/names/sortDislikes', function (req, res) {
+  var sortedLikes = [];
+  Name.find(function (err, names) {
+      if(err) {
+          return res.status(500).send(err);
+      }
+      for (var i = 0; i < names.length; i++) {
+        sortedLikes.push([names[i].dislikes, names[i]]);
+      }
+    
+    sortedLikes.sort(function(a, b) {
+        return b[0] - a[0];
+    });
+      res.json(sortedLikes);
+      res.status(200);
+  });
+});
+
+//get names sorted by difference in likes and dislikes
+router.get('/api/names/sortControversial', function (req, res) {
+  var sortedLikes = [];
+  Name.find(function (err, names) {
+      if(err) {
+          return res.status(500).send(err);
+      }
+      for (var i = 0; i < names.length; i++) {
+        var dislikes = names[i].dislikes;
+        var likes = names[i].likes;
+        sortedLikes.push([dislikes + likes, names[i]]);
+      }
+    
+    sortedLikes.sort(function(a, b) {
+        return b[0] - a[0];
+    });
+      res.json(sortedLikes);
       res.status(200);
   });
 });
