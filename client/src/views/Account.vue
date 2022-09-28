@@ -7,9 +7,9 @@
     <div id="input">
         <form id="editAccount" action="">
             <div class="tab">Account info:
-  <p>Username: Julia</p>
+  <p>Username: </p>
   <p>Email: julia@lkasdjf</p>
-  <p>adfssad</p>
+  <p>adfsssad</p>
   </div>
     <router-link to="/account/update" tag="button">Edit account</router-link>
     </form>
@@ -18,6 +18,7 @@
     </div>
 </template>
 <script>
+
 </script>
 <style>
 #box {

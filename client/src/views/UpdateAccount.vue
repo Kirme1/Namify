@@ -12,14 +12,31 @@
   <p><input placeholder="New password" oninput="this.className = ''"></p>
   <p><input placeholder="Update password" oninput="this.className = ''"></p>
   </div>
-    <router-link to="/account" tag="button">Save</router-link>  
-    <router-link to="/account" tag="button">Escape</router-link>
-  </form>
+    <router-link to="/account" tag="button">Save</router-link>
+    <router-link to="/account" tag="button">Exit</router-link>
+    <button v-on:click="myFunction()">Delete account</button>
+</form>
 </div>
     </div>
     </div>
 </template>
 <script>
+
+export default {
+  data() {
+    return {
+      confirmDelete: false
+    }
+  },
+  mounted() {
+    this.myFunction()
+  },
+  methods: {
+    myFunction() {
+      this.confirmDelete = confirm('Are you sure you want to delete the account?')
+    }
+  }
+}
 </script>
 <style>
 #box {
