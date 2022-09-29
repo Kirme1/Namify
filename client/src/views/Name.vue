@@ -1,5 +1,5 @@
 <template>
-    <div id="box1">
+    <div>
     <Names></Names>
     </div>
 </template>
@@ -22,13 +22,4 @@ export default {
 </script>
 
 <style>
-#box1 {
-    position: absolute;
-    border: 1px solid #74E3FC;
-    background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
-    bottom: 60px;
-    left: 60px;
-    right: 60px;
-    top: 120px;
-}
 </style>
