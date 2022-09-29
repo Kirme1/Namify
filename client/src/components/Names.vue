@@ -68,11 +68,11 @@ export default {
     }
   },
   mounted() {
-    this.getName('Julia')
+    this.getName()
   },
   methods: {
-    getName(name) {
-      Api.get('/names/' + name)
+    getName() {
+      Api.get('/names/' + this.$route.params.id)
         .then(response => {
           this.name = response.data
           if (this.name.comments.length > 0) {
@@ -162,8 +162,5 @@ export default {
     text-align: right;
     bottom: 50px;
     font-size: 20px;
-}
-html {
-    background-color: #272727;
 }
 </style>

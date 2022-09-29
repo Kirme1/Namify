@@ -14,8 +14,8 @@
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-form>
-              <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-              <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+              <b-form-input v-model="text" size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+              <router-link :to="{ name: 'name', params: { id: text } }" tag="button">Search</router-link>
             </b-nav-form>
             <b-nav-item href="#">Account</b-nav-item>
           </b-navbar-nav>
@@ -26,6 +26,16 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      text: ''
+    }
+  }
+}
+</script>
 
 <style>
 #app {
@@ -39,5 +49,8 @@
 #logo {
   font-family: 'Audiowide';
   font-style: normal;
+}
+html {
+    background-color: #272727;
 }
 </style>
