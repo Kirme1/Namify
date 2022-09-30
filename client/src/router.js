@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Name from './views/Name.vue'
 import Account from './views/Account.vue'
 import UpdateAccount from './views/UpdateAccount.vue'
+import Login from './views/Login.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/account/update',
       name: 'updateAccount',
       component: UpdateAccount
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     }
   ]
 })
