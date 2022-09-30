@@ -2,7 +2,16 @@
   <div>
       <div id="box">
             <div id="name">
-                <h1>{{this.name._id}}</h1>
+                <h1>{{this.name._id}}
+                  <div id="likes">
+                    <p4>
+                      <button v-on:click="updateLikes()">likes: {{this.name.likes}}</button>
+                    </p4>
+                    <p4>
+                      <button v-on:click="updateDislikes()">dislikes: {{this.name.dislikes}}</button>
+                    </p4>
+                  </div>
+                </h1>
             </div>
             <div id="top_comment">
                 <p1>
@@ -24,14 +33,6 @@
                 <p3>
                     {{this.name.tags[2]}}
                 </p3>
-            </div>
-            <div id="likes">
-                <p4>
-                    likes: {{this.name.likes}}
-                </p4>
-                <p4>
-                    dislikes: {{this.name.dislikes}}
-                </p4>
             </div>
         </div>
   </div>
@@ -91,14 +92,27 @@ export default {
         })
         .catch(error => {
           this.message = error
+          this.$router.push('/404')
         })
     },
     updateLikes() {
       const upName = {
-        likes: this.name.likes,
+        likes: this.name.likes + 1,
         dislikes: this.name.dislikes
       }
+      this.name.likes = this.name.likes + 1
       Api.patch('/names/' + this.$route.params.id, upName)
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    updateDislikes() {
+      const downName = {
+        likes: this.name.likes,
+        dislikes: this.name.dislikes + 1
+      }
+      this.name.dislikes = this.name.dislikes + 1
+      Api.patch('/names/' + this.$route.params.id, downName)
         .catch(error => {
           console.log(error)
         })
@@ -114,7 +128,7 @@ export default {
     text-align: left;
     font-family: 'DM Serif Display';
     font-style: normal;
-    font-size: 150px;
+    font-size: 48px;
     /* identical to box height */
     color: #74E3FC;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -163,8 +177,6 @@ export default {
 #likes {
     color: #FFFFFF;
     right: 70px;
-    text-align: right;
-    bottom: 50px;
     font-size: 20px;
 }
 </style>
