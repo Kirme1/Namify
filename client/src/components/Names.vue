@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div id="box">
+      <div id="box">
             <div id="name">
                 <h1>{{this.name._id}}</h1>
             </div>
@@ -92,6 +92,16 @@ export default {
         .catch(error => {
           this.message = error
         })
+    },
+    updateLikes() {
+      const upName = {
+        likes: this.name.likes,
+        dislikes: this.name.dislikes
+      }
+      Api.patch('/names/' + this.$route.params.id, upName)
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
@@ -104,7 +114,7 @@ export default {
     text-align: left;
     font-family: 'DM Serif Display';
     font-style: normal;
-    font-size: 48px;
+    font-size: 150px;
     /* identical to box height */
     color: #74E3FC;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
