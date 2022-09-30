@@ -10,7 +10,7 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#">Shuffle</b-nav-item>
+            <b-nav-item @click="Shuffle(); $router.push({ path: `/name/${shuffleText}`, params: { id: shuffleText}})">Shuffle</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-form>
@@ -28,10 +28,27 @@
 </template>
 
 <script>
+import { Api } from './Api'
+
 export default {
   data() {
     return {
-      text: ''
+      text: '',
+      shuffleText: ''
+    }
+  },
+  mounted() {
+  },
+  methods: {
+    Shuffle() {
+      Api.get('names/shuffle')
+        .then((response) => {
+          console.log(response.data)
+          this.shuffleText = response.data.name._id
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
