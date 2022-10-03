@@ -18,6 +18,7 @@
               <router-link :to="{ path: `/name/${text}`, params: { id: text } }" tag="button">Search</router-link>
             </b-nav-form>
             <b-nav-item href="#">Account</b-nav-item>
+            <AddName></AddName>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -28,12 +29,14 @@
 </template>
 
 <script>
+import AddName from './components/addName.vue'
 export default {
   data() {
     return {
       text: ''
     }
-  }
+  },
+  components: { AddName }
 }
 </script>
 
