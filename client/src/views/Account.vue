@@ -19,6 +19,21 @@
 </template>
 <script>
 
+export default {
+  name: 'account',
+  data() {
+    return {
+      message: ''
+    }
+  },
+  created() {
+    console.log(localStorage.getItem('token'))
+    if (localStorage.getItem('token') === null) {
+      this.$router.push('/Login')
+    }
+  }
+}
+
 </script>
 <style>
 #box {
