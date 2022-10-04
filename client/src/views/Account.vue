@@ -7,9 +7,9 @@
     <div id="input">
         <form id="editAccount" action="">
             <div class="tab">Account info:
-  <p>Username: </p>
-  <p>Email: julia@lkasdjf</p>
-  <p>adfsssad</p>
+  <p>Username: {{this.account._id}} </p>
+  <p>Email: {{this.account.email}}</p>
+  <p>Password: {{this.account.password}}</p>
   </div>
     <router-link to="/account/update" tag="button">Edit account</router-link>
     </form>
@@ -18,20 +18,38 @@
     </div>
 </template>
 <script>
+import { Api } from '../Api'
 
 export default {
-  name: 'account',
   data() {
     return {
-      message: ''
+      message: '',
+      account: {
+        _id: 'gfjgfh',
+        email: '',
+        password: '',
+        __v: 0
+      }
     }
   },
   created() {
-    console.log(localStorage.getItem('token'))
     if (localStorage.getItem('token') === null) {
       this.$router.push('/Login')
     }
+  },
+  mounted() {
+    this.getAccount()
+  },
+  methods: {
+    getAccount() {
+      Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
+        .then(response => {
+          console.log(response.data.user.account)
+          this.account = response.data.user.account
+        })
+    }
   }
+
 }
 
 </script>
