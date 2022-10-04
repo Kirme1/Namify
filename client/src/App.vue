@@ -18,6 +18,7 @@
               <router-link :to="{ path: `/name/${text}`, params: { id: text } }" tag="button">Search</router-link>
             </b-nav-form>
             <b-nav-item href="#">Account</b-nav-item>
+            <AddName  v-if="hasAccount"></AddName>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -28,16 +29,24 @@
 </template>
 
 <script>
+import AddName from './components/addName.vue'
 import { Api } from './Api'
 
 export default {
   data() {
     return {
       text: '',
-      shuffleText: ''
+      shuffleText: '',
+      hasAccount: false
     }
   },
+  components: { AddName },
   mounted() {
+    if (localStorage.getItem('token') === null) {
+      this.hasAccount = false
+    } else {
+      this.hasAccount = true
+    }
   },
   methods: {
     Shuffle() {
