@@ -30,6 +30,7 @@
     </div>
   </template>
 <script>
+import { Api } from '@/Api'
 export default {
   data() {
     return {
@@ -39,6 +40,20 @@ export default {
     }
   },
   methods: {
+    createName() {
+      const newName = {
+        _id: this.name,
+        likes: 0,
+        dislikes: 0,
+        comments: [],
+        tags: []
+      }
+      Api.post('names', newName)
+        .catch(error => {
+          console.log(error)
+        })
+      this.$router.push('/name/' + this.name)
+    },
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity()
       this.nameState = valid
@@ -60,7 +75,7 @@ export default {
         return
       }
       // Push the name to submitted names
-      this.submittedNames.push(this.name)
+      this.createName()
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
