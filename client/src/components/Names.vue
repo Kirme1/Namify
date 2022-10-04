@@ -11,6 +11,17 @@
                       <button v-on:click="updateDislikes()">dislikes: {{this.name.dislikes}}</button>
                     </p4>
                   </div>
+                  <div id="tags">
+                <p3>
+                    {{this.name.tags[0]}}
+                </p3>
+                <p3>
+                    {{this.name.tags[1]}}
+                </p3>
+                <p3>
+                    {{this.name.tags[2]}}
+                </p3>
+            </div>
                 </h1>
             </div>
             <div id="top_comment">
@@ -23,16 +34,13 @@
                     {{this.topComment.name}}
                 </p2>
             </div>
-            <div id="tags">
-                <p3>
-                    {{this.name.tags[0]}}
-                </p3>
-                <p3>
-                    {{this.name.tags[1]}}
-                </p3>
-                <p3>
-                    {{this.name.tags[2]}}
-                </p3>
+            <div id="addComment">
+              <p4>
+              <b-form-input v-if="hasAccount" v-model="newComment" size="sm" class="mr-sm-2" placeholder="Add a comment"></b-form-input>
+            </p4>
+            <p4>
+              <button v-on:click="addComment()">Comment</button>
+            </p4>
             </div>
         </div>
   </div>
@@ -45,6 +53,8 @@ export default {
   data() {
     return {
       message: 'none',
+      hasAccount: false,
+      accountName: '',
       name: {
         comments: [{
           _id: '',
@@ -67,11 +77,17 @@ export default {
         dislikes: 0,
         name: '',
         __v: 0
-      }
+      },
+      newComment: ''
     }
   },
   mounted() {
     this.getName()
+    if (localStorage.getItem('token') === null) {
+      this.hasAccount = false
+    } else {
+      this.hasAccount = true
+    }
   },
   methods: {
     getName() {
@@ -116,6 +132,27 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    getAccount() {
+      Api.get('/accounts', { headers: localStorage.getItem('token') })
+        .then(response => {
+          this.accountName = response.data._id
+        })
+    },
+    addComment() {
+      this.getAccount()
+      const newComment = {
+        _id: String(this.name.comments.length),
+        text: this.newComment,
+        likes: 0,
+        dislikes: 0,
+        name: this.accountName
+      }
+      this.name.comments.push(newComment)
+      Api.post('/names/' + this.name._id + '/comments', newComment)
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
@@ -123,17 +160,15 @@ export default {
 
 <style>
 #name {
-    left: 50px;
-    top: 33px;
     text-align: left;
     font-family: 'DM Serif Display';
     font-style: normal;
-    font-size: 48px;
     /* identical to box height */
     color: #74E3FC;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 #top_comment {
+    margin-top: 1rem;
     left: 50px;
     right: 50px;
     top: 100px;
@@ -167,6 +202,7 @@ export default {
     color: #FFFFFF;
 }
 #tags {
+    margin-top: 0.5rem;
     left: 70px;
     bottom: 50px;
     word-wrap: break-word;
@@ -175,8 +211,11 @@ export default {
     color: #FFFFFF;
 }
 #likes {
+    margin-top: 0.5rem;
     color: #FFFFFF;
-    right: 70px;
     font-size: 20px;
+}
+#addComment {
+    margin-top: 2rem;
 }
 </style>
