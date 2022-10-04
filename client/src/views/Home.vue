@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-jumbotron header="DIT342 Frontend" lead="Welcome to your DIT342 Frontend Vue.js App"></b-jumbotron>
+    <nameList/>
     <b-container>
         <b-row>
           <b-col>
@@ -17,9 +18,11 @@
 <script>
 // @ is an alias to /src
 import { Api } from '@/Api'
+import nameList from '../components/getNames.vue'
 // import nameItem from '@/components/nameItem.vue'
 
 export default {
+  components: { nameList },
   name: 'names',
   data() {
     return {
