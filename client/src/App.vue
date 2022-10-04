@@ -17,7 +17,7 @@
               <b-form-input v-model="text" size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
               <router-link :to="{ path: `/name/${text}`, params: { id: text } }" tag="button">Search</router-link>
             </b-nav-form>
-            <b-nav-item href="#">Account</b-nav-item>
+            <b-nav-item href="login">Account</b-nav-item>
             <AddName  v-if="hasAccount"></AddName>
           </b-navbar-nav>
         </b-collapse>
