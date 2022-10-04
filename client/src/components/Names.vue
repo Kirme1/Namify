@@ -1,17 +1,14 @@
 <template>
   <div>
       <div id="box">
+        <b-row>
+          <b-col>
             <div id="name">
-                <h1>{{this.name._id}}
-                  <div id="likes">
-                    <p4>
-                      <button v-on:click="updateLikes()">likes: {{this.name.likes}}</button>
-                    </p4>
-                    <p4>
-                      <button v-on:click="updateDislikes()">dislikes: {{this.name.dislikes}}</button>
-                    </p4>
-                  </div>
-                  <div id="tags">
+                <h1>{{this.name._id}}</h1>
+            </div>
+          </b-col>
+          <b-col style="text-align: center;">
+            <div id="tags">
                 <p3>
                     {{this.name.tags[0]}}
                 </p3>
@@ -22,24 +19,37 @@
                     {{this.name.tags[2]}}
                 </p3>
             </div>
-                </h1>
+          </b-col>
+          <b-col style="text-align: right;">
+            <div id="likes">
+              <p4>
+                <button v-on:click="updateLikes()">likes: {{this.name.likes}}</button>
+              </p4>
+              <p4>
+                <button v-on:click="updateDislikes()">dislikes: {{this.name.dislikes}}</button>
+              </p4>
             </div>
+          </b-col>
+        </b-row>
             <div id="top_comment">
                 <p1>
                     {{this.topComment.text}}
                 </p1>
             </div>
             <div v-if="hasAccount" id="addComment">
-              <b-form-input v-model="newComment" size="sm" class="mr-sm-2" placeholder="Add a comment"></b-form-input>
-              <button v-on:click="addComment()">Comment</button>
+              <form inline>
+                <input type="text" v-model="newComment" id="input" style="width: 90%" placeholder="Add a comment">
+                <button v-on:click="addComment()" style="width: 10%">Comment</button>
+              </form>
             </div>
             <div id="comment-box" v-for="comment in name.comments" :key="comment._id">
               <div id="comments">
-                <p>@{{comment.name}}</p>
+                <div id="comment-name">@{{comment.name}}</div>
                 {{comment.text}}
               </div>
               <button v-on:click="updateCommentLikes(comment)">likes: {{comment.likes}}</button>
               <button v-on:click="updateCommentDislikes(comment)">dislikes: {{comment.dislikes}}</button>
+              <button v-on:click="deleteComment(comment)">Delete</button>
             </div>
         </div>
   </div>
@@ -86,6 +96,7 @@ export default {
       this.hasAccount = false
     } else {
       this.hasAccount = true
+      this.getAccount()
     }
   },
   methods: {
@@ -157,12 +168,12 @@ export default {
       Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
           this.accountName = response.data.user.account._id
+          console.log(response.data.user.account._id)
         })
     },
     addComment() {
-      this.getAccount()
       const newComment = {
-        _id: String(this.name.comments.length),
+        _id: this.name._id + String(this.name.comments.length),
         text: this.newComment,
         likes: 0,
         dislikes: 0,
@@ -170,9 +181,17 @@ export default {
       }
       this.name.comments.push(newComment)
       Api.post('/names/' + this.name._id + '/comments', newComment)
+        .then(response => {
+          console.log(response)
+        })
         .catch(error => {
           console.log(error)
         })
+    },
+    deleteComment(comment) {
+      Api.delete('/names/' + this.name._id + '/comments/' + comment._id)
+      const index = this.name.comments.indexOf(comment._id)
+      this.name.comments.splice(index, 1)
     }
   }
 }
@@ -183,6 +202,8 @@ export default {
     text-align: left;
     font-family: 'DM Serif Display';
     font-style: normal;
+    display:inline;
+    vertical-align: top;
     /* identical to box height */
     color: #74E3FC;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -204,15 +225,13 @@ export default {
     box-sizing: border-box;
     position: absolute;
     height: auto;
-    left: 160px;
-    right: 160px;
+    left: 5%;
+    right: 5%;
     top: 110px;
     background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
     padding: 40px;
-    padding-left: 60px;
     border: 2px solid #74E3FC;
 }
-
 #tags {
     margin-top: 0.5rem;
     left: 70px;
@@ -223,9 +242,11 @@ export default {
     color: #FFFFFF;
 }
 #likes {
-    margin-top: 0.5rem;
     color: #FFFFFF;
     font-size: 20px;
+    display:inline;
+    vertical-align: top;
+    text-align: right;
 }
 #addComment {
     margin-top: 2rem;
@@ -238,6 +259,8 @@ export default {
     right: 200px;
     top: 110px;
     padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border: 1px solid #74E3FC;
     background: linear-gradient(0deg, rgba(115, 116, 118, 0.2), rgba(117, 118, 119, 0.2)), #3c3c3c;
 }
@@ -252,5 +275,10 @@ export default {
     font-size: 24px;
     line-height: 25px;
     color: #FFFFFF;
+}
+#comment-name {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #74E3FC;
 }
 </style>
