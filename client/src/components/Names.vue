@@ -1,7 +1,17 @@
 <template>
-        <div id="box">
+  <div>
+      <div id="box">
             <div id="name">
-                <h1>{{this.name._id}}</h1>
+                <h1>{{this.name._id}}
+                  <div id="likes">
+                    <p4>
+                      <button v-on:click="updateLikes()">likes: {{this.name.likes}}</button>
+                    </p4>
+                    <p4>
+                      <button v-on:click="updateDislikes()">dislikes: {{this.name.dislikes}}</button>
+                    </p4>
+                  </div>
+                </h1>
             </div>
             <div id="top_comment">
                 <p1>
@@ -10,7 +20,7 @@
             </div>
             <div id="comment_name">
                 <p2>
-                    @{{this.topComment.name}}
+                    {{this.topComment.name}}
                 </p2>
             </div>
             <div id="tags">
@@ -24,15 +34,8 @@
                     {{this.name.tags[2]}}
                 </p3>
             </div>
-            <div id="likes">
-                <p4>
-                    likes: {{this.name.likes}}
-                </p4>
-                <p4>
-                    dislikes: {{this.name.dislikes}}
-                </p4>
-            </div>
         </div>
+  </div>
 </template>
 
 <script>
@@ -68,15 +71,16 @@ export default {
     }
   },
   mounted() {
-    this.getName('Julia')
+    this.getName()
   },
   methods: {
-    getName(name) {
-      Api.get('/names/' + name)
+    getName() {
+      Api.get('/names/' + this.$route.params.id)
         .then(response => {
           this.name = response.data
           if (this.name.comments.length > 0) {
             this.topComment = this.name.comments[0]
+            this.topComment.name = '@' + this.topComment.name
           } else {
             this.topComment.text = 'This name is so unpopular that it does not have any comments yet.'
           }
@@ -88,6 +92,29 @@ export default {
         })
         .catch(error => {
           this.message = error
+          this.$router.push('/404')
+        })
+    },
+    updateLikes() {
+      const upName = {
+        likes: this.name.likes + 1,
+        dislikes: this.name.dislikes
+      }
+      this.name.likes = this.name.likes + 1
+      Api.patch('/names/' + this.$route.params.id, upName)
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    updateDislikes() {
+      const downName = {
+        likes: this.name.likes,
+        dislikes: this.name.dislikes + 1
+      }
+      this.name.dislikes = this.name.dislikes + 1
+      Api.patch('/names/' + this.$route.params.id, downName)
+        .catch(error => {
+          console.log(error)
         })
     }
   }
@@ -96,24 +123,17 @@ export default {
 
 <style>
 #name {
-    position: absolute;
-    width: 129px;
-    height: 66px;
     left: 50px;
     top: 33px;
     text-align: left;
     font-family: 'DM Serif Display';
     font-style: normal;
-    font-weight: 400;
     font-size: 48px;
-    line-height: 66px;
     /* identical to box height */
     color: #74E3FC;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 #top_comment {
-    position: absolute;
-    height: 154px;
     left: 50px;
     right: 50px;
     top: 100px;
@@ -121,7 +141,6 @@ export default {
     text-align: left;
     font-family: 'Lexend Deca';
     font-style: normal;
-    font-weight: 400;
     font-size: 24px;
     line-height: 25px;
     color: #FFFFFF;
@@ -129,25 +148,25 @@ export default {
 #box {
     box-sizing: border-box;
     position: absolute;
-    height: 342px;
-    left: 129px;
-    right: 129px;
-    top: 181px;
+    height: auto;
+    left: 160px;
+    right: 160px;
+    top: 110px;
     background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
-    border: 1px solid #74E3FC;
+    padding: 40px;
+    padding-left: 60px;
+    border: 2px solid #74E3FC;
 }
 #comment_name{
     position: absolute;
     left: 10px;
-    top: 110px;
-    vertical-align: middle;
+    top: 100px;
     writing-mode: vertical-lr;
     -webkit-transform: rotate(-180deg);
     -moz-transform: rotate(-180deg);
     color: #FFFFFF;
 }
 #tags {
-    position: absolute;
     left: 70px;
     bottom: 50px;
     word-wrap: break-word;
@@ -156,14 +175,8 @@ export default {
     color: #FFFFFF;
 }
 #likes {
-    position: absolute;
     color: #FFFFFF;
     right: 70px;
-    text-align: right;
-    bottom: 50px;
     font-size: 20px;
-}
-html {
-    background-color: #272727;
 }
 </style>
