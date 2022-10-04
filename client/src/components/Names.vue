@@ -29,17 +29,17 @@
                     {{this.topComment.text}}
                 </p1>
             </div>
-            <div id="comment_name">
-                <p2>
-                    {{this.topComment.name}}
-                </p2>
-            </div>
             <div v-if="hasAccount" id="addComment">
               <b-form-input v-model="newComment" size="sm" class="mr-sm-2" placeholder="Add a comment"></b-form-input>
               <button v-on:click="addComment()">Comment</button>
             </div>
             <div id="comment-box" v-for="comment in name.comments" :key="comment._id">
-              {{comment.text}}
+              <div id="comments">
+                <p>@{{comment.name}}</p>
+                {{comment.text}}
+              </div>
+              <button v-on:click="updateCommentLikes(comment)">likes: {{comment.likes}}</button>
+              <button v-on:click="updateCommentDislikes(comment)">dislikes: {{comment.dislikes}}</button>
             </div>
         </div>
   </div>
@@ -95,7 +95,6 @@ export default {
           this.name = response.data
           if (this.name.comments.length > 0) {
             this.topComment = this.name.comments[0]
-            this.topComment.name = '@' + this.topComment.name
           } else {
             this.topComment.text = 'This name is so unpopular that it does not have any comments yet.'
           }
@@ -128,6 +127,28 @@ export default {
       }
       this.name.dislikes = this.name.dislikes + 1
       Api.patch('/names/' + this.$route.params.id, downName)
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    updateCommentLikes(comment) {
+      const upComment = {
+        likes: comment.likes + 1,
+        dislikes: comment.dislikes
+      }
+      comment.likes = comment.likes + 1
+      Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, upComment)
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    updateCommentDislikes(comment) {
+      const upComment = {
+        likes: comment.likes,
+        dislikes: comment.dislikes + 1
+      }
+      comment.dislikes = comment.dislikes + 1
+      Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, upComment)
         .catch(error => {
           console.log(error)
         })
@@ -191,15 +212,7 @@ export default {
     padding-left: 60px;
     border: 2px solid #74E3FC;
 }
-#comment_name{
-    position: absolute;
-    left: 10px;
-    top: 100px;
-    writing-mode: vertical-lr;
-    -webkit-transform: rotate(-180deg);
-    -moz-transform: rotate(-180deg);
-    color: #FFFFFF;
-}
+
 #tags {
     margin-top: 0.5rem;
     left: 70px;
@@ -218,18 +231,19 @@ export default {
     margin-top: 2rem;
 }
 #comment-box {
-    /* box-sizing: border-box;
+    margin-top: 1rem;
+    box-sizing: border-box;
     height: auto;
     left: 200px;
     right: 200px;
     top: 110px;
-    padding: 40px;
-    padding-left: 60px;
-    border: 2px solid #74E3FC; */
+    padding: 20px;
+    border: 1px solid #74E3FC;
+    background: linear-gradient(0deg, rgba(115, 116, 118, 0.2), rgba(117, 118, 119, 0.2)), #3c3c3c;
 }
 #comments {
-    /* left: 50px;
-    right: 50px;
+    left: 10px;
+    right: 110px;
     top: 100px;
     word-wrap: break-word;
     text-align: left;
@@ -237,6 +251,6 @@ export default {
     font-style: normal;
     font-size: 24px;
     line-height: 25px;
-    color: #FFFFFF; */
+    color: #FFFFFF;
 }
 </style>
