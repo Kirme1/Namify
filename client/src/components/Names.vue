@@ -34,13 +34,12 @@
                     {{this.topComment.name}}
                 </p2>
             </div>
-            <div id="addComment">
-              <p4>
-              <b-form-input v-if="hasAccount" v-model="newComment" size="sm" class="mr-sm-2" placeholder="Add a comment"></b-form-input>
-            </p4>
-            <p4>
+            <div v-if="hasAccount" id="addComment">
+              <b-form-input v-model="newComment" size="sm" class="mr-sm-2" placeholder="Add a comment"></b-form-input>
               <button v-on:click="addComment()">Comment</button>
-            </p4>
+            </div>
+            <div id="comment-box" v-for="comment in name.comments" :key="comment._id">
+              {{comment.text}}
             </div>
         </div>
   </div>
@@ -134,9 +133,9 @@ export default {
         })
     },
     getAccount() {
-      Api.get('/accounts', { headers: localStorage.getItem('token') })
+      Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
-          this.accountName = response.data._id
+          this.accountName = response.data.user.account._id
         })
     },
     addComment() {
@@ -217,5 +216,27 @@ export default {
 }
 #addComment {
     margin-top: 2rem;
+}
+#comment-box {
+    /* box-sizing: border-box;
+    height: auto;
+    left: 200px;
+    right: 200px;
+    top: 110px;
+    padding: 40px;
+    padding-left: 60px;
+    border: 2px solid #74E3FC; */
+}
+#comments {
+    /* left: 50px;
+    right: 50px;
+    top: 100px;
+    word-wrap: break-word;
+    text-align: left;
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-size: 24px;
+    line-height: 25px;
+    color: #FFFFFF; */
 }
 </style>

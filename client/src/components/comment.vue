@@ -1,5 +1,6 @@
 <template>
-    <div id="text">
+    <div id="comment">
+        
     </div>
 </template>
 
