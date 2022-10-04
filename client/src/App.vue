@@ -18,7 +18,7 @@
               <router-link :to="{ path: `/name/${text}`, params: { id: text } }" tag="button">Search</router-link>
             </b-nav-form>
             <b-nav-item href="#">Account</b-nav-item>
-            <AddName></AddName>
+            <AddName  v-if="hasAccount"></AddName>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -33,10 +33,18 @@ import AddName from './components/addName.vue'
 export default {
   data() {
     return {
-      text: ''
+      text: '',
+      hasAccount: false
     }
   },
-  components: { AddName }
+  components: { AddName },
+  mounted() {
+    if (localStorage.getItem('token') === null) {
+      this.hasAccount = false
+    } else {
+      this.hasAccount = true
+    }
+  }
 }
 </script>
 
