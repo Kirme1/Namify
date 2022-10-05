@@ -7,18 +7,19 @@
                 <h1>{{this.name._id}}</h1>
             </div>
           </b-col>
-          <b-col style="text-align: center;">
-            <div id="tags">
-                <p3>
-                    {{this.name.tags[0]}}
-                </p3>
-                <p3>
-                    {{this.name.tags[1]}}
-                </p3>
-                <p3>
-                    {{this.name.tags[2]}}
-                </p3>
-            </div>
+          <b-col>
+            <span id="tags" v-for="tag in name.tags" :key="tag._id">
+              <span v-if="tag !== ''">
+                #{{tag}}<button v-on:click="deleteTag(tag)">-</button>
+              </span>
+            </span>
+            <span>
+              <button v-if="name.tags.length < 3 && addTagClicked === false" v-on:click="addTagClicked = true">+</button>
+            </span>
+            <span v-if="addTagClicked === true">
+              <input  type="text" v-model="newTag" id="tagInput" size="5" :placeholder="tagMessage">
+              <button v-on:click="addTag()">Add</button>
+            </span>
           </b-col>
           <b-col style="text-align: right;">
             <div id="likes">
@@ -47,9 +48,15 @@
                 <div id="comment-name">@{{comment.name}}</div>
                 {{comment.text}}
               </div>
-              <button v-on:click="updateCommentLikes(comment)">likes: {{comment.likes}}</button>
-              <button v-on:click="updateCommentDislikes(comment)">dislikes: {{comment.dislikes}}</button>
-              <button v-on:click="deleteComment(comment)">Delete</button>
+              <b-row style="margin-top: 8px">
+                <b-col style="text-align: left;">
+                  <button v-on:click="updateCommentLikes(comment)">likes: {{comment.likes}}</button>
+                  <button v-on:click="updateCommentDislikes(comment)">dislikes: {{comment.dislikes}}</button>
+                </b-col>
+                <b-col style="text-align: right;">
+                  <button v-if="comment.name === accountName" v-on:click="deleteComment(comment)">Delete</button>
+                </b-col>
+              </b-row>
             </div>
         </div>
   </div>
@@ -62,6 +69,9 @@ export default {
   data() {
     return {
       message: 'none',
+      tagMessage: 'Add a tag',
+      addTagClicked: false,
+      newTag: '',
       hasAccount: false,
       accountName: '',
       name: {
@@ -108,11 +118,6 @@ export default {
             this.topComment = this.name.comments[0]
           } else {
             this.topComment.text = 'This name is so unpopular that it does not have any comments yet.'
-          }
-          for (let i = 0; i < 3; i++) {
-            if (typeof this.name.tags[i] !== 'undefined') {
-              this.name.tags[i] = '#' + this.name.tags[i]
-            }
           }
         })
         .catch(error => {
@@ -168,7 +173,6 @@ export default {
       Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
           this.accountName = response.data.user.account._id
-          console.log(response.data.user.account._id)
         })
     },
     addComment() {
@@ -188,10 +192,57 @@ export default {
           console.log(error)
         })
     },
+    addTag() {
+      let duplicate = false
+      const addTag = {
+        _id: this.newTag
+      }
+      if (addTag._id === '') {
+        duplicate = true
+      }
+      for (let i = 0; i <= this.name.tags.length; i++) {
+        if (addTag._id === this.name.tags[i]) {
+          this.tagMessage = 'Tag exists'
+          duplicate = true
+        }
+      }
+      this.newTag = ''
+      if (duplicate === false) {
+        this.addTagClicked = false
+        this.tagMessage = 'Add a tag'
+        Api.post('/tags', addTag)
+          .then(response => {
+            console.log(response)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+        Api.patch('/names/' + this.name._id + '/tags/' + addTag._id)
+          .then(response => {
+            this.name.tags.push(addTag._id)
+            console.log(response)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
     deleteComment(comment) {
       Api.delete('/names/' + this.name._id + '/comments/' + comment._id)
       const index = this.name.comments.indexOf(comment._id)
       this.name.comments.splice(index, 1)
+    },
+    deleteTag(tag) {
+      console.log(tag)
+      Api.delete('/names/' + this.name._id + '/tags/' + tag)
+        .then(response => {
+          const index = this.name.tags.indexOf(tag)
+          this.name.tags.splice(index, 1)
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
@@ -233,11 +284,9 @@ export default {
     border: 2px solid #74E3FC;
 }
 #tags {
-    margin-top: 0.5rem;
-    left: 70px;
-    bottom: 50px;
+    display:inline;
     word-wrap: break-word;
-    text-align: left;
+    text-align: center;
     font-size: 20px;
     color: #FFFFFF;
 }
@@ -275,6 +324,7 @@ export default {
     font-size: 24px;
     line-height: 25px;
     color: #FFFFFF;
+    margin-bottom: 2px;
 }
 #comment-name {
     font-size: 15px;
