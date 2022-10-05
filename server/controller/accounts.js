@@ -48,32 +48,24 @@ router.get("/api/accounts/:id", function (req, res) {
 });
 */
 //Update an account
-router.put("/api/accounts/:id", async (req, res) => {
-  const account = Account.findById(req.params.id);
-  if (account._id === req.body.id)
-    updateAccount = Account
-      .findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        { new: true }
-      )
-      .then(() => {
-        res.status(200).json({
-          message: "Account updated successfully!",
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          message: "An error Occured!",
-        });
-      });
+router.put("/api/accounts/:id", (req, res) => {
+  let id = req.params.id;
+  Account.findById(id, function(err, account) {
+    if(err) {return res.status(500).send(err);}
+    if(account === null) {return res.status(404).json({'error': 'account not found'});}
+    console.log(account)
+    account._id = req.body._id;
+    account.email = req.body.email;
+    account.password = req.body.password
+    account.save();
+    return res.status(201).json(account)
+  });
 });
 
 //change one attribute
 
 router.patch("/api/accounts/:id", (req, res) => {
+  console.log(req.body)
   Account.findById(req.params.id, req.body, {
       new: true,
       useFindAndModify: false,

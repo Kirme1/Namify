@@ -29,7 +29,7 @@ export default new Router({
       component: Account
     },
     {
-      path: '/account/update',
+      path: '/accounts/update',
       name: 'updateAccount',
       component: UpdateAccount
     },

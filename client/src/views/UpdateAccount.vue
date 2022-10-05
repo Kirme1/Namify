@@ -5,35 +5,61 @@
     </div>
     <div id="box">
     <div id="input">
-        <form id="editAccount" action="">
+        <form id="editAccount">
             <div class="tab">Account info:
-  <p><input placeholder="Username" oninput="this.className = ''"></p>
-  <p><input placeholder="Email address" oninput="this.className = ''"></p>
-  <p><input placeholder="New password" oninput="this.className = ''"></p>
-  <p><input placeholder="Update password" oninput="this.className = ''"></p>
+  <h1>Name:</h1>
+  <p><input v-model="account._id" ></p>
+  <h1>Email:</h1>
+  <p><input v-model="account.email"></p>
+  <p><input placeholder="New password"></p>
+  <p><input placeholder="Update password"></p>
   </div>
-    <router-link to="/account" tag="button">Save</router-link>
-    <router-link to="/account" tag="button">Exit</router-link>
     <button v-on:click="myFunction()">Delete account</button>
 </form>
 </div>
     </div>
+    <button v-on:click="updateAccount()">Save</button>
     </div>
 </template>
 <script>
+import { Api } from '../Api'
 
 export default {
   data() {
     return {
-      confirmDelete: false
+      confirmDelete: false,
+      oldId: '',
+      account: {
+        _id: '',
+        email: '',
+        password: '',
+        __v: 0
+      }
     }
   },
   mounted() {
-    this.myFunction()
+    this.getAccount()
   },
   methods: {
     myFunction() {
       this.confirmDelete = confirm('Are you sure you want to delete the account?')
+    },
+    getAccount() {
+      Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
+        .then(response => {
+          this.account = response.data.user.account
+          this.oldId = response.data.user.account._id
+        })
+    },
+    updateAccount() {
+      Api.put('/accounts/' + this.oldId, this.account)
+        .then(response => {
+          console.log(response.data)
+          this.account = response.data
+        })
+        .catch(error => {
+          console.log(error.message)
+        })
     }
   }
 }
