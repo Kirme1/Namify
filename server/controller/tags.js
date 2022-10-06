@@ -18,12 +18,12 @@ router.get('/api/tags', function (req, res) {
 //Get specific tag
 router.get('/api/tags/:id', function (req, res) {
     Tag.findById({_id: req.params.id}).exec(function (err, tag) {
-        if (err) {
-            return res.status(500).send(err);
-        }
         if(tag == null)
         {
           return res.status(404).json({ message: "Tag not found" });
+        }
+        if (err) {
+          return res.status(500).send(err);
         }
         return res.status(200).send(tag);
     });
