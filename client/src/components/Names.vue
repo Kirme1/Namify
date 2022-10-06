@@ -10,7 +10,7 @@
           <b-col>
             <span id="tags" v-for="tag in name.tags" :key="tag._id">
               <span v-if="tag !== ''">
-                #{{tag}}<button v-on:click="deleteTag(tag)">-</button>
+                #{{tag}}<button v-on:click="deleteTag(tag)"></button>
               </span>
             </span>
             <span>
