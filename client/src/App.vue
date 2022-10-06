@@ -110,7 +110,7 @@ body{
 }
 .shuffle img {
 float: min-width;
-margin-left: 880px;
+margin-left: 900px;
 width: 50px;
 height: 50px;
 }
