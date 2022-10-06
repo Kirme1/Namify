@@ -13,7 +13,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <div class="shuffle">
           <b-navbar-nav>
-            <b-nav-item href="#"><img src="../public/shuffle.png" position: fixed; /></b-nav-item>
+            <b-nav-item href="#"><img src="../public/shuffle.png"/></b-nav-item>
           </b-navbar-nav>
         </div>
           <b-navbar-nav class="ml-auto">
@@ -114,5 +114,4 @@ margin-left: 880px;
 width: 50px;
 height: 50px;
 }
-
 </style>
