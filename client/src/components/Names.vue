@@ -10,7 +10,7 @@
           <b-col>
             <span id="tags" v-for="tag in name.tags" :key="tag._id">
               <span v-if="tag !== ''">
-                #{{tag}}<button v-on:click="deleteTag(tag)"></button>
+                #<router-link style="color: #FFFFFF" id="tagLink" :to="{ path: `/tag/${tag}`, params: { id: tag._id } }">{{tag}}</router-link><button v-on:click="deleteTag(tag)"></button>
               </span>
             </span>
             <span>
@@ -288,7 +288,6 @@ export default {
     word-wrap: break-word;
     text-align: center;
     font-size: 20px;
-    color: #FFFFFF;
 }
 #likes {
     color: #FFFFFF;
@@ -330,5 +329,9 @@ export default {
     font-size: 15px;
     margin-bottom: 5px;
     color: #74E3FC;
+}
+
+#tagLink {
+    color: #FFFFFF;
 }
 </style>
