@@ -116,6 +116,11 @@ export default {
           this.name = response.data
           if (this.name.comments.length > 0) {
             this.topComment = this.name.comments[0]
+            for (let i = 0; i < this.name.comments.length; i++) {
+              if (this.topComment.likes < this.name.comments[i].likes) {
+                this.topComment = this.name.comments[i]
+              }
+            }
           } else {
             this.topComment.text = 'This name is so unpopular that it does not have any comments yet.'
           }
