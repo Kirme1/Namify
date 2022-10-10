@@ -182,7 +182,7 @@ export default {
     },
     addComment() {
       const newComment = {
-        _id: this.name._id + String(this.name.comments.length),
+        _id: this.name._id + String(this.name.comments.length) + String(this.newComment.length * Math.floor(Math.random() * this.name.comments.length)),
         text: this.newComment,
         likes: 0,
         dislikes: 0,
