@@ -3,7 +3,7 @@
     <div id="account">
         <h1>Account</h1>
     </div>
-    <div id="box">
+    <div id="box2">
     <div id="input">
         <form id="editAccount" action="">
             <div class="tab">Account info:
@@ -36,7 +36,7 @@ export default {
 
 </script>
 <style>
-#box {
+#box2 {
     box-sizing: border-box;
     position: absolute;
     height: 463px;
