@@ -3,13 +3,13 @@
       <b-row>
         <b-col>
           <router-link to="name/likes" tag="button">Most Liked</router-link>
-          <p>{{this.mostLiked[1].name._id}}</p>
-          <li
+          <p>{{this.mostLiked[1]._id}}</p>
+          <div
           v-for="name in mostLiked"
           v-bind:key="name._id">
             <h1> {{name._id}} </h1>
             <p> {{"Likes: " + name.likes}} </p>
-        </li>
+        </div>
         </b-col>
         <b-col>
           <router-link to="name/dislikes" tag="button">Most Disliked</router-link>
@@ -55,15 +55,13 @@ export default {
       mostDisliked: [{
         nameAndLikes: [{ sortingLikes: 0 },
           {
-            name:
-              {
-                comments: [],
-                tags: [],
-                _id: '',
-                likes: 0,
-                dislikes: 0,
-                __v: 0
-              }
+            comments: [],
+            tags: [],
+            _id: '',
+            likes: 0,
+            dislikes: 0,
+            __v: 0
+
           }]
       }],
       mostControversial: [{
@@ -90,7 +88,8 @@ export default {
       Api.get('/names/sortLikes')
         .then(response => {
           for (let i = 0; i < 5; i++) {
-            this.mostLiked = response.data[i][1]
+            this.mostLiked.splice(i, 0, response.data[i][1])
+            console.log(this.mostLiked[i]._id)
           }
           console.log(response.data)
         })
