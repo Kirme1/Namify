@@ -88,16 +88,13 @@ router.get('/api/names/shuffle', function (req, res) {
 
 //create new name
 router.post("/api/names", function (req, res) {
-    var name = new Name(req.body);
-    name.save(function (err) {
-      if(err.code = 11000) {
-        return res.status(409).send({error: 'name allready exists'})
-      }
-      if (err) {
-        return res.status(500).send(err);
-      }
-      return res.status(201).json(name);
-    })
+  var name = new Name(req.body);
+  name.save(function (err) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.status(201).json(name);
+  })
 });
 
 //Is this necessary? 
