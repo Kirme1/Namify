@@ -1,36 +1,47 @@
 <template>
-  <div>
-      <b-row>
+    <div class="container-fluid">
+      <b-row class="bruh">
         <b-col>
-          <router-link to="name/likes" tag="button">Most Liked</router-link>
-          <p>{{this.mostLiked[1]._id}}</p>
+          <div class="box">
+          <h class="text">Most Liked</h>
           <div
           v-for="name in mostLiked"
           v-bind:key="name._id">
-            <h1> {{name._id}} </h1>
-            <p> {{"Likes: " + name.likes}} </p>
+            <div @click="goName(name._id)" id="name-col" v-if="name._id !== ''" >
+              <p class="text"> {{name._id}} </p>
+              <!--<p> {{"Likes: " + name.likes}} </p>-->
+            </div>
+        </div>
         </div>
         </b-col>
         <b-col>
-          <router-link to="name/dislikes" tag="button">Most Disliked</router-link>
+          <div class="box">
+            <h class="text">Most Disliked</h>
           <div
-          v-for="name in mostLiked"
+          v-for="name in mostDisliked"
           v-bind:key="name._id">
-            <h1> {{name._id}} </h1>
-            <p> {{"Likes: " + name.likes}} </p>
+          <div @click="goName(name._id)" id="name-col" v-if="name._id !== ''">
+            <p class="text"> {{name._id}} </p>
+            <!--<p> {{"Likes: " + name.likes}} </p>-->
           </div>
+          </div>
+        </div>
         </b-col>
         <b-col>
-          <router-link to="name/controversial" tag="button">Controversial</router-link>
+          <div class="box">
+            <h class="text">Most Controversial</h>
           <div
-          v-for="name in mostLiked"
+          v-for="name in mostControversial"
           v-bind:key="name._id">
-            <h1> {{name._id}} </h1>
-            <p> {{"Likes: " + name.likes}} </p>
+          <div @click="goName(name._id)" id="name-col" v-if="name._id !== ''">
+            <p class="text"> {{name._id}} </p>
+            <!--<p> {{"Likes: " + name.likes}} </p>-->
           </div>
+        </div>
+        </div>
         </b-col>
       </b-row>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -43,51 +54,45 @@ export default {
     return {
       message: 'none',
       mostLiked: [{
-        name: {
-          comments: [],
-          tags: [],
-          _id: '',
-          likes: 0,
-          dislikes: 0,
-          __v: 0
-        }
+        comments: [],
+        tags: [],
+        _id: '',
+        likes: 0,
+        dislikes: 0,
+        __v: 0
       }],
       mostDisliked: [{
-        nameAndLikes: [{ sortingLikes: 0 },
-          {
-            comments: [],
-            tags: [],
-            _id: '',
-            likes: 0,
-            dislikes: 0,
-            __v: 0
-
-          }]
+        comments: [],
+        tags: [],
+        _id: '',
+        likes: 0,
+        dislikes: 0,
+        __v: 0
       }],
       mostControversial: [{
-        nameAndLikes: [{ sortingLikes: 0 },
-          {
-            name:
-              {
-                __v: 0,
-                _id: '',
-                comments: [],
-                dislikes: 0,
-                likes: 0,
-                tags: []
-              }
-          }]
+        comments: [],
+        tags: [],
+        _id: '',
+        likes: 0,
+        dislikes: 0,
+        __v: 0
       }]
     }
   },
   mounted() {
     this.getNamesByLikes()
+    this.getNamesByDislikes()
+    this.getNamesByControversial()
   },
   methods: {
+    goName(name) {
+      console.log('hello')
+      this.$router.push({ path: `/name/${name}`, params: { id: name } })
+    },
     getNamesByLikes() {
       Api.get('/names/sortLikes')
         .then(response => {
-          for (let i = 0; i < 5; i++) {
+          for (let i = 0; i < 6; i++) {
             this.mostLiked.splice(i, 0, response.data[i][1])
             console.log(this.mostLiked[i]._id)
           }
@@ -100,8 +105,8 @@ export default {
     getNamesByDislikes() {
       Api.get('/names/sortDislikes')
         .then(response => {
-          for (let i = 0; i < 5; i++) {
-            this.mostDisliked[i].name = response.data[i]
+          for (let i = 0; i < 6; i++) {
+            this.mostDisliked.splice(i, 0, response.data[i][1])
           }
           console.log(this.mostDisliked)
         })
@@ -112,8 +117,8 @@ export default {
     getNamesByControversial() {
       Api.get('/names/sortControversial')
         .then(response => {
-          for (let i = 0; i < 5; i++) {
-            this.mostControversial[i] = response.data[i]
+          for (let i = 0; i < 6; i++) {
+            this.mostControversial.splice(i, 0, response.data[i][1])
           }
           console.log(this.mostControversial)
         })
@@ -126,7 +131,45 @@ export default {
 </script>
 
 <style>
-.btn_message {
-  margin-bottom: 1em;
+
+#name-col {
+    padding: 10px;
+    display:inline-block;
+    text-align: center;
+    margin-top: 1rem;
+    box-sizing: border-box;
+    height: auto;
+    width: 80%;
+    top: 110px;
+    background: linear-gradient(0deg, rgba(115, 116, 118, 0.2), rgba(117, 118, 119, 0.2)), #3c3c3c;
+    border: 2px solid #74E3FC;
+    border-radius: 25px;
+    cursor: pointer;
 }
+#name-col:hover {
+    background-color: #74E3FC;
+}
+
+.box {
+    display:inline-block;
+    text-align: center;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+    box-sizing: border-box;
+    height: auto;
+    width: 80%;
+    top: 110px;
+    background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+}
+.bruh {
+    background-color: #272727;
+}
+.text {
+    display: inline;
+    color: #ffffff;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
 </style>
