@@ -8,13 +8,13 @@
             </div>
           </b-col>
           <b-col>
-            <span id="tags" v-for="tag in name.tags" :key="tag._id">
-              <span v-if="tag !== ''">
-                #<router-link style="color: #FFFFFF" id="tagLink" :to="{ path: `/tag/${tag}`, params: { id: tag._id } }">{{tag}}</router-link><button v-on:click="deleteTag(tag)"></button>
+            <span id="tags" v-for="tag in name.tags" :key="tag">
+              <span style="color: #FFFFFF" v-if="tag !== ''">
+                #<router-link id="whiteLink" :to="{ path: `/tag/${tag}`, params: { id: tag } }">{{tag}}</router-link><button v-on:click="deleteTag(tag)"></button>
               </span>
             </span>
             <span>
-              <button v-if="name.tags.length < 3 && addTagClicked === false" v-on:click="addTagClicked = true">+</button>
+              <button v-if="name.tags.length < 4 && addTagClicked === false" v-on:click="addTagClicked = true">+</button>
             </span>
             <span v-if="addTagClicked === true">
               <input  type="text" v-model="newTag" id="tagInput" size="5" :placeholder="tagMessage">
@@ -39,7 +39,7 @@
             </div>
             <div v-if="hasAccount" id="addComment">
               <form inline>
-                <input type="text" v-model="newComment" id="input" style="width: 90%" placeholder="Add a comment">
+                <input type="text" v-model="newComment" style="width: 90%" placeholder="Add a comment">
                 <button v-on:click="addComment()" style="width: 10%">Comment</button>
               </form>
             </div>
@@ -194,14 +194,15 @@ export default {
     },
     addTag() {
       let duplicate = false
-      const addTag = {
+      const addTag = this.newTag
+      const postTag = {
         _id: this.newTag
       }
-      if (addTag._id === '') {
+      if (addTag === '') {
         duplicate = true
       }
       for (let i = 0; i <= this.name.tags.length; i++) {
-        if (addTag._id === this.name.tags[i]) {
+        if (addTag === this.name.tags[i]) {
           this.tagMessage = 'Tag exists'
           duplicate = true
         }
@@ -210,16 +211,16 @@ export default {
       if (duplicate === false) {
         this.addTagClicked = false
         this.tagMessage = 'Add a tag'
-        Api.post('/tags', addTag)
+        Api.post('/tags', postTag)
           .then(response => {
             console.log(response)
           })
           .catch(error => {
             console.log(error)
           })
-        Api.patch('/names/' + this.name._id + '/tags/' + addTag._id)
+        Api.patch('/names/' + this.name._id + '/tags/' + addTag)
           .then(response => {
-            this.name.tags.push(addTag._id)
+            this.name.tags.push(addTag)
             console.log(response)
           })
           .catch(error => {
@@ -273,12 +274,12 @@ export default {
     color: #FFFFFF;
 }
 #box {
+    margin-top: 4rem;
     box-sizing: border-box;
     position: absolute;
     height: auto;
     left: 5%;
     right: 5%;
-    top: 110px;
     background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
     padding: 40px;
     border: 2px solid #74E3FC;
@@ -331,7 +332,7 @@ export default {
     color: #74E3FC;
 }
 
-#tagLink {
-    color: #FFFFFF;
+#whiteLink {
+    color: #ffffff;
 }
 </style>
