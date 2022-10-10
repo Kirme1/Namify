@@ -10,14 +10,15 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#">Shuffle</b-nav-item>
+            <b-nav-item @click="Shuffle(); $router.push({ path: `/name/${shuffleText}`, params: { id: shuffleText}})">Shuffle</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-form>
-              <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-              <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+              <b-form-input v-model="text" size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+              <a :href="$router.resolve({ path: `/name/${text}`, params: { id: text } }).href">Search</a>
             </b-nav-form>
-            <b-nav-item href="#">Account</b-nav-item>
+            <b-nav-item href="login">Account</b-nav-item>
+            <AddName  v-if="hasAccount"></AddName>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -26,6 +27,41 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+import AddName from './components/addName.vue'
+import { Api } from './Api'
+
+export default {
+  data() {
+    return {
+      text: '',
+      shuffleText: '',
+      hasAccount: false
+    }
+  },
+  components: { AddName },
+  mounted() {
+    if (localStorage.getItem('token') === null) {
+      this.hasAccount = false
+    } else {
+      this.hasAccount = true
+    }
+  },
+  methods: {
+    Shuffle() {
+      Api.get('names/shuffle')
+        .then((response) => {
+          console.log(response.data)
+          this.shuffleText = response.data.name._id
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }
+}
+</script>
 
 <style>
 #app {
@@ -39,5 +75,15 @@
 #logo {
   font-family: 'Audiowide';
   font-style: normal;
+}
+html {
+    background-color: #272727;
+}
+.button {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  text-decoration: none;
+  color: #ffffff;
 }
 </style>
