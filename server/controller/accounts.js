@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 var Account = require("../schema/Account");
+const bcrypt = require("bcryptjs")
 
 //Create a comment 
 
@@ -49,14 +50,14 @@ router.get("/api/accounts/:id", function (req, res) {
 */
 //Update an account
 router.put("/api/accounts/:id", (req, res) => {
-  let id = req.params.id;
-  Account.findById(id, function(err, account) {
+  let email = req.params.id;
+  console.log(req.body)
+  Account.findOne({ email: email }, function(err, account) {
     if(err) {return res.status(500).send(err);}
     if(account === null) {return res.status(404).json({'error': 'account not found'});}
-    console.log(account)
-    account._id = req.body._id;
+    account.name = req.body.name;
     account.email = req.body.email;
-    account.password = req.body.password
+    account.password = bcrypt.hashSync(req.body.password, 10)
     account.save();
     return res.status(201).json(account)
   });

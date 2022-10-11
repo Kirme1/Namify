@@ -7,7 +7,7 @@
     <div id="input">
         <form id="editAccount" action="">
             <div class="tab">Account info:
-  <p>Username: {{this.account._id}} </p>
+  <p>Username: {{this.account.name}} </p>
   <p>Email: {{this.account.email}}</p>
   </div>
     <router-link to="/accounts/update" tag="button">Edit account</router-link>
@@ -24,6 +24,7 @@ export default {
     return {
       message: '',
       account: {
+        name: '',
         _id: '',
         email: '',
         password: '',
