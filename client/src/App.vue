@@ -1,24 +1,38 @@
 <template>
   <div id="app">
     <div id="nav">
-      <b-navbar toggleable="lg" type="dark" variant="info">
-        <div id="logo">
+      <b-navbar >
+        <a class="navbar-brand" href="#">
+      </a>
+        <div class="logo">
           <router-link to="/">
-            <b-navbar-brand href="/">Namify</b-navbar-brand>
+            <img style="width: 130px" src="../public/Namify.png"/>
           </router-link>
         </div>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
+          <div class="shuffle">
           <b-navbar-nav>
-            <b-nav-item @click="Shuffle(); $router.push({ path: `/name/${shuffleText}`, params: { id: shuffleText}})">Shuffle</b-nav-item>
+            <b-nav-item @click="Shuffle(); $router.push({ path: `/name/${shuffleText}`, params: { id: shuffleText}})"><img src="../public/shuffle.png"/></b-nav-item>
           </b-navbar-nav>
+        </div>
           <b-navbar-nav class="ml-auto">
-            <b-nav-form>
-              <b-form-input v-model="text" size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-              <a :href="$router.resolve({ path: `/name/${text}`, params: { id: text } }).href">Search</a>
-            </b-nav-form>
-            <b-nav-item href="login">Account</b-nav-item>
+<<<<<<< client/src/App.vue
+            <div class="wrap">
+   <div class="search">
+      <input v-model="text" type="text" class="searchTerm" placeholder="Search for a name">
+      <button :href="$router.resolve({ path: `/name/${text}`, params: { id: text } }).href" type="submit" class="searchButton">
+        <i class="fa fa-search"></i>
+        <img style="width: 30px" src="../public/search.png"/>
+     </button>
+   </div>
+</div>
+            <b-dropdown id="dropdown" text="Profile" class="m-md-2">
+            <b-dropdown-item href="login">Account</b-dropdown-item>
             <AddName  v-if="hasAccount"></AddName>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item>Logout</b-dropdown-item>
+            </b-dropdown>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -64,17 +78,78 @@ export default {
 </script>
 
 <style>
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #6ed42f;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
 }
 
-#logo {
-  font-family: 'Audiowide';
-  font-style: normal;
+.logo {
+  width: 10px;
+  margin-left: 0px;
+}
+#nav {
+  box-sizing: border-box;
+  position: relative;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  border: 1px solid #74E3FC;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+body{
+  background: #f2f2f2;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 1px solid #00B4CC;
+  border-right: none;
+  padding: 20px;
+  height: 20px;
+  border-radius: 10px 0px 0px 10px;
+  outline: none;
+  color: #9DBFAF;
+}
+
+.searchTerm:focus{
+  color: #00B4CC;
+}
+
+.searchButton {
+  width: 40px;
+  height: 42px;
+  border: 1px solid #00B4CC;
+  background: #00B4CC;
+  text-align: center;
+  color: #fff;
+  border-radius: 0px 10px 10px 0px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.wrap{
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.shuffle img {
+float: min-width;
+margin-left: 900px;
+width: 50px;
+height: 50px;
 }
 html {
     background-color: #272727;
