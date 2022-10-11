@@ -7,11 +7,10 @@
     <div id="input">
         <form id="editAccount" action="">
             <div class="tab">Account info:
-  <p>Username: {{this.account._id}} </p>
+  <p>Username: {{this.account.name}} </p>
   <p>Email: {{this.account.email}}</p>
-  <p>Password: {{this.account.password}}</p>
   </div>
-    <router-link to="/account/update" tag="button">Edit account</router-link>
+    <router-link to="/accounts/update" tag="button">Edit account</router-link>
     </form>
     </div>
     </div>
@@ -25,7 +24,8 @@ export default {
     return {
       message: '',
       account: {
-        _id: 'gfjgfh',
+        name: '',
+        _id: '',
         email: '',
         password: '',
         __v: 0
@@ -44,7 +44,6 @@ export default {
     getAccount() {
       Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
-          console.log(response.data.user.account)
           this.account = response.data.user.account
         })
     }

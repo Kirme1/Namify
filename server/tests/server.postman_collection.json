@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "0352e8f0-ada0-4a67-b309-e5eebf99c1af",
+		"_postman_id": "64bbd851-4b80-443d-a763-389ecac92365",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23101590"
+		"_exporter_id": "23101634"
 	},
 	"item": [
 		{
@@ -225,85 +225,7 @@
 					"response": []
 				},
 				{
-					"name": "GET /api/accounts",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Account retrieved successfully\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJ0ZXN0IiwiaWF0IjoxNjY0MjY5NTEyfQ.6PZXsOwhHt-F8k0zfzXqXQ4GQdKwAPBQ2LTg5F-Rpns",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{host}}/api/accounts",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"accounts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "PUT /api/accounts/:id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Account updated successfully\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"password\" : \"test2\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/accounts/test",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"accounts",
-								"test"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PATCH /api/accounts/:id",
 					"event": [
 						{
 							"listen": "test",
@@ -318,11 +240,11 @@
 						}
 					],
 					"request": {
-						"method": "PATCH",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\" : \"test2\"\r\n}",
+							"raw": "{\r\n    \"name\" : \"test2\",\r\n    \"email\" : \"test\",\r\n    \"password\": \"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1064,6 +986,48 @@
 								"api",
 								"tags",
 								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "GET /api/accounts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Account retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MzQ1NWJmODQ3MWE4ZDE2NTBhMDU2MTQiLCJpYXQiOjE2NjU0ODk5MzZ9.10S_6G4zfOxDoFqwspIsxf0diM7sIsKwWp56KHp9xf8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"accounts"
 							]
 						}
 					},
