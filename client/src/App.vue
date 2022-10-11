@@ -30,7 +30,7 @@
             <b-dropdown id="dropdown" text="Profile" class="m-md-2">
             <b-dropdown-item href="/login">Account</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item>Logout</b-dropdown-item>
+            <b-dropdown-item ><LogOut class="logOut"></LogOut></b-dropdown-item>
             </b-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -44,6 +44,7 @@
 <script>
 import AddName from './components/addName.vue'
 import { Api } from './Api'
+import LogOut from './components/logOut.vue'
 
 export default {
   data() {
@@ -53,7 +54,7 @@ export default {
       hasAccount: false
     }
   },
-  components: { AddName },
+  components: { AddName, LogOut },
   mounted() {
     this.checkLogedIn()
     window.addEventListener('load', this.checkLogedIn)
