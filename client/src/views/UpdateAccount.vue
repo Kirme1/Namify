@@ -15,11 +15,11 @@
   <p><input type="password" v-model="oldPassword" placeholder="old password"></p>
   <p><input name="password" type="password" v-model="newPassword" placeholder="new password"></p>
   </div>
-    <button v-on:click="deleteAccount()">Delete account</button>
 </form>
 </div>
     </div>
     <button v-on:click="updateAccount()">Save</button>
+    <button v-on:click="deleteAccount()">Delete account</button>
     </div>
 </template>
 <script>
@@ -54,6 +54,7 @@ export default {
             this.$bvModal.msgBoxOk(response.data.message)
             if (response.status === 200) {
               localStorage.removeItem('token')
+              location.reload()
               this.$router.push('/')
             }
           })
