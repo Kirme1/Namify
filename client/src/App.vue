@@ -13,14 +13,15 @@
         <b-collapse id="nav-collapse" is-nav>
           <div class="shuffle">
           <b-navbar-nav>
-            <b-nav-item href="#"><img src="../public/shuffle.png"/></b-nav-item>
+            <b-nav-item @click="Shuffle(); $router.push({ path: `/name/${shuffleText}`, params: { id: shuffleText}})"><img src="../public/shuffle.png"/></b-nav-item>
           </b-navbar-nav>
         </div>
           <b-navbar-nav class="ml-auto">
+<<<<<<< client/src/App.vue
             <div class="wrap">
    <div class="search">
-      <input type="text" class="searchTerm" placeholder="Search for a name">
-      <button type="submit" class="searchButton">
+      <input v-model="text" type="text" class="searchTerm" placeholder="Search for a name">
+      <button :href="$router.resolve({ path: `/name/${text}`, params: { id: text } }).href" type="submit" class="searchButton">
         <i class="fa fa-search"></i>
         <img style="width: 30px" src="../public/search.png"/>
      </button>
@@ -28,6 +29,7 @@
 </div>
             <b-dropdown id="dropdown" text="Profile" class="m-md-2">
             <b-dropdown-item href="login">Account</b-dropdown-item>
+            <AddName  v-if="hasAccount"></AddName>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item>Logout</b-dropdown-item>
             </b-dropdown>
@@ -39,6 +41,41 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+import AddName from './components/addName.vue'
+import { Api } from './Api'
+
+export default {
+  data() {
+    return {
+      text: '',
+      shuffleText: '',
+      hasAccount: false
+    }
+  },
+  components: { AddName },
+  mounted() {
+    if (localStorage.getItem('token') === null) {
+      this.hasAccount = false
+    } else {
+      this.hasAccount = true
+    }
+  },
+  methods: {
+    Shuffle() {
+      Api.get('names/shuffle')
+        .then((response) => {
+          console.log(response.data)
+          this.shuffleText = response.data.name._id
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }
+}
+</script>
 
 <style>
   @import url(https://fonts.googleapis.com/css?family=Open+Sans);
@@ -113,5 +150,15 @@ float: min-width;
 margin-left: 900px;
 width: 50px;
 height: 50px;
+}
+html {
+    background-color: #272727;
+}
+.button {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  text-decoration: none;
+  color: #ffffff;
 }
 </style>
