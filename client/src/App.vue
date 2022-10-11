@@ -17,22 +17,21 @@
           </b-navbar-nav>
         </div>
           <b-navbar-nav class="ml-auto">
-<<<<<<< client/src/App.vue
             <div class="wrap">
    <div class="search">
       <input v-model="text" type="text" class="searchTerm" placeholder="Search for a name">
-      <button :href="$router.resolve({ path: `/name/${text}`, params: { id: text } }).href" type="submit" class="searchButton">
+      <button @click="search()" type="submit" class="searchButton">
         <i class="fa fa-search"></i>
-        <img style="width: 30px" src="../public/search.png"/>
+        <a :href="$router.resolve({ path: `/name/${text}`, params: { id: text } }).href"><img style="width: 30px" src="../public/search.png"/></a>
      </button>
    </div>
 </div>
             <b-dropdown id="dropdown" text="Profile" class="m-md-2">
             <b-dropdown-item href="login">Account</b-dropdown-item>
-            <AddName  v-if="hasAccount"></AddName>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item>Logout</b-dropdown-item>
             </b-dropdown>
+            <b-nav-item style="height: 20px"><AddName class="addName"  v-if="hasAccount"></AddName></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -89,7 +88,7 @@ export default {
 }
 
 .logo {
-  width: 10px;
+  width: 150px;
   margin-left: 0px;
 }
 #nav {
@@ -121,7 +120,9 @@ body{
   outline: none;
   color: #9DBFAF;
 }
-
+.addName {
+  position: relative;
+}
 .searchTerm:focus{
   color: #00B4CC;
 }
@@ -146,10 +147,12 @@ body{
   transform: translate(-50%, -50%);
 }
 .shuffle img {
-float: min-width;
-margin-left: 900px;
+  float: min-width;
 width: 50px;
 height: 50px;
+}
+.shuffle {
+    margin-left: 20%;
 }
 html {
     background-color: #272727;
