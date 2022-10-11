@@ -28,7 +28,7 @@
 </div>
             <b-nav-item style="height: 20px"><AddName class="addName" v-if="hasAccount"></AddName></b-nav-item>
             <b-dropdown id="dropdown" text="Profile" class="m-md-2">
-            <b-dropdown-item href="login">Account</b-dropdown-item>
+            <b-dropdown-item href="/login">Account</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item>Logout</b-dropdown-item>
             </b-dropdown>
