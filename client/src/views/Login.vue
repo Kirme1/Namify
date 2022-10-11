@@ -1,6 +1,7 @@
 <template>
     <div>
       <div class="main">
+        <LogOut></LogOut>
         <button class="button-1" v-on:click="handleToggle(true)">Log In</button>
         <button class="button-2" v-on:click="handleToggle(false)">Sign Up</button>
         <div v-if="logIn">
@@ -16,8 +17,9 @@
 <script>
 import logIn from '../components/logIn.vue'
 import CreateAccount from '../components/createAccount.vue'
+import LogOut from '../components/logOut.vue'
 export default {
-  components: { logIn, CreateAccount },
+  components: { logIn, CreateAccount, LogOut },
   data() {
     return {
       logIn: true
