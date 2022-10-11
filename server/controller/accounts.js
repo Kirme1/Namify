@@ -63,29 +63,10 @@ router.put("/api/accounts/:id", (req, res) => {
   });
 });
 
-//change one attribute
-
-router.patch("/api/accounts/:id", (req, res) => {
-  console.log(req.body)
-  Account.findById(req.params.id, req.body, {
-      new: true,
-      useFindAndModify: false,
-    })
-    .then((account) => {
-      if (!account) {
-        return res.status(404).send();
-      }
-      res.status(201).send(account);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
-});
-
 // Delete an account by username
 router.delete("/api/accounts/:id", function (req, res) {
-  const id = req.params.id;
-  Account.findByIdAndDelete(id, function (err, account) {
+  const email = req.params.id;
+  Account.findOneAndDelete({ email: email}, function (err, account) {
     if (err) {
       return res.status(500).send(err);
     }

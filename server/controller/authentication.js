@@ -74,7 +74,6 @@ router.post('/api/accounts/login', (req, res, next) => {
       })
       //token is valid
       Account.findOne({ _id: decoded.accountId }, (err, account) => {
-        if (err) return console.log(err)
         console.log(decoded)
         return res.status(200).json({
           title: 'account grabbed',
