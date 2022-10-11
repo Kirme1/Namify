@@ -1,6 +1,6 @@
 <template>
   <div>
-  <b-button v-b-modal.modal-1>Log Out</b-button>
+  <p v-b-modal.modal-1>Log Out</p>
 
   <b-modal id="modal-1" title="BootstrapVue"
   @ok="handleOk">
