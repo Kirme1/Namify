@@ -1,39 +1,126 @@
 <template>
-  <div>
-    <b-jumbotron header="DIT342 Frontend" lead="Welcome to your DIT342 Frontend Vue.js App"></b-jumbotron>
-    <nameList/>
-    <b-container>
-        <b-row>
-          <b-col>
-            <router-link to="name" tag="button">Names</router-link>
-          </b-col>
-          <b-col>
-            <router-link to="account" tag="button">Account</router-link>
-          </b-col>
-        </b-row>
-      </b-container>
-  </div>
+    <div class="container-fluid">
+      <b-row class="bruh">
+        <b-col>
+          <div class="box">
+          <h class="text">Most Liked</h>
+          <div
+          v-for="name in mostLiked"
+          v-bind:key="name._id">
+            <div @click="goName(name._id)" id="name-col" v-if="name._id !== ''" >
+              <p class="text"> {{name._id}} </p>
+              <!--<p> {{"Likes: " + name.likes}} </p>-->
+            </div>
+        </div>
+        </div>
+        </b-col>
+        <b-col>
+          <div class="box">
+            <h class="text">Most Disliked</h>
+          <div
+          v-for="name in mostDisliked"
+          v-bind:key="name._id">
+          <div @click="goName(name._id)" id="name-col" v-if="name._id !== ''">
+            <p class="text"> {{name._id}} </p>
+            <!--<p> {{"Likes: " + name.likes}} </p>-->
+          </div>
+          </div>
+        </div>
+        </b-col>
+        <b-col>
+          <div class="box">
+            <h class="text">Most Controversial</h>
+          <div
+          v-for="name in mostControversial"
+          v-bind:key="name._id">
+          <div @click="goName(name._id)" id="name-col" v-if="name._id !== ''">
+            <p class="text"> {{name._id}} </p>
+            <!--<p> {{"Likes: " + name.likes}} </p>-->
+          </div>
+        </div>
+        </div>
+        </b-col>
+      </b-row>
+    </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { Api } from '@/Api'
-import nameList from '../components/getNames.vue'
+import { Api } from '../Api'
 // import nameItem from '@/components/nameItem.vue'
 
 export default {
-  components: { nameList },
-  name: 'names',
   data() {
     return {
-      message: 'none'
+      message: 'none',
+      mostLiked: [{
+        comments: [],
+        tags: [],
+        _id: '',
+        likes: 0,
+        dislikes: 0,
+        __v: 0
+      }],
+      mostDisliked: [{
+        comments: [],
+        tags: [],
+        _id: '',
+        likes: 0,
+        dislikes: 0,
+        __v: 0
+      }],
+      mostControversial: [{
+        comments: [],
+        tags: [],
+        _id: '',
+        likes: 0,
+        dislikes: 0,
+        __v: 0
+      }]
     }
   },
+  mounted() {
+    this.getNamesByLikes()
+    this.getNamesByDislikes()
+    this.getNamesByControversial()
+  },
   methods: {
-    getMessage() {
-      Api.get('/names')
+    goName(name) {
+      console.log('hello')
+      this.$router.push({ path: `/name/${name}`, params: { id: name } })
+    },
+    getNamesByLikes() {
+      Api.get('/names/sortLikes')
         .then(response => {
-          this.names = response
+          for (let i = 0; i < 6; i++) {
+            this.mostLiked.splice(i, 0, response.data[i][1])
+            console.log(this.mostLiked[i]._id)
+          }
+          console.log(response.data)
+        })
+        .catch(error => {
+          this.message = error
+        })
+    },
+    getNamesByDislikes() {
+      Api.get('/names/sortDislikes')
+        .then(response => {
+          for (let i = 0; i < 6; i++) {
+            this.mostDisliked.splice(i, 0, response.data[i][1])
+          }
+          console.log(this.mostDisliked)
+        })
+        .catch(error => {
+          this.message = error
+        })
+    },
+    getNamesByControversial() {
+      Api.get('/names/sortControversial')
+        .then(response => {
+          for (let i = 0; i < 6; i++) {
+            this.mostControversial.splice(i, 0, response.data[i][1])
+          }
+          console.log(this.mostControversial)
         })
         .catch(error => {
           this.message = error
@@ -44,7 +131,45 @@ export default {
 </script>
 
 <style>
-.btn_message {
-  margin-bottom: 1em;
+
+#name-col {
+    padding: 10px;
+    display:inline-block;
+    text-align: center;
+    margin-top: 1rem;
+    box-sizing: border-box;
+    height: auto;
+    width: 80%;
+    top: 110px;
+    background: linear-gradient(0deg, rgba(115, 116, 118, 0.2), rgba(117, 118, 119, 0.2)), #3c3c3c;
+    border: 2px solid #74E3FC;
+    border-radius: 25px;
+    cursor: pointer;
 }
+#name-col:hover {
+    background-color: #74E3FC;
+}
+
+.box {
+    display:inline-block;
+    text-align: center;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+    box-sizing: border-box;
+    height: auto;
+    width: 80%;
+    top: 110px;
+    background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+}
+.bruh {
+    background-color: #272727;
+}
+.text {
+    display: inline;
+    color: #ffffff;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
 </style>
