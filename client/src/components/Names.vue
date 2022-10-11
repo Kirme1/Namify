@@ -87,7 +87,7 @@ export default {
         _id: '',
         likes: 0,
         dislikes: 0,
-        __v: 0,
+        __v: 0
       },
       topComment: {
         _id: '',
