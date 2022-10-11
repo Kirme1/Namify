@@ -47,6 +47,7 @@ export default {
             localStorage.setItem('token', res.data.token)
             this.$emit('handleLogin', true)
             this.$router.push('/')
+            location.reload()
           }
         },
         (err) => {

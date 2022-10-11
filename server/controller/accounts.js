@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 var Account = require("../schema/Account");
+const bcrypt = require("bcryptjs")
 
 //Create a comment 
 
@@ -48,51 +49,24 @@ router.get("/api/accounts/:id", function (req, res) {
 });
 */
 //Update an account
-router.put("/api/accounts/:id", async (req, res) => {
-  const account = Account.findById(req.params.id);
-  if (account._id === req.body.id)
-    updateAccount = Account
-      .findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        { new: true }
-      )
-      .then(() => {
-        res.status(200).json({
-          message: "Account updated successfully!",
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          message: "An error Occured!",
-        });
-      });
-});
-
-//change one attribute
-
-router.patch("/api/accounts/:id", (req, res) => {
-  Account.findById(req.params.id, req.body, {
-      new: true,
-      useFindAndModify: false,
-    })
-    .then((account) => {
-      if (!account) {
-        return res.status(404).send();
-      }
-      res.status(201).send(account);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+router.put("/api/accounts/:id", (req, res) => {
+  let email = req.params.id;
+  console.log(req.body)
+  Account.findOne({ email: email }, function(err, account) {
+    if(err) {return res.status(500).send(err);}
+    if(account === null) {return res.status(404).json({'error': 'account not found'});}
+    account.name = req.body.name;
+    account.email = req.body.email;
+    account.password = bcrypt.hashSync(req.body.password, 10)
+    account.save();
+    return res.status(201).json(account)
+  });
 });
 
 // Delete an account by username
 router.delete("/api/accounts/:id", function (req, res) {
-  const id = req.params.id;
-  Account.findByIdAndDelete(id, function (err, account) {
+  const email = req.params.id;
+  Account.findOneAndDelete({ email: email}, function (err, account) {
     if (err) {
       return res.status(500).send(err);
     }

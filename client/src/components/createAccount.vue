@@ -54,18 +54,30 @@ export default {
         email: this.email,
         password: this.password
       }
-      Api.post('/accounts', newAccount).then(
-        (res) => {
-          console.log(res)
-          this.$bvModal.msgBoxOk('SignUp Successful', this.$router.go(0))
-        },
-        (err) => {
-          console.log(err)
-          this.boxOne = ''
-          this.error = err.response.data.error
-          this.$bvModal.msgBoxOk(this.error)
-        }
-      )
+      if (this.validateForm()) {
+        console.log('hello')
+        Api.post('/accounts', newAccount).then(
+          (res) => {
+            console.log(res)
+            this.$bvModal.msgBoxOk('SignUp Successful', this.$router.go(0))
+          },
+          (err) => {
+            console.log(err)
+            this.boxOne = ''
+            this.error = err.response.data.error
+            this.$bvModal.msgBoxOk(this.error)
+          }
+        )
+      }
+    },
+    validateForm() {
+      const name = this.name
+      const password = this.password
+      if (name === '' || password === '') {
+        alert('Name and password cannot be empty')
+        return false
+      }
+      return true
     }
   }
 }

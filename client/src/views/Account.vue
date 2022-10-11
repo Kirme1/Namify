@@ -7,31 +7,48 @@
     <div id="input">
         <form id="editAccount" action="">
             <div class="tab">Account info:
-  <p>Username: </p>
-  <p>Email: julia@lkasdjf</p>
-  <p>adfsssad</p>
+  <p>Username: {{this.account.name}} </p>
+  <p>Email: {{this.account.email}}</p>
   </div>
-    <router-link to="/account/update" tag="button">Edit account</router-link>
+    <router-link to="/accounts/update" tag="button">Edit account</router-link>
     </form>
     </div>
     </div>
     </div>
 </template>
 <script>
+import { Api } from '../Api'
 
 export default {
-  name: 'account',
   data() {
     return {
-      message: ''
+      message: '',
+      account: {
+        name: '',
+        _id: '',
+        email: '',
+        password: '',
+        __v: 0
+      }
     }
   },
   created() {
-    console.log(localStorage.getItem('token'))
     if (localStorage.getItem('token') === null) {
       this.$router.push('/Login')
     }
+  },
+  mounted() {
+    this.getAccount()
+  },
+  methods: {
+    getAccount() {
+      Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
+        .then(response => {
+          this.account = response.data.user.account
+        })
+    }
   }
+
 }
 
 </script>

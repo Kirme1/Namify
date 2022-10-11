@@ -42,11 +42,8 @@ export default {
   },
   components: { AddName },
   mounted() {
-    if (localStorage.getItem('token') === null) {
-      this.hasAccount = false
-    } else {
-      this.hasAccount = true
-    }
+    this.checkLogedIn()
+    window.addEventListener('load', this.checkLogedIn)
   },
   methods: {
     Shuffle() {
@@ -58,6 +55,16 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    onWindowLoad() {
+      this.checkLogedIn()
+    },
+    checkLogedIn() {
+      if (localStorage.getItem('token') === null) {
+        this.hasAccount = false
+      } else {
+        this.hasAccount = true
+      }
     }
   }
 }
