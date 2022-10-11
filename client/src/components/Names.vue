@@ -177,7 +177,7 @@ export default {
     getAccount() {
       Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
-          this.accountName = response.data.user.account._id
+          this.accountName = response.data.user.account.name
         })
     },
     addComment() {

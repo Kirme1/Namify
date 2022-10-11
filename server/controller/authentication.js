@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 //Registeration
 router.post("/api/accounts", async (req, res, next) => {
     const newAccount = new Account({
-      _id: req.body.name,
+      name: req.body.name,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 10)
     })
@@ -40,6 +40,8 @@ router.post('/api/accounts/login', (req, res, next) => {
         })
       }
       //incorrect password
+      console.log(req.body.password)
+      console.log(account.password)
       if (!bcrypt.compareSync(req.body.password, account.password)) {
         return res.status(401).json({
           tite: 'login failed',
@@ -81,8 +83,51 @@ router.post('/api/accounts/login', (req, res, next) => {
           }
         })
       })
-  
     })
   })
+
+  //verify account password
+  router.get('/api/accounts/verify', (req, res) => {
+    let password = req.headers.password
+    let email = req.headers.email
+    Account.findOne({ email: email }, (err, account) => {
+      if (err) return res.status(500).json({
+        title: 'server error',
+        error: err
+      })
+      console.log(password)
+      console.log(account.password)
+      if (!bcrypt.compareSync(password, account.password)) {
+        return res.status(401).json({
+          valid: false,
+          error: 'invalid password'
+        })
+      }
+      return res.status(201).json({
+        valid: true,
+      })
+  })
+})
+
+  module.export = (req, res, next) => {
+    const accountToken = req.headers.token;
+
+    if(accountToken === null) {
+      return res.status(401).json({ error: "User not authenticated"});
+    }
+
+    try {
+      const decodedToken = jwt.verify(accountToken, 'secretkey');
+      if (decoded) {
+        req.authenticated = true;
+        req.userData = decoded;
+        return next();
+      } else {
+        return res.status(401).json({ error: 'Invalid token'});
+      }
+    } catch (err) {
+      return res.status(401).json({ error: 'could not verify token'})
+    }
+  }
 
 module.exports = router;
