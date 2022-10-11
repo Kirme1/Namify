@@ -1,19 +1,21 @@
 <template>
-    <div>
-    <div id="account">
-        <h1>Account</h1>
+    <div class="account-box">
+      <h1>Account</h1>
+    <div id="details">
+      <b-row>
+        <b-col class="info">
+          <p>Username:</p>
+        </b-col>
+        <b-col>
+          {{this.account.name}}
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col class="info">Email:</b-col>
+        <b-col>{{this.account.email}}</b-col>
+      </b-row>
     </div>
-    <div id="box2">
-    <div id="input">
-        <form id="editAccount" action="">
-            <div class="tab">Account info:
-  <p>Username: {{this.account.name}} </p>
-  <p>Email: {{this.account.email}}</p>
-  </div>
-    <router-link to="/accounts/update" tag="button">Edit account</router-link>
-    </form>
-    </div>
-    </div>
+    <router-link to="/accounts/update" tag="button">Edit Account</router-link>
     </div>
 </template>
 <script>
@@ -64,15 +66,30 @@ export default {
     background: linear-gradient(0deg, rgba(14, 109, 204, 0.2), rgba(92, 93, 94, 0.2)), #272727;
     border: 1px solid #74E3FC;
 }
-#input {
+#details {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
     color: white;
-}
-#account {
-    background-color: #272727;
-    color: #74E3FC;
+    text-align: left;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 25px;
 }
 html {
     background-color: #272727;
 }
-
+.info {
+    text-align: right;
+}
+.account-box {
+  border: 2px solid #74E3FC;
+    text-align: center;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    height: auto;
+    margin-top: 8%;
+    margin-left: 25%;
+    margin-right: 25%;
+    background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+}
 </style>

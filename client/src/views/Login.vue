@@ -1,15 +1,11 @@
 <template>
-    <div>
-      <div class="main">
-        <button class="button-1" v-on:click="handleToggle(true)">Log In</button>
-        <button class="button-2" v-on:click="handleToggle(false)">Sign Up</button>
+    <div id="logIn-signUp">
         <div v-if="logIn">
-          <logIn @handleLogin="handleLogin()" :v-bind="logIn" />
+          <logIn @handleLogin="handleLogin()" :v-bind="logIn" @signUp="logIn = false"/>
         </div>
         <div v-else>
-          <CreateAccount />
+          <CreateAccount @logIn="logIn = true"/>
         </div>
-      </div>
     </div>
   </template>
 
@@ -34,3 +30,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>

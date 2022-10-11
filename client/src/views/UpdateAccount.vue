@@ -1,25 +1,26 @@
 <template>
     <div>
-    <div id="updateAccount">
-        <h1>Account</h1>
+    <div class="account-box">
+      <h1>Edit Account</h1>
+    <div>
+      <div class="divider">
+      <button class="account-button" @click="editName = true">Change Name</button>
+      <input v-if="editName === true" name="name" v-model="account.name" :placeholder="oldName">
     </div>
-    <div id="box1">
-    <div id="input">
-        <form id="editAccount" name="account">
-            <div class="tab">Account info:
-  <h1>Name:</h1>
-  <p><input name="name" v-model="account.name" ></p>
-  <h1>Email:</h1>
-  <p><input name="email" v-model="account.email"></p>
-  <h1>Password:</h1>
-  <p><input type="password" v-model="oldPassword" placeholder="old password"></p>
-  <p><input name="password" type="password" v-model="newPassword" placeholder="new password"></p>
-  </div>
-</form>
+    <div class="divider">
+      <button class="account-button" @click="editEmail = true">Change Email</button>
+      <input v-if="editEmail === true" name="email" v-model="account.email" :placeholder="oldEmail">
+    </div>
+    <div class="divider">
+      <button class="account-button" @click="editPassword = true">Change Password</button>
+        <input v-if="editPassword === true" type="password" v-model="oldPassword" placeholder="old password">
+        <input v-if="editPassword === true && oldPassword !== ''" name="password" type="password" v-model="newPassword" placeholder="new password">
+      </div>
 </div>
+    <button class="save-account" v-if="(oldPassword !== newPassword && editPassword === true) || (editName === true && account.name !== 'oldName') || (editEmail === true && account.email !== oldEmail)" v-on:click="updateAccount()">Save</button>
+    <button class="delete-account" v-on:click="deleteAccount()">Delete Account</button>
+    <div style="clear: both;"></div>
     </div>
-    <button v-on:click="updateAccount()">Save</button>
-    <button v-on:click="deleteAccount()">Delete account</button>
     </div>
 </template>
 <script>
@@ -28,8 +29,12 @@ import { Api } from '@/Api'
 export default {
   data() {
     return {
+      editName: false,
+      editEmail: false,
+      editPassword: false,
       confirmDelete: false,
       oldEmail: '',
+      oldName: '',
       account: {
         _id: '',
         name: '',
@@ -69,9 +74,18 @@ export default {
         .then(response => {
           this.account = response.data.user.account
           this.oldEmail = response.data.user.account.email
+          this.oldName = response.data.user.account.name
+          this.account.name = ''
+          this.account.email = ''
         })
     },
     updateAccount() {
+      if (this.account.name === '') {
+        this.account.name = this.oldName
+      }
+      if (this.account.email === '') {
+        this.account.email = this.oldEmail
+      }
       let checkPassword = false
       if (this.newPassword !== '') {
         this.account.password = this.newPassword
@@ -90,6 +104,7 @@ export default {
                 Api.put('/accounts/' + this.oldEmail, this.account)
                   .then(response => {
                     this.account = response.data
+                    this.$router.push('/account')
                   })
                   .catch(error => {
                     console.log(error.message)
@@ -105,6 +120,7 @@ export default {
           Api.put('/accounts/' + this.oldEmail, this.account)
             .then(response => {
               this.account = response.data
+              this.$router.push('/account')
             })
             .catch(error => {
               console.log(error.message)
@@ -137,5 +153,22 @@ export default {
     border: 1px solid #74E3FC;
 
 }
-
+.divider {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+    margin-left: 2rem;
+    margin-right: 1rem;
+}
+.account-button {
+    width: 25%
+}
+.save-account {
+    float: left;
+    margin-left: 2rem;
+}
+.delete-account {
+    float: right;
+    margin-right: 2rem;
+}
 </style>

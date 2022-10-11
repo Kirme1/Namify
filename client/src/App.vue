@@ -28,9 +28,10 @@
 </div>
             <b-nav-item style="height: 20px"><AddName class="addName" v-if="hasAccount"></AddName></b-nav-item>
             <b-dropdown id="dropdown" text="Profile" class="m-md-2">
-            <b-dropdown-item href="/login">Account</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item ><LogOut class="logOut"></LogOut></b-dropdown-item>
+            <b-dropdown-item v-if="hasAccount === false" href="/login">Log In</b-dropdown-item>
+            <b-dropdown-item v-if="hasAccount === true" href="/account">Account</b-dropdown-item>
+            <b-dropdown-divider v-if="hasAccount === true"></b-dropdown-divider>
+            <b-dropdown-item v-if="hasAccount === true"><LogOut class="logOut"></LogOut></b-dropdown-item>
             </b-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -91,8 +92,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #6ed42f;
-  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  color: #74E3FC;
+  background-color: #272727;
 }
 
 .logo {
@@ -103,7 +104,7 @@ export default {
   box-sizing: border-box;
   position: relative;
   background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
-  border: 1px solid #74E3FC;
+  border-bottom: 1px solid #74E3FC;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -138,7 +139,8 @@ body{
 .searchTerm:focus{
   color: #00B4CC;
 }
-
+#dropdown {
+}
 .searchButton {
   width: 40px;
   height: 42px;
