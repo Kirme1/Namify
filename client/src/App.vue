@@ -21,17 +21,17 @@
    <div class="search">
       <input v-model="text" type="text" class="searchTerm" placeholder="Search for a name">
       <button @click="search()" type="submit" class="searchButton">
-        <i class="fa fa-search"></i>
-        <a :href="$router.resolve({ path: `/name/${text}`, params: { id: text } }).href"><img style="width: 30px" src="../public/search.png"/></a>
+        <i class="fa-search"></i>
+        <a :href="$router.resolve({ path: `/name/${text}`, params: { id: text } }).href"><img class="image" src="../public/search.png"/></a>
      </button>
    </div>
 </div>
+            <b-nav-item style="height: 20px"><AddName class="addName" v-if="hasAccount"></AddName></b-nav-item>
             <b-dropdown id="dropdown" text="Profile" class="m-md-2">
             <b-dropdown-item href="login">Account</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item>Logout</b-dropdown-item>
             </b-dropdown>
-            <b-nav-item style="height: 20px"><AddName class="addName"  v-if="hasAccount"></AddName></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -120,8 +120,12 @@ body{
   outline: none;
   color: #9DBFAF;
 }
+.image{
+  width: 30px;
+}
 .addName {
   position: relative;
+
 }
 .searchTerm:focus{
   color: #00B4CC;
@@ -147,7 +151,9 @@ body{
   transform: translate(-50%, -50%);
 }
 .shuffle img {
-  float: min-width;
+  margin-top: -25px;
+  margin-left: -100px;
+position: absolute;
 width: 50px;
 height: 50px;
 }
@@ -163,5 +169,55 @@ html {
   appearance: button;
   text-decoration: none;
   color: #ffffff;
+}
+@media(max-width:768px){
+  #nav {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #74E3FC;
+  }
+  .search{
+    width: 250x;
+    height: 30px;
+    margin-left: -70px;
+  }
+  .searchTerm{
+  padding: 5px;
+  width: 250px;
+  padding-left:5px;
+  height: 35px;
+  margin-top: 70px;
+  }
+  .searchButton{
+  width: 20px;
+  height: 35px;
+  font-size: 10px;
+  margin-top:70px;
+  }
+  .image{
+    width: 20px;
+    margin-left: -5px;
+  }
+  .shuffle img {
+margin-top: -15px;
+margin-left: -60px;
+position: absolute;
+width: 37px;
+height: 37px;
+}
+.addName{
+  width: 50px;
+  height: 1px;
+  padding: 0px;
+  margin-left: 50px;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  font-size: .5em;
+  text-align: center;
+}
+.m-md-2{
+  margin-left: -80px;
+  font-size: small;
+}
 }
 </style>
