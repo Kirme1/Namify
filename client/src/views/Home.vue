@@ -1,6 +1,5 @@
 <template>
     <div class="container-fluid">
-      <router-link to="account">account</router-link>
       <b-row class="bruh">
         <b-col>
           <div class="box">
