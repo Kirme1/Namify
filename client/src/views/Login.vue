@@ -1,25 +1,20 @@
 <template>
-    <div>
-      <div class="main">
-        <LogOut></LogOut>
-        <button class="button-1" v-on:click="handleToggle(true)">Log In</button>
-        <button class="button-2" v-on:click="handleToggle(false)">Sign Up</button>
+    <div id="logIn-signUp">
         <div v-if="logIn">
-          <logIn @handleLogin="handleLogin()" :v-bind="logIn" />
+          <logIn @handleLogin="handleLogin()" :v-bind="logIn" @signUp="logIn = false"/>
         </div>
         <div v-else>
-          <CreateAccount />
+          <CreateAccount @logIn="logIn = true"/>
         </div>
-      </div>
     </div>
   </template>
 
 <script>
 import logIn from '../components/logIn.vue'
 import CreateAccount from '../components/createAccount.vue'
-import LogOut from '../components/logOut.vue'
+
 export default {
-  components: { logIn, CreateAccount, LogOut },
+  components: { logIn, CreateAccount },
   data() {
     return {
       logIn: true
@@ -35,3 +30,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>

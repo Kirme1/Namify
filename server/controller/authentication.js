@@ -9,7 +9,9 @@ router.post("/api/accounts", async (req, res, next) => {
     const newAccount = new Account({
       name: req.body.name,
       email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 10)
+      password: bcrypt.hashSync(req.body.password, 10),
+      likedNames: [],
+      likedComments: []
     })
     console.log(newAccount);
     try {

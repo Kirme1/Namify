@@ -51,7 +51,6 @@ router.get("/api/accounts/:id", function (req, res) {
 //Update an account
 router.put("/api/accounts/:id", (req, res) => {
   let email = req.params.id;
-  console.log(req.body)
   Account.findOne({ email: email }, function(err, account) {
     if(err) {return res.status(500).send(err);}
     if(account === null) {return res.status(404).json({'error': 'account not found'});}
@@ -62,6 +61,58 @@ router.put("/api/accounts/:id", (req, res) => {
     return res.status(201).json(account)
   });
 });
+
+//Change liked names
+router.patch("/api/accounts/:id/likedNames", (req, res) => {
+  let email = req.params.id;
+  Account.findOne({ email: email }, function(err, account) {
+    if(err) {return res.status(500).send(err);}
+    if(account === null) {return res.status(404).json({'error': 'account not found'});}
+    account.likedNames.forEach(name => {
+      if(name.name === req.body.name) {
+        name.liked = req.body.liked
+        name.disliked = req.body.disliked
+        account.save()
+        return res.status(201).json(name)
+      }
+    });
+    account.likedNames.push(req.body)
+    account.save()
+    return res.status(201).json(account.likedNames)
+  });
+})
+
+//Change liked comments
+router.patch("/api/accounts/:id/likedComments", (req, res) => {
+  let email = req.params.id;
+  Account.findOne({ email: email }, function(err, account) {
+    if(err) {return res.status(500).send(err);}
+    if(account === null) {return res.status(404).json({'error': 'account not found'});}
+    account.likedComments.forEach(comment => {
+      if(comment.comment === req.body.comment) {
+        comment.liked = req.body.liked
+        comment.disliked = req.body.disliked
+        account.save()
+        return res.status(201).json(comment)
+      }
+    });
+    account.likedComments.push(req.body)
+    account.save()
+    return res.status(201).json(account.likedComments)
+  });
+})
+
+router.patch("/api/accounts/:id/deleteLikesAndDislikes", function (req, res) {
+  let email = req.params.id;
+  Account.findOne({ email: email }, function(err, account) {
+    if(err) {return res.status(500).send(err);}
+    if(account === null) {return res.status(404).json({'error': 'account not found'});}
+    account.likedNames = [];
+    account.likedComments = [];
+    account.save()
+    return res.status(201).json(account)
+  });
+})
 
 // Delete an account by username
 router.delete("/api/accounts/:id", function (req, res) {
