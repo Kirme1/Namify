@@ -206,18 +206,16 @@ html {
     margin-left: -5px;
   }
   .shuffle img {
-margin-top: -15px;
-margin-left: -60px;
+margin-top: -19px;
+margin-left: 38px;
 position: absolute;
 width: 37px;
 height: 37px;
 }
 .addName{
   width: 50px;
-  height: 1px;
-  padding: 0px;
-  margin-left: 50px;
-  margin-top: 60px;
+  height: 5px;
+  margin-top: 65px;
   margin-bottom: 30px;
   font-size: .5em;
   text-align: center;
@@ -225,6 +223,9 @@ height: 37px;
 .m-md-2{
   margin-left: -80px;
   font-size: small;
+}
+.logo{
+  margin-left: -38px;
 }
 }
 </style>

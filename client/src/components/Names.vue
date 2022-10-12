@@ -24,10 +24,10 @@
           <b-col style="text-align: right;">
             <div id="likes">
               <p4>
-                <button v-on:click="updateLikes()">likes: {{this.name.likes}}</button>
+                <button class="thumbs-up" v-on:click="updateLikes()"><img style="width: 48%" src="/up.png"/> {{this.name.likes}}</button>
               </p4>
               <p4>
-                <button v-on:click="updateDislikes()">dislikes: {{this.name.dislikes}}</button>
+                <button class="thumbs-down" v-on:click="updateDislikes()">{{this.name.dislikes}} <img style="width: 48%" src="/down.png"/></button>
               </p4>
             </div>
           </b-col>
@@ -39,8 +39,8 @@
             </div>
             <div v-if="hasAccount" id="addComment">
               <form inline>
-                <input type="text" v-model="newComment" style="width: 90%" placeholder="Add a comment">
-                <button v-on:click="addComment()" style="width: 10%">Comment</button>
+                <input type="text" v-model="newComment" class="comment-input" placeholder="Write a comment...">
+                <button v-on:click="addComment()" class="comment-button">Post</button>
               </form>
             </div>
             <div id="comment-box" v-for="comment in name.comments" :key="comment._id">
@@ -50,7 +50,7 @@
               </div>
               <b-row style="margin-top: 8px">
                 <b-col style="text-align: left;">
-                  <button v-on:click="updateCommentLikes(comment)">likes: {{comment.likes}}</button>
+                  <button v-on:click="updateCommentLikes(comment)"> Likes: {{comment.likes}}</button>
                   <button v-on:click="updateCommentDislikes(comment)">dislikes: {{comment.dislikes}}</button>
                 </b-col>
                 <b-col style="text-align: right;">
@@ -58,7 +58,7 @@
                 </b-col>
               </b-row>
             </div>
-        </div>
+            </div>
   </div>
 </template>
 
@@ -339,5 +339,45 @@ export default {
 
 #whiteLink {
     color: #ffffff;
+}
+.comment-input{
+  width: 90%;
+}
+.comment-button{
+  width: 10%;
+}
+.thumbs-up{
+  width: 30%;
+  border: 1px solid #74E3FC;
+  border-radius: 30px 0px 0px 30px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  color:#ffffff
+}
+.thumbs-down{
+  width: 30%;
+  border: 1px solid #74E3FC;
+  border-radius: 0px 30px 30px 0px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  color:#ffffff
+}
+@media(max-width:768px){
+  .comment-button{
+  width: 20%;
+  }
+.thumbs-up{
+  width: 80px;
+  height: 40px;
+  border-radius: 30px 0px 0px 30px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+}
+.thumbs-down{
+  width: 80px;
+  height: 40px;
+  border-radius: 0px 30px 30px 0px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+}
+#likes{
+  margin-right: 4.6em;
+}
 }
 </style>
