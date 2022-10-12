@@ -1,5 +1,6 @@
 <template>
     <div class="account-box">
+      <p @celebrate="celebrate = true">Account details Successful changed!</p>
       <h1>Account</h1>
     <div id="details">
       <b-row>
@@ -25,6 +26,7 @@ export default {
   data() {
     return {
       message: '',
+      celebrate: false,
       account: {
         name: '',
         _id: '',
@@ -41,6 +43,10 @@ export default {
   },
   mounted() {
     this.getAccount()
+    if (this.$route.params.id === 'nice') {
+      this.celebrate = true
+      this.$route.push({ params: { id: '' } })
+    }
   },
   methods: {
     getAccount() {

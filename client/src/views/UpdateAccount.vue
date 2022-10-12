@@ -53,13 +53,11 @@ export default {
     deleteAccount() {
       this.confirmDelete = confirm('Are you sure you want to delete the account?')
       if (this.confirmDelete) {
-        console.log('hello')
-        Api.delete('/accounts/' + this.account._id)
+        Api.delete('/accounts/' + this.oldEmail)
           .then(response => {
             this.$bvModal.msgBoxOk(response.data.message)
             if (response.status === 200) {
               localStorage.removeItem('token')
-              location.reload()
               this.$router.push('/')
             }
           })
@@ -68,6 +66,9 @@ export default {
             this.$bvModal.msgBoxOk('Invalid Credentials')
           })
       }
+    },
+    celebrate() {
+      this.$emit('celebrate')
     },
     getAccount() {
       Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
@@ -100,42 +101,29 @@ export default {
         })
           .then(response => {
             if (response.data.valid) {
-              if (this.validateForm()) {
-                Api.put('/accounts/' + this.oldEmail, this.account)
-                  .then(response => {
-                    this.account = response.data
-                    this.$router.push('/account')
-                  })
-                  .catch(error => {
-                    console.log(error.message)
-                  })
-              }
+              Api.put('/accounts/' + this.oldEmail, this.account)
+                .then(response => {
+                  this.account = response.data
+                  this.celebrate()
+                })
+                .catch(error => {
+                  console.log(error.message)
+                })
             } else {
               console.log(response.data.error)
               alert('Name, Email  cannot be empty')
             }
           })
       } else {
-        if (this.validateForm()) {
-          Api.put('/accounts/' + this.oldEmail, this.account)
-            .then(response => {
-              this.account = response.data
-              this.$router.push('/account')
-            })
-            .catch(error => {
-              console.log(error.message)
-            })
-        }
+        Api.put('/accounts/' + this.oldEmail, this.account)
+          .then(response => {
+            this.account = response.data
+            this.celebrate()
+          })
+          .catch(error => {
+            console.log(error.message)
+          })
       }
-    },
-    validateForm() {
-      const name = document.forms.account.name.value
-      const email = document.forms.account.email.value
-      if (name === '' || email === '') {
-        alert('Name, Email  cannot be empty')
-        return false
-      }
-      return true
     }
   }
 }
