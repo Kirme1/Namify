@@ -52,7 +52,9 @@ export default {
       const newAccount = {
         name: this.id,
         email: this.email,
-        password: this.password
+        password: this.password,
+        likedNames: [],
+        likedComments: []
       }
       if (this.validateForm()) {
         console.log('hello')
