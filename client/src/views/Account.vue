@@ -32,6 +32,8 @@ export default {
         _id: '',
         email: '',
         password: '',
+        likedNames: [],
+        likedComments: [],
         __v: 0
       }
     }

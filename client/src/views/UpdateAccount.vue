@@ -40,7 +40,9 @@ export default {
         name: '',
         email: '',
         password: '',
-        __v: 0
+        __v: 0,
+        likedNames: [],
+        likedComments: []
       },
       oldPassword: '',
       newPassword: ''

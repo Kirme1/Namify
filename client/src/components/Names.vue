@@ -72,6 +72,17 @@ export default {
       newTag: '',
       hasAccount: false,
       accountName: '',
+      accountEmail: '',
+      likedNames: [{
+        name: '',
+        liked: false,
+        disliked: false
+      }],
+      likedComments: [{
+        comment: '',
+        liked: false,
+        disliked: false
+      }],
       name: {
         comments: [{
           _id: '',
@@ -129,45 +140,153 @@ export default {
         })
     },
     updateLikes() {
+      let hasName = false
       const upName = {
-        likes: this.name.likes + 1,
+        likes: this.name.likes,
         dislikes: this.name.dislikes
       }
-      this.name.likes = this.name.likes + 1
+      const likedName = {
+        name: this.name._id,
+        liked: true,
+        disliked: false
+      }
+      for (let i = 0; i < this.likedNames.length; i++) {
+        if (this.likedNames[i].name === this.name._id) {
+          hasName = true
+          if (!this.likedNames[i].liked) {
+            this.name.likes += 1
+            upName.likes += 1
+          } else {
+            this.name.likes -= 1
+            upName.likes -= 1
+          }
+          this.likedNames[i].liked = !this.likedNames[i].liked
+          likedName.liked = this.likedNames[i].liked
+        }
+      }
+      if (!hasName) {
+        this.likedNames.push(likedName)
+        this.name.likes += 1
+      }
       Api.patch('/names/' + this.$route.params.id, upName)
+        .catch(error => {
+          console.log(error)
+        })
+      Api.patch('/accounts/' + this.accountEmail + '/likedNames', likedName)
         .catch(error => {
           console.log(error)
         })
     },
     updateDislikes() {
+      let hasName = false
       const downName = {
         likes: this.name.likes,
-        dislikes: this.name.dislikes + 1
+        dislikes: this.name.dislikes
       }
-      this.name.dislikes = this.name.dislikes + 1
+      const dislikedName = {
+        name: this.name._id,
+        liked: false,
+        disliked: true
+      }
+      for (let i = 0; i < this.likedNames.length; i++) {
+        if (this.likedNames[i].name === this.name._id) {
+          hasName = true
+          if (!this.likedNames[i].disliked) {
+            this.name.dislikes += 1
+            downName.dislikes += 1
+          } else {
+            this.name.dislikes -= 1
+            downName.dislikes -= 1
+          }
+          this.likedNames[i].disliked = !this.likedNames[i].disliked
+          dislikedName.disliked = this.likedNames[i].disliked
+        }
+      }
+      if (!hasName) {
+        this.likedNames.push(dislikedName)
+        this.name.dislikes += 1
+      }
       Api.patch('/names/' + this.$route.params.id, downName)
+        .catch(error => {
+          console.log(error)
+        })
+      Api.patch('/accounts/' + this.accountEmail + '/likedNames', dislikedName)
         .catch(error => {
           console.log(error)
         })
     },
     updateCommentLikes(comment) {
+      let hasComment = false
       const upComment = {
-        likes: comment.likes + 1,
+        likes: comment.likes,
         dislikes: comment.dislikes
       }
-      comment.likes = comment.likes + 1
+      const likedComment = {
+        comment: comment._id,
+        liked: true,
+        disliked: false
+      }
+      for (let i = 0; i < this.likedComments.length; i++) {
+        if (this.likedComments[i].comment === comment._id) {
+          hasComment = true
+          if (!this.likedComments[i].liked) {
+            comment.likes += 1
+            upComment.likes += 1
+          } else {
+            comment.likes -= 1
+            upComment.likes -= 1
+          }
+          this.likedComments[i].liked = !this.likedComments[i].liked
+          likedComment.liked = this.likedComments[i].liked
+        }
+      }
+      if (!hasComment) {
+        this.likedComments.push(likedComment)
+        comment.likes += 1
+      }
       Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, upComment)
+        .catch(error => {
+          console.log(error)
+        })
+      Api.patch('/accounts/' + this.accountEmail + '/likedComments', likedComment)
         .catch(error => {
           console.log(error)
         })
     },
     updateCommentDislikes(comment) {
-      const upComment = {
+      let hasComment = false
+      const downComment = {
         likes: comment.likes,
-        dislikes: comment.dislikes + 1
+        dislikes: comment.dislikes
       }
-      comment.dislikes = comment.dislikes + 1
-      Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, upComment)
+      const dislikedComment = {
+        comment: comment._id,
+        liked: false,
+        disliked: true
+      }
+      for (let i = 0; i < this.likedComments.length; i++) {
+        if (this.likedComments[i].comment === comment._id) {
+          hasComment = true
+          if (!this.likedComments[i].disliked) {
+            comment.dislikes += 1
+            downComment.dislikes += 1
+          } else {
+            comment.dislikes -= 1
+            downComment.dislikes -= 1
+          }
+          this.likedComments[i].disliked = !this.likedComments[i].disliked
+          dislikedComment.disliked = this.likedComments[i].disliked
+        }
+      }
+      if (!hasComment) {
+        this.likedComments.push(dislikedComment)
+        comment.dislikes += 1
+      }
+      Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, downComment)
+        .catch(error => {
+          console.log(error)
+        })
+      Api.patch('/accounts/' + this.accountEmail + '/likedComments', dislikedComment)
         .catch(error => {
           console.log(error)
         })
@@ -176,11 +295,14 @@ export default {
       Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
           this.accountName = response.data.user.account.name
+          this.accountEmail = response.data.user.account.email
+          this.likedNames = response.data.user.account.likedNames
+          this.likedComments = response.data.user.account.likedComments
         })
     },
     addComment() {
       const newComment = {
-        _id: this.name._id + String(this.name.comments.length) + String(this.newComment.length * Math.floor(Math.random() * this.name.comments.length)),
+        _id: this.name._id + String(this.name.comments.length) + String(this.newComment.length + Math.floor(Math.random() * this.name.comments.length)),
         text: this.newComment,
         likes: 0,
         dislikes: 0,
