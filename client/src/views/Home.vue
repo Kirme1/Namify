@@ -171,5 +171,13 @@ export default {
     font-size: 25px;
     vertical-align: middle;
 }
+@media(max-width:768px){
+  .box{
+    margin:auto;
+    width: 300px;
+    margin-top: 80px;
+    box-sizing: border-box;
+  }
+}
 
 </style>

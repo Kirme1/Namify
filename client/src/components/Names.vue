@@ -17,7 +17,7 @@
               <button v-if="name.tags.length < 4 && addTagClicked === false" v-on:click="addTagClicked = true">+</button>
             </span>
             <span v-if="addTagClicked === true">
-              <input  type="text" v-model="newTag" id="tagInput" size="5" :placeholder="tagMessage">
+              <input type="text" v-model="newTag" id="tagInput" size="5" :placeholder="tagMessage">
               <button v-on:click="addTag()">Add</button>
             </span>
           </b-col>
@@ -39,7 +39,7 @@
             </div>
             <div v-if="hasAccount" id="addComment">
               <form inline>
-                <input type="text" v-model="newComment" class="comment-input" placeholder="Write a comment...">
+                <input type="text" v-model="newComment" class="comment-input" style="color:#FFFFFF;" placeholder=" Write a comment...">
                 <button v-on:click="addComment()" class="comment-button">Post</button>
               </form>
             </div>
@@ -49,12 +49,10 @@
                 {{comment.text}}
               </div>
               <b-row style="margin-top: 8px">
-                <b-col style="text-align: left;">
-                  <button v-on:click="updateCommentLikes(comment)"> Likes: {{comment.likes}}</button>
-                  <button v-on:click="updateCommentDislikes(comment)">dislikes: {{comment.dislikes}}</button>
-                </b-col>
+                  <button class="thumbs-up-comment" v-on:click="updateCommentLikes(comment)"> <img style="width: 48%" src="/up.png"/> {{comment.likes}}</button>
+                  <button class="thumbs-down-comment" v-on:click="updateCommentDislikes(comment)"> {{comment.dislikes}} <img style="width: 48%" src="/down.png"/></button>
                 <b-col style="text-align: right;">
-                  <button v-if="comment.name === accountName" v-on:click="deleteComment(comment)">Delete</button>
+                  <button class="delete-button" v-if="comment.name === accountName" v-on:click="deleteComment(comment)">Delete</button>
                 </b-col>
               </b-row>
             </div>
@@ -344,7 +342,12 @@ export default {
   width: 90%;
 }
 .comment-button{
+  height: 38px;
   width: 10%;
+  color:#ffffff;
+  background: #737374;
+  border: 1.5px solid #74E3FC;
+  border-radius: 0px 10px 10px 0px;
 }
 .thumbs-up{
   width: 30%;
@@ -360,6 +363,34 @@ export default {
   background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
   color:#ffffff
 }
+.thumbs-up-comment{
+  width: 8%;
+  height: 8%;
+  border: 1px solid #74E3FC;
+  border-radius: 30px 0px 0px 30px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  color:#ffffff
+}
+.thumbs-down-comment{
+  width: 8%;
+  height: 8%;
+  border: 1px solid #74E3FC;
+  border-radius: 0px 30px 30px 0px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  color:#ffffff
+}
+.delete-button{
+  background: #232323;
+  color: #ffffff;
+}
+.comment-input{
+  height: 38px;
+  color:#ffffff;
+  border: 1px solid #74E3FC;
+  border-radius: 10px 0px 0px 10px;
+  background: linear-gradient(0deg, rgba(254, 254, 254, 0.2), rgba(92, 93, 94, 0.2)), #2b2b2b;
+}
+
 @media(max-width:768px){
   .comment-button{
   width: 20%;
@@ -378,6 +409,26 @@ export default {
 }
 #likes{
   margin-right: 4.6em;
+}
+#likes-comment{
+  margin-right: 4em;
+}
+.thumbs-up-comment{
+  width: 50px;
+  height: 30px;
+}
+.thumbs-down-comment{
+  width: 50px;
+  height: 30px;
+}
+.comment-input{
+  width: 80%;
+  color:#ffffff;
+  border: 1.5px solid #74E3FC;
+  background: linear-gradient(0deg, rgba(254, 254, 254, 0.2), rgba(92, 93, 94, 0.2)), #2b2b2b;
+}
+.comment-button{
+  margin-top: .5em;
 }
 }
 </style>
