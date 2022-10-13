@@ -1,9 +1,10 @@
 <template>
   <div>
-  <b-button v-b-modal.modal-1>Log Out</b-button>
+  <p v-b-modal.modal-1>Log Out</p>
 
-  <b-modal id="modal-1" title="BootstrapVue"
+  <b-modal id="modal-1" title="Log Out"
   @ok="handleOk">
+  Are you sure you want to log out?
   </b-modal>
 </div>
 </template>

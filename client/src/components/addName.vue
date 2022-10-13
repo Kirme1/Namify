@@ -1,6 +1,6 @@
 <template>
     <div>
-      <b-button v-b-modal.modal-prevent-closing>Add name</b-button>
+      <b-button class="name-button"  v-b-modal.modal-prevent-closing>add name</b-button>
       <div class="mt-3">
       </div>
       <b-modal
@@ -83,4 +83,19 @@ export default {
     }
   }
 }
+
 </script>
+<style>
+  @media(max-width: 768px){
+    .name-button{
+  width: 100px;
+  height: 40px;
+  padding: 1px;
+  margin-left: -28px;
+  margin-top: -4px;
+  margin-bottom: 4px;
+  font-size: 5px;
+  text-align: center;
+    }
+  }
+  </style>

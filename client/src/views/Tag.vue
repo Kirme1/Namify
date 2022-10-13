@@ -90,5 +90,18 @@ export default {
     font-size: 35px;
     color: #FFFFFF;
 }
+@media(max-width:768px){
+  #tag-box {
+    left: 10px;
+    right: 10px;
+    padding: 10px;
+  }
+  .name-box {
+    width: 80%
+  }
+  .name {
+    font-size: 30px;
+  }
+}
 
 </style>

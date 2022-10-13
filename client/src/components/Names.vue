@@ -17,17 +17,17 @@
               <button v-if="name.tags.length < 4 && addTagClicked === false" v-on:click="addTagClicked = true">+</button>
             </span>
             <span v-if="addTagClicked === true">
-              <input  type="text" v-model="newTag" id="tagInput" size="5" :placeholder="tagMessage">
+              <input type="text" v-model="newTag" id="tagInput" size="5" :placeholder="tagMessage">
               <button v-on:click="addTag()">Add</button>
             </span>
           </b-col>
           <b-col style="text-align: right;">
             <div id="likes">
               <p4>
-                <button v-on:click="updateLikes()">likes: {{this.name.likes}}</button>
+                <button class="thumbs-up" v-on:click="updateLikes()"><img style="width: 48%" src="/up.png"/> {{this.name.likes}}</button>
               </p4>
               <p4>
-                <button v-on:click="updateDislikes()">dislikes: {{this.name.dislikes}}</button>
+                <button class="thumbs-down" v-on:click="updateDislikes()">{{this.name.dislikes}} <img style="width: 48%" src="/down.png"/></button>
               </p4>
             </div>
           </b-col>
@@ -39,8 +39,8 @@
             </div>
             <div v-if="hasAccount" id="addComment">
               <form inline>
-                <input type="text" v-model="newComment" style="width: 90%" placeholder="Add a comment">
-                <button v-on:click="addComment()" style="width: 10%">Comment</button>
+                <input type="text" v-model="newComment" class="comment-input" style="color:#FFFFFF;" placeholder=" Write a comment...">
+                <button v-on:click="addComment()" class="comment-button">Post</button>
               </form>
             </div>
             <div id="comment-box" v-for="comment in name.comments" :key="comment._id">
@@ -49,16 +49,14 @@
                 {{comment.text}}
               </div>
               <b-row style="margin-top: 8px">
-                <b-col style="text-align: left;">
-                  <button v-on:click="updateCommentLikes(comment)">likes: {{comment.likes}}</button>
-                  <button v-on:click="updateCommentDislikes(comment)">dislikes: {{comment.dislikes}}</button>
-                </b-col>
+                  <button class="thumbs-up-comment" v-on:click="updateCommentLikes(comment)"> <img style="width: 48%" src="/up.png"/> {{comment.likes}}</button>
+                  <button class="thumbs-down-comment" v-on:click="updateCommentDislikes(comment)"> {{comment.dislikes}} <img style="width: 48%" src="/down.png"/></button>
                 <b-col style="text-align: right;">
-                  <button v-if="comment.name === accountName" v-on:click="deleteComment(comment)">Delete</button>
+                  <button class="delete-button" v-if="comment.name === accountName" v-on:click="deleteComment(comment)">Delete</button>
                 </b-col>
               </b-row>
             </div>
-        </div>
+            </div>
   </div>
 </template>
 
@@ -74,6 +72,17 @@ export default {
       newTag: '',
       hasAccount: false,
       accountName: '',
+      accountEmail: '',
+      likedNames: [{
+        name: '',
+        liked: false,
+        disliked: false
+      }],
+      likedComments: [{
+        comment: '',
+        liked: false,
+        disliked: false
+      }],
       name: {
         comments: [{
           _id: '',
@@ -131,45 +140,153 @@ export default {
         })
     },
     updateLikes() {
+      let hasName = false
       const upName = {
-        likes: this.name.likes + 1,
+        likes: this.name.likes,
         dislikes: this.name.dislikes
       }
-      this.name.likes = this.name.likes + 1
+      const likedName = {
+        name: this.name._id,
+        liked: true,
+        disliked: false
+      }
+      for (let i = 0; i < this.likedNames.length; i++) {
+        if (this.likedNames[i].name === this.name._id) {
+          hasName = true
+          if (!this.likedNames[i].liked) {
+            this.name.likes += 1
+            upName.likes += 1
+          } else {
+            this.name.likes -= 1
+            upName.likes -= 1
+          }
+          this.likedNames[i].liked = !this.likedNames[i].liked
+          likedName.liked = this.likedNames[i].liked
+        }
+      }
+      if (!hasName) {
+        this.likedNames.push(likedName)
+        this.name.likes += 1
+      }
       Api.patch('/names/' + this.$route.params.id, upName)
+        .catch(error => {
+          console.log(error)
+        })
+      Api.patch('/accounts/' + this.accountEmail + '/likedNames', likedName)
         .catch(error => {
           console.log(error)
         })
     },
     updateDislikes() {
+      let hasName = false
       const downName = {
         likes: this.name.likes,
-        dislikes: this.name.dislikes + 1
+        dislikes: this.name.dislikes
       }
-      this.name.dislikes = this.name.dislikes + 1
+      const dislikedName = {
+        name: this.name._id,
+        liked: false,
+        disliked: true
+      }
+      for (let i = 0; i < this.likedNames.length; i++) {
+        if (this.likedNames[i].name === this.name._id) {
+          hasName = true
+          if (!this.likedNames[i].disliked) {
+            this.name.dislikes += 1
+            downName.dislikes += 1
+          } else {
+            this.name.dislikes -= 1
+            downName.dislikes -= 1
+          }
+          this.likedNames[i].disliked = !this.likedNames[i].disliked
+          dislikedName.disliked = this.likedNames[i].disliked
+        }
+      }
+      if (!hasName) {
+        this.likedNames.push(dislikedName)
+        this.name.dislikes += 1
+      }
       Api.patch('/names/' + this.$route.params.id, downName)
+        .catch(error => {
+          console.log(error)
+        })
+      Api.patch('/accounts/' + this.accountEmail + '/likedNames', dislikedName)
         .catch(error => {
           console.log(error)
         })
     },
     updateCommentLikes(comment) {
+      let hasComment = false
       const upComment = {
-        likes: comment.likes + 1,
+        likes: comment.likes,
         dislikes: comment.dislikes
       }
-      comment.likes = comment.likes + 1
+      const likedComment = {
+        comment: comment._id,
+        liked: true,
+        disliked: false
+      }
+      for (let i = 0; i < this.likedComments.length; i++) {
+        if (this.likedComments[i].comment === comment._id) {
+          hasComment = true
+          if (!this.likedComments[i].liked) {
+            comment.likes += 1
+            upComment.likes += 1
+          } else {
+            comment.likes -= 1
+            upComment.likes -= 1
+          }
+          this.likedComments[i].liked = !this.likedComments[i].liked
+          likedComment.liked = this.likedComments[i].liked
+        }
+      }
+      if (!hasComment) {
+        this.likedComments.push(likedComment)
+        comment.likes += 1
+      }
       Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, upComment)
+        .catch(error => {
+          console.log(error)
+        })
+      Api.patch('/accounts/' + this.accountEmail + '/likedComments', likedComment)
         .catch(error => {
           console.log(error)
         })
     },
     updateCommentDislikes(comment) {
-      const upComment = {
+      let hasComment = false
+      const downComment = {
         likes: comment.likes,
-        dislikes: comment.dislikes + 1
+        dislikes: comment.dislikes
       }
-      comment.dislikes = comment.dislikes + 1
-      Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, upComment)
+      const dislikedComment = {
+        comment: comment._id,
+        liked: false,
+        disliked: true
+      }
+      for (let i = 0; i < this.likedComments.length; i++) {
+        if (this.likedComments[i].comment === comment._id) {
+          hasComment = true
+          if (!this.likedComments[i].disliked) {
+            comment.dislikes += 1
+            downComment.dislikes += 1
+          } else {
+            comment.dislikes -= 1
+            downComment.dislikes -= 1
+          }
+          this.likedComments[i].disliked = !this.likedComments[i].disliked
+          dislikedComment.disliked = this.likedComments[i].disliked
+        }
+      }
+      if (!hasComment) {
+        this.likedComments.push(dislikedComment)
+        comment.dislikes += 1
+      }
+      Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, downComment)
+        .catch(error => {
+          console.log(error)
+        })
+      Api.patch('/accounts/' + this.accountEmail + '/likedComments', dislikedComment)
         .catch(error => {
           console.log(error)
         })
@@ -177,12 +294,15 @@ export default {
     getAccount() {
       Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
-          this.accountName = response.data.user.account._id
+          this.accountName = response.data.user.account.name
+          this.accountEmail = response.data.user.account.email
+          this.likedNames = response.data.user.account.likedNames
+          this.likedComments = response.data.user.account.likedComments
         })
     },
     addComment() {
       const newComment = {
-        _id: this.name._id + String(this.name.comments.length),
+        _id: this.name._id + String(this.name.comments.length) + String(this.newComment.length + Math.floor(Math.random() * this.name.comments.length)),
         text: this.newComment,
         likes: 0,
         dislikes: 0,
@@ -339,5 +459,103 @@ export default {
 
 #whiteLink {
     color: #ffffff;
+}
+.comment-input{
+  width: 90%;
+}
+.comment-button{
+  height: 38px;
+  width: 10%;
+  color:#ffffff;
+  background: #737374;
+  border: 1.5px solid #74E3FC;
+  border-radius: 0px 10px 10px 0px;
+}
+.thumbs-up{
+  width: 36%;
+  border: 1px solid #74E3FC;
+  border-radius: 30px 0px 0px 30px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  color:#ffffff
+}
+.thumbs-down{
+  width: 36%;
+  border: 1px solid #74E3FC;
+  border-radius: 0px 30px 30px 0px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  color:#ffffff
+}
+.thumbs-up-comment{
+  width: 8%;
+  height: 8%;
+  border: 1px solid #74E3FC;
+  border-radius: 30px 0px 0px 30px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  color:#ffffff
+}
+.thumbs-down-comment{
+  width: 8%;
+  height: 8%;
+  border: 1px solid #74E3FC;
+  border-radius: 0px 30px 30px 0px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+  color:#ffffff
+}
+.delete-button{
+  background: #232323;
+  color: #ffffff;
+}
+.comment-input{
+  height: 38px;
+  color:#ffffff;
+  border: 1px solid #74E3FC;
+  border-radius: 10px 0px 0px 10px;
+  background: linear-gradient(0deg, rgba(254, 254, 254, 0.2), rgba(92, 93, 94, 0.2)), #2b2b2b;
+}
+
+@media(max-width:768px){
+  #box {
+    padding: 20px;
+  }
+  .comment-button{
+  width: 20%;
+  }
+.thumbs-up{
+  width: 80px;
+  font-size: 15px;
+  height: 40px;
+  border-radius: 30px 0px 0px 30px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+}
+.thumbs-down{
+  font-size: 15px;
+  width: 80px;
+  height: 40px;
+  border-radius: 0px 30px 30px 0px;
+  background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+}
+#likes{
+  margin-right: 4.6em;
+}
+#likes-comment{
+  margin-right: 4em;
+}
+.thumbs-up-comment{
+  width: 50px;
+  height: 30px;
+}
+.thumbs-down-comment{
+  width: 50px;
+  height: 30px;
+}
+.comment-input{
+  width: 80%;
+  color:#ffffff;
+  border: 1.5px solid #74E3FC;
+  background: linear-gradient(0deg, rgba(254, 254, 254, 0.2), rgba(92, 93, 94, 0.2)), #2b2b2b;
+}
+.comment-button{
+  margin-top: .5em;
+}
 }
 </style>

@@ -1,11 +1,9 @@
 <template>
     <div>
+      <div class="log-in-box">
       <form @submit.prevent="handleSubmit">
-        <div class="head">
-          <h1>Create Account</h1>
-        </div>
-
-        <div class="form-group">
+          <h1>Sign Up</h1>
+        <div class="text_box">
           <input
             type="text"
             class="form-control"
@@ -13,7 +11,7 @@
             placeholder="Name"
           />
         </div>
-        <div class="form-group">
+        <div class="text_box">
           <input
             type="email"
             class="form-control"
@@ -21,7 +19,7 @@
             placeholder="Email"
           />
         </div>
-        <div class="form-group">
+        <div class="text_box">
           <input
             type="password"
             class="form-control"
@@ -29,9 +27,10 @@
             placeholder="Password"
           />
         </div>
-
-        <button class="btn btn-primary btn-block">Submit</button>
+        <button class="submit-button">Submit</button>
       </form>
+      <p>Already have an account? <button @click="logIn()">Log In</button></p>
+    </div>
     </div>
   </template>
 
@@ -48,11 +47,16 @@ export default {
     }
   },
   methods: {
+    logIn() {
+      this.$emit('logIn')
+    },
     handleSubmit() {
       const newAccount = {
         name: this.id,
         email: this.email,
-        password: this.password
+        password: this.password,
+        likedNames: [],
+        likedComments: []
       }
       if (this.validateForm()) {
         console.log('hello')

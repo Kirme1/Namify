@@ -1,6 +1,5 @@
 <template>
     <div class="container-fluid">
-      <router-link to="account">account</router-link>
       <b-row class="bruh">
         <b-col>
           <div class="box">
@@ -171,6 +170,14 @@ export default {
     color: #ffffff;
     font-size: 25px;
     vertical-align: middle;
+}
+@media(max-width:768px){
+  .box{
+    margin:auto;
+    width: 300px;
+    margin-top: 80px;
+    box-sizing: border-box;
+  }
 }
 
 </style>
