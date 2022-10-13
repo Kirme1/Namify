@@ -7,13 +7,13 @@
         <b-col class="info">
           <p>Username:</p>
         </b-col>
-        <b-col>
+        <b-col class="info2">
           {{this.account.name}}
         </b-col>
       </b-row>
       <b-row>
         <b-col class="info">Email:</b-col>
-        <b-col>{{this.account.email}}</b-col>
+        <b-col class="info2">{{this.account.email}}</b-col>
       </b-row>
     </div>
     <router-link to="/accounts/update" tag="button">Edit Account</router-link>
@@ -100,4 +100,19 @@ html {
     margin-right: 25%;
     background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
 }
+@media(max-width:768px) {
+    .account-box {
+      margin-top: 18%;
+    margin-left: 5%;
+    margin-right: 5%;
+    }
+
+    .info {
+      font-size: 15px;
+    }
+    .info2 {
+      font-size: 15px;
+    }
+  }
+
 </style>

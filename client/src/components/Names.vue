@@ -472,14 +472,14 @@ export default {
   border-radius: 0px 10px 10px 0px;
 }
 .thumbs-up{
-  width: 30%;
+  width: 36%;
   border: 1px solid #74E3FC;
   border-radius: 30px 0px 0px 30px;
   background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
   color:#ffffff
 }
 .thumbs-down{
-  width: 30%;
+  width: 36%;
   border: 1px solid #74E3FC;
   border-radius: 0px 30px 30px 0px;
   background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
@@ -514,16 +514,21 @@ export default {
 }
 
 @media(max-width:768px){
+  #box {
+    padding: 20px;
+  }
   .comment-button{
   width: 20%;
   }
 .thumbs-up{
   width: 80px;
+  font-size: 15px;
   height: 40px;
   border-radius: 30px 0px 0px 30px;
   background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
 }
 .thumbs-down{
+  font-size: 15px;
   width: 80px;
   height: 40px;
   border-radius: 0px 30px 30px 0px;

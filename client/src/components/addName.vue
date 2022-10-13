@@ -94,7 +94,7 @@ export default {
   margin-left: -28px;
   margin-top: -4px;
   margin-bottom: 4px;
-  font-size: small;
+  font-size: 5px;
   text-align: center;
     }
   }

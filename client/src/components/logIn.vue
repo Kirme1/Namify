@@ -101,4 +101,11 @@ export default {
   .submit-button {
     margin-bottom: 2rem;
   }
+  @media(max-width:768px) {
+    .log-in-box {
+      margin-top: 18%;
+    margin-left: 5%;
+    margin-right: 5%;
+    }
+  }
   </style>
