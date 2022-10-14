@@ -3,7 +3,7 @@
       <b-row class="bruh">
         <b-col>
           <div class="box">
-          <h class="text">Most Liked</h>
+          <h2 class="text">Most Liked</h2>
           <div
           v-for="name in mostLiked"
           v-bind:key="name._id">
@@ -16,7 +16,7 @@
         </b-col>
         <b-col>
           <div class="box">
-            <h class="text">Most Disliked</h>
+            <h2 class="text">Most Disliked</h2>
           <div
           v-for="name in mostDisliked"
           v-bind:key="name._id">
@@ -29,7 +29,7 @@
         </b-col>
         <b-col>
           <div class="box">
-            <h class="text">Most Controversial</h>
+            <h2 class="text">Most Controversial</h2>
           <div
           v-for="name in mostControversial"
           v-bind:key="name._id">
@@ -47,7 +47,6 @@
 <script>
 // @ is an alias to /src
 import { Api } from '../Api'
-// import nameItem from '@/components/nameItem.vue'
 
 export default {
   data() {

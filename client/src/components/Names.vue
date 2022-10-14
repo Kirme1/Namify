@@ -33,9 +33,9 @@
           </b-col>
         </b-row>
             <div id="top_comment">
-                <p1>
+                <p>
                     {{this.topComment.text}}
-                </p1>
+                </p>
             </div>
             <div v-if="hasAccount" id="addComment">
               <form inline>

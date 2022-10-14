@@ -13,7 +13,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <div class="shuffle">
           <b-navbar-nav>
-            <item @mouseover="Shuffle()"><a :href="$router.resolve({ path: `/name/${shuffleText}`, params: { id: shuffleText } }).href"><img src="../public/shuffle.png"/></a></item>
+            <div @mouseover="Shuffle()"><a :href="$router.resolve({ path: `/name/${shuffleText}`, params: { id: shuffleText } }).href"><img src="../public/shuffle.png"/></a></div>
           </b-navbar-nav>
         </div>
           <b-navbar-nav class="ml-auto">

@@ -16,7 +16,8 @@
         <b-col class="info2">{{this.account.email}}</b-col>
       </b-row>
     </div>
-    <router-link to="/accounts/update" tag="button">Edit Account</router-link>
+    <router-link class="editName" to="/accounts/update" custom v-slot="{ navigate }">
+      <span @click="navigate" @keypress.enter="navigate" role="link">Edit Account</span></router-link>
     </div>
 </template>
 <script>
@@ -99,6 +100,9 @@ html {
     margin-left: 25%;
     margin-right: 25%;
     background: linear-gradient(0deg, rgba(92, 93, 94, 0.2), rgba(92, 93, 94, 0.2)), #272727;
+}
+.editName {
+  cursor: pointer;
 }
 @media(max-width:768px) {
     .account-box {
