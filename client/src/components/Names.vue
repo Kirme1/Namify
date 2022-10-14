@@ -10,15 +10,15 @@
           <b-col>
             <span id="tags" v-for="tag in name.tags" :key="tag">
               <span style="color: #FFFFFF" v-if="tag !== ''">
-                #<router-link id="whiteLink" :to="{ path: `/tag/${tag}`, params: { id: tag } }">{{tag}}</router-link><button v-on:click="deleteTag(tag)"></button>
+                #<router-link id="whiteLink" :to="{ path: `/tag/${tag}`, params: { id: tag } }">{{tag}}</router-link><button class="delete-tag" v-on:click="deleteTag(tag)">X </button>
               </span>
             </span>
             <span>
-              <button v-if="name.tags.length < 4 && addTagClicked === false" v-on:click="addTagClicked = true">+</button>
+              <button class="tags-box" v-if="name.tags.length < 4 && addTagClicked === false" v-on:click="addTagClicked = true">#tags</button>
             </span>
             <span v-if="addTagClicked === true">
-              <input type="text" v-model="newTag" id="tagInput" size="5" :placeholder="tagMessage">
-              <button v-on:click="addTag()">Add</button>
+              <input class="tags-input" type="text" v-model="newTag" id="tagInput" size="5" style="color:#FFFFFF;" placeholder="Add a #tag">
+              <button class="add-tag" v-on:click="addTag()">Add</button>
             </span>
           </b-col>
           <b-col style="text-align: right;">
@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       message: 'none',
-      tagMessage: 'Add a tag',
+      tagMessage: 'Add a #tag',
       addTagClicked: false,
       newTag: '',
       hasAccount: false,
@@ -375,6 +375,37 @@ export default {
 </script>
 
 <style>
+  .tags-box{
+  height: 60%;
+  width: 20%;
+  color:#ffffff;
+  background: #737374;
+  border: 1.5px solid #74E3FC;
+  border-radius: 10px 10px 10px 10px;
+}
+.delete-tag{
+  text-align:center;
+  width: 6%;
+  height: 45%;
+  background: #7f7f7f;
+  color: #ffffff;
+}
+.add-tag{
+  height: 60%;
+  width: 15%;
+  color:#ffffff;
+  background: #737374;
+  border: 1.5px solid #74E3FC;
+  border-radius: 0px 10px 10px 0px;
+}
+.tags-input{
+  height: 60%;
+  width: 25%;
+  color:#ffffff;
+  background: linear-gradient(0deg, rgba(254, 254, 254, 0.2), rgba(92, 93, 94, 0.2)), #2b2b2b;
+  border: 1.5px solid #74E3FC;
+  border-radius: 10px 0px 0px 10px;
+}
 #name {
     text-align: left;
     font-family: 'DM Serif Display';
@@ -385,6 +416,7 @@ export default {
     color: #74E3FC;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
 #top_comment {
     margin-top: 1rem;
     left: 50px;
@@ -556,6 +588,30 @@ export default {
 }
 .comment-button{
   margin-top: .5em;
+}
+.tags-box{
+  height: 60%;
+  width: 40%;
+  color:#ffffff;
+  background: #737374;
+  border: 1.5px solid #74E3FC;
+  border-radius: 10px 10px 10px 10px;
+}
+.add-tag{
+  height: 60%;
+  width: 31%;
+  color:#ffffff;
+  background: #737374;
+  border: 1.5px solid #74E3FC;
+  border-radius: 0px 10px 10px 0px;
+}
+.tags-input{
+  height: 60%;
+  width: 69%;
+  color:#ffffff;
+  background: linear-gradient(0deg, rgba(254, 254, 254, 0.2), rgba(92, 93, 94, 0.2)), #2b2b2b;
+  border: 1.5px solid #74E3FC;
+  border-radius: 10px 0px 0px 10px;
 }
 }
 </style>
