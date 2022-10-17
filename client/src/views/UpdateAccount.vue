@@ -71,6 +71,7 @@ export default {
     },
     celebrate() {
       this.$emit('celebrate')
+      this.$router.push('/account')
     },
     getAccount() {
       Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
@@ -111,10 +112,12 @@ export default {
                 .catch(error => {
                   console.log(error.message)
                 })
-            } else {
-              console.log(response.data.error)
-              alert('Name, Email  cannot be empty')
             }
+          })
+          .catch(err => {
+            console.log(err.response)
+            this.boxOne = ''
+            this.$bvModal.msgBoxOk('Incorect Password')
           })
       } else {
         Api.put('/accounts/' + this.oldEmail, this.account)
