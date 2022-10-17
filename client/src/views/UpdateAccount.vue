@@ -57,21 +57,16 @@ export default {
       if (this.confirmDelete) {
         Api.delete('/accounts/' + this.oldEmail)
           .then(response => {
-            this.$bvModal.msgBoxOk(response.data.message)
             if (response.status === 200) {
               localStorage.removeItem('token')
               this.$router.push('/')
+              location.reload()
             }
           })
           .catch(err => {
             console.log(err.response)
-            this.$bvModal.msgBoxOk('Invalid Credentials')
           })
       }
-    },
-    celebrate() {
-      this.$emit('celebrate')
-      this.$router.push('/account')
     },
     getAccount() {
       Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
@@ -107,7 +102,7 @@ export default {
               Api.put('/accounts/' + this.oldEmail, this.account)
                 .then(response => {
                   this.account = response.data
-                  this.celebrate()
+                  this.$router.push('/account')
                 })
                 .catch(error => {
                   console.log(error.message)
@@ -123,7 +118,7 @@ export default {
         Api.put('/accounts/' + this.oldEmail, this.account)
           .then(response => {
             this.account = response.data
-            this.celebrate()
+            this.$router.push('/account')
           })
           .catch(error => {
             console.log(error.message)
