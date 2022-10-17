@@ -1,6 +1,5 @@
 <template>
     <div class="account-box">
-      <p @celebrate="celebrate = true">Account details Successful changed!</p>
       <h1>Account</h1>
     <div id="details">
       <b-row>

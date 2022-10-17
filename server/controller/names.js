@@ -97,7 +97,6 @@ router.post("/api/names", function (req, res) {
   })
 });
 
-//Is this necessary? 
  //delete all names
  router.delete("/api/names", function (req, res) {
   Name.deleteMany(function (err, name) {

@@ -85,7 +85,6 @@ export default {
   },
   methods: {
     goName(name) {
-      console.log('hello')
       this.$router.push({ path: `/name/${name}`, params: { id: name } })
     },
     getNamesByLikes() {
@@ -93,9 +92,7 @@ export default {
         .then(response => {
           for (let i = 0; i < 6; i++) {
             this.mostLiked.splice(i, 0, response.data[i][1])
-            console.log(this.mostLiked[i]._id)
           }
-          console.log(response.data)
         })
         .catch(error => {
           this.message = error
@@ -107,7 +104,6 @@ export default {
           for (let i = 0; i < 6; i++) {
             this.mostDisliked.splice(i, 0, response.data[i][1])
           }
-          console.log(this.mostDisliked)
         })
         .catch(error => {
           this.message = error
@@ -119,7 +115,6 @@ export default {
           for (let i = 0; i < 6; i++) {
             this.mostControversial.splice(i, 0, response.data[i][1])
           }
-          console.log(this.mostControversial)
         })
         .catch(error => {
           this.message = error

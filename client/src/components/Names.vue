@@ -10,7 +10,7 @@
           <b-col>
             <span id="tags" v-for="tag in name.tags" :key="tag">
               <span style="color: #FFFFFF" v-if="tag !== ''">
-                #<router-link id="whiteLink" :to="{ path: `/tag/${tag}`, params: { id: tag } }">{{tag}}</router-link><button class="delete-tag" v-on:click="deleteTag(tag)">X </button>
+                #<router-link id="whiteLink" :to="{ path: `/tag/${tag}`, params: { id: tag } }">{{tag}}</router-link><button class="delete-tag" v-on:click="deleteTag(tag)">X</button>
               </span>
             </span>
             <span>
@@ -211,15 +211,15 @@ export default {
 <style>
   .tags-box{
   height: 60%;
-  width: 20%;
+  width: auto;
   color:#ffffff;
   background: #737374;
   border: 1.5px solid #74E3FC;
   border-radius: 10px 10px 10px 10px;
 }
 .delete-tag{
-  text-align:center;
-  width: 6%;
+  font-size: 10px;
+  width: auto;
   height: 45%;
   background: #7f7f7f;
   color: #ffffff;
@@ -381,6 +381,9 @@ export default {
   background: linear-gradient(0deg, rgba(254, 254, 254, 0.2), rgba(92, 93, 94, 0.2)), #2b2b2b;
   border: 1.5px solid #74E3FC;
   border-radius: 10px 0px 0px 10px;
+}
+#likes {
+  text-align: left;
 }
 }
 </style>

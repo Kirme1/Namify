@@ -67,6 +67,7 @@ router.patch("/api/accounts/:id/likedComments", (req, res) => {
   });
 })
 
+// Delete likes and dislikes of account
 router.patch("/api/accounts/:id/deleteLikesAndDislikes", function (req, res) {
   let email = req.params.id;
   Account.findOne({ email: email }, function(err, account) {
