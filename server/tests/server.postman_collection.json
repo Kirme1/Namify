@@ -43,12 +43,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{host}}/api/tags/",
+							"raw": "{{host}}/api/{{version}}/tags/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"tags",
 								""
 							]
@@ -94,12 +95,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/tags",
+							"raw": "{{host}}/api/{{version}}/tags",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"tags"
 							]
 						}
@@ -125,12 +127,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/tags/test",
+							"raw": "{{host}}/api/{{version}}/tags/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"tags",
 								"test"
 							]
@@ -171,12 +174,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/accounts",
+							"raw": "{{host}}/api/{{version}}/accounts",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"accounts"
 							]
 						}
@@ -211,12 +215,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/accounts/login",
+							"raw": "{{host}}/api/{{version}}/accounts/login",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"accounts",
 								"login"
 							]
@@ -252,12 +257,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/accounts/test",
+							"raw": "{{host}}/api/{{version}}/accounts/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"accounts",
 								"test"
 							]
@@ -293,12 +299,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/accounts/test/likedNames",
+							"raw": "{{host}}/api/{{version}}/accounts/test/likedNames",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"accounts",
 								"test",
 								"likedNames"
@@ -335,12 +342,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/accounts/test/likedComments",
+							"raw": "{{host}}/api/{{version}}/accounts/test/likedComments",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"accounts",
 								"test",
 								"likedComments"
@@ -368,12 +376,13 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/accounts/test/deleteLikesAndDislikes",
+							"raw": "{{host}}/api/{{version}}/accounts/test/deleteLikesAndDislikes",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"accounts",
 								"test",
 								"deleteLikesAndDislikes"
@@ -402,12 +411,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/accounts/test",
+							"raw": "{{host}}/api/{{version}}/accounts/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"accounts",
 								"test"
 							]
@@ -435,12 +445,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/accounts/test",
+							"raw": "{{host}}/api/{{version}}/accounts/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"accounts",
 								"test"
 							]
@@ -481,12 +492,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/names",
+							"raw": "{{host}}/api/{{version}}/names",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names"
 							]
 						}
@@ -512,12 +524,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names",
+							"raw": "{{host}}/api/{{version}}/names",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names"
 							]
 						}
@@ -552,12 +565,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/names/test/comments",
+							"raw": "{{host}}/api/{{version}}/names/test/comments",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test",
 								"comments"
@@ -585,12 +599,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names/test/comments",
+							"raw": "{{host}}/api/{{version}}/names/test/comments",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test",
 								"comments"
@@ -618,12 +633,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names/test/comments/test",
+							"raw": "{{host}}/api/{{version}}/names/test/comments/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test",
 								"comments",
@@ -661,12 +677,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/names/test/comments/test",
+							"raw": "{{host}}/api/{{version}}/names/test/comments/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test",
 								"comments",
@@ -696,12 +713,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names/test/comments/test",
+							"raw": "{{host}}/api/{{version}}/names/test/comments/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test",
 								"comments",
@@ -739,12 +757,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/names/test",
+							"raw": "{{host}}/api/{{version}}/names/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test"
 							]
@@ -780,12 +799,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/names/test/tags/test",
+							"raw": "{{host}}/api/{{version}}/names/test/tags/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test",
 								"tags",
@@ -814,12 +834,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names/test/tags",
+							"raw": "{{host}}/api/{{version}}/names/test/tags",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test",
 								"tags"
@@ -847,12 +868,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names/test/tags/test",
+							"raw": "{{host}}/api/{{version}}/names/test/tags/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test",
 								"tags",
@@ -882,12 +904,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names/test/tags/test",
+							"raw": "{{host}}/api/{{version}}/names/test/tags/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test",
 								"tags",
@@ -916,12 +939,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names/test",
+							"raw": "{{host}}/api/{{version}}/names/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test"
 							]
@@ -949,12 +973,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names/test",
+							"raw": "{{host}}/api/{{version}}/names/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test"
 							]
@@ -982,12 +1007,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/names/test",
+							"raw": "{{host}}/api/{{version}}/names/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"names",
 								"test"
 							]
@@ -1023,12 +1049,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/tags/test",
+							"raw": "{{host}}/api/{{version}}/tags/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"tags",
 								"test"
 							]
@@ -1064,12 +1091,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/tags",
+							"raw": "{{host}}/api/{{version}}/tags",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"tags"
 							]
 						}
@@ -1095,12 +1123,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/tags/test",
+							"raw": "{{host}}/api/{{version}}/tags/test",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"tags",
 								"test"
 							]
@@ -1138,12 +1167,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{host}}/api/accounts",
+							"raw": "{{host}}/api/{{version}}/accounts",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"{{version}}",
 								"accounts"
 							]
 						}

@@ -45,7 +45,7 @@ export default {
         email: this.email,
         password: this.password
       }
-      Api.post('/accounts/login', user).then(
+      Api.post('/v1/accounts/login', user).then(
         (res) => {
           // if successfull
           if (res.status === 200) {

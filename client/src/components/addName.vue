@@ -48,7 +48,7 @@ export default {
         comments: [],
         tags: []
       }
-      Api.post('names', newName)
+      Api.post('v1/names', newName)
         .catch(error => {
           console.log(error)
         })

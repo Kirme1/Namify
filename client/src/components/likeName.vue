@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     getAccount() {
-      Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
+      Api.get('/v1/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
           this.hasAccount = true
           this.accountEmail = response.data.user.account.email
@@ -60,7 +60,7 @@ export default {
         })
     },
     getName() {
-      Api.get('/names/' + this.$route.params.id)
+      Api.get('/v1/names/' + this.$route.params.id)
         .then(response => {
           this.name = response.data
         })
@@ -95,11 +95,11 @@ export default {
           this.likedNames.push(likedName)
           this.name.likes += 1
         }
-        Api.patch('/names/' + this.$route.params.id, upName)
+        Api.patch('/v1/names/' + this.$route.params.id, upName)
           .catch(error => {
             console.log(error)
           })
-        Api.patch('/accounts/' + this.accountEmail + '/likedNames', likedName)
+        Api.patch('/v1/accounts/' + this.accountEmail + '/likedNames', likedName)
           .catch(error => {
             console.log(error)
           })
@@ -135,11 +135,11 @@ export default {
           this.likedNames.push(dislikedName)
           this.name.dislikes += 1
         }
-        Api.patch('/names/' + this.$route.params.id, downName)
+        Api.patch('/v1/names/' + this.$route.params.id, downName)
           .catch(error => {
             console.log(error)
           })
-        Api.patch('/accounts/' + this.accountEmail + '/likedNames', dislikedName)
+        Api.patch('/v1/accounts/' + this.accountEmail + '/likedNames', dislikedName)
           .catch(error => {
             console.log(error)
           })

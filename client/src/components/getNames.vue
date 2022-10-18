@@ -34,7 +34,7 @@ export default {
   },
   mounted() {
     console.log('Page is loaded!')
-    Api.get('/names')
+    Api.get('/v1/names')
       .then((response) => {
         console.log(response)
         this.names = response.data

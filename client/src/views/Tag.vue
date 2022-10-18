@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     getTagNames() {
-      Api.get('/tags/' + this.$route.params.id + '/names')
+      Api.get('/v1/tags/' + this.$route.params.id + '/names')
         .then(response => {
           for (let i = 0; i < response.data.length; i++) {
             console.log(response.data[i])

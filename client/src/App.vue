@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     Shuffle() {
-      Api.get('names/shuffle')
+      Api.get('v1/names/shuffle')
         .then((response) => {
           console.log(response.data)
           this.shuffleText = response.data.name._id

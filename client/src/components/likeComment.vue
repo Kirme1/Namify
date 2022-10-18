@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     getAccount() {
-      Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
+      Api.get('/v1/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
           this.hasAccount = true
           this.accountEmail = response.data.user.account.email
@@ -72,7 +72,7 @@ export default {
         })
     },
     getName() {
-      Api.get('/names/' + this.$route.params.id)
+      Api.get('/v1/names/' + this.$route.params.id)
         .then(response => {
           this.name = response.data
         })
@@ -107,11 +107,11 @@ export default {
           this.likedComments.push(likedComment)
           comment.likes += 1
         }
-        Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, upComment)
+        Api.patch('/v1/names/' + this.$route.params.id + '/comments/' + comment._id, upComment)
           .catch(error => {
             console.log(error)
           })
-        Api.patch('/accounts/' + this.accountEmail + '/likedComments', likedComment)
+        Api.patch('/v1/accounts/' + this.accountEmail + '/likedComments', likedComment)
           .catch(error => {
             console.log(error)
           })
@@ -147,11 +147,11 @@ export default {
           this.likedComments.push(dislikedComment)
           comment.dislikes += 1
         }
-        Api.patch('/names/' + this.$route.params.id + '/comments/' + comment._id, downComment)
+        Api.patch('/v1/names/' + this.$route.params.id + '/comments/' + comment._id, downComment)
           .catch(error => {
             console.log(error)
           })
-        Api.patch('/accounts/' + this.accountEmail + '/likedComments', dislikedComment)
+        Api.patch('/v1/accounts/' + this.accountEmail + '/likedComments', dislikedComment)
           .catch(error => {
             console.log(error)
           })

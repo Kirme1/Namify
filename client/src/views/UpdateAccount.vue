@@ -55,7 +55,7 @@ export default {
     deleteAccount() {
       this.confirmDelete = confirm('Are you sure you want to delete the account?')
       if (this.confirmDelete) {
-        Api.delete('/accounts/' + this.oldEmail)
+        Api.delete('/v1/accounts/' + this.oldEmail)
           .then(response => {
             if (response.status === 200) {
               localStorage.removeItem('token')
@@ -69,7 +69,7 @@ export default {
       }
     },
     getAccount() {
-      Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
+      Api.get('/v1/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
           this.account = response.data.user.account
           this.oldEmail = response.data.user.account.email
@@ -91,7 +91,7 @@ export default {
         checkPassword = true
       }
       if (checkPassword) {
-        Api.get('/accounts/verify', {
+        Api.get('/v1/accounts/verify', {
           headers: {
             password: this.oldPassword,
             email: this.oldEmail
@@ -99,7 +99,7 @@ export default {
         })
           .then(response => {
             if (response.data.valid) {
-              Api.put('/accounts/' + this.oldEmail, this.account)
+              Api.put('/v1/accounts/' + this.oldEmail, this.account)
                 .then(response => {
                   this.account = response.data
                   this.$router.push('/account')
@@ -115,7 +115,7 @@ export default {
             this.$bvModal.msgBoxOk('Incorect Password')
           })
       } else {
-        Api.put('/accounts/' + this.oldEmail, this.account)
+        Api.put('/v1/accounts/' + this.oldEmail, this.account)
           .then(response => {
             this.account = response.data
             this.$router.push('/account')

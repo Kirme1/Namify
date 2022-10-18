@@ -88,7 +88,7 @@ export default {
       this.$router.push({ path: `/name/${name}`, params: { id: name } })
     },
     getNamesByLikes() {
-      Api.get('/names/sortLikes')
+      Api.get('/v1/names/sortLikes')
         .then(response => {
           for (let i = 0; i < 6; i++) {
             this.mostLiked.splice(i, 0, response.data[i][1])
@@ -99,7 +99,7 @@ export default {
         })
     },
     getNamesByDislikes() {
-      Api.get('/names/sortDislikes')
+      Api.get('/v1/names/sortDislikes')
         .then(response => {
           for (let i = 0; i < 6; i++) {
             this.mostDisliked.splice(i, 0, response.data[i][1])
@@ -110,7 +110,7 @@ export default {
         })
     },
     getNamesByControversial() {
-      Api.get('/names/sortControversial')
+      Api.get('/v1/names/sortControversial')
         .then(response => {
           for (let i = 0; i < 6; i++) {
             this.mostControversial.splice(i, 0, response.data[i][1])

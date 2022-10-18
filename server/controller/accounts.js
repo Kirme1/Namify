@@ -4,7 +4,7 @@ var Account = require("../schema/Account");
 const bcrypt = require("bcryptjs");
 
 //Update an account
-router.put("/api/accounts/:id", (req, res) => {
+router.put("/api/v1/accounts/:id", (req, res) => {
   let email = req.params.id;
   Account.findOne({ email: email }, function(err, account) {
     if(err) {return res.status(500).send(err);}
@@ -18,7 +18,7 @@ router.put("/api/accounts/:id", (req, res) => {
 });
 
 //Change liked names
-router.patch("/api/accounts/:id/likedNames", (req, res) => {
+router.patch("/api/v1/accounts/:id/likedNames", (req, res) => {
   let email = req.params.id;
   let hasName = false;
   Account.findOne({ email: email }, function(err, account) {
@@ -43,7 +43,7 @@ router.patch("/api/accounts/:id/likedNames", (req, res) => {
 })
 
 //Change liked comments
-router.patch("/api/accounts/:id/likedComments", (req, res) => {
+router.patch("/api/v1/accounts/:id/likedComments", (req, res) => {
   let email = req.params.id;
   let hasComment = false;
   Account.findOne({ email: email }, function(err, account) {
@@ -68,7 +68,7 @@ router.patch("/api/accounts/:id/likedComments", (req, res) => {
 })
 
 // Delete likes and dislikes of account
-router.patch("/api/accounts/:id/deleteLikesAndDislikes", function (req, res) {
+router.patch("/api/v1/accounts/:id/deleteLikesAndDislikes", function (req, res) {
   let email = req.params.id;
   Account.findOne({ email: email }, function(err, account) {
     if(err) {return res.status(500).send(err);}
@@ -81,7 +81,7 @@ router.patch("/api/accounts/:id/deleteLikesAndDislikes", function (req, res) {
 })
 
 // Delete an account by username
-router.delete("/api/accounts/:id", function (req, res) {
+router.delete("/api/v1/accounts/:id", function (req, res) {
   const email = req.params.id;
   Account.findOneAndDelete({ email: email}, function (err, account) {
     if (err) {

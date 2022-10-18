@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     getAccount() {
-      Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
+      Api.get('/v1/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
           this.account = response.data.user.account
         })

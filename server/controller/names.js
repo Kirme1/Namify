@@ -5,7 +5,7 @@ const Comment = require('../schema/comment');
 const Tag = require('../schema/tag')
 
 // Names - C.R.U.D functions
-router.get('/api/names', function (req, res) {
+router.get('/api/v1/names', function (req, res) {
     Name.find(function (err, names) {
         if(err) {
             return res.status(500).send(err);
@@ -16,7 +16,7 @@ router.get('/api/names', function (req, res) {
 });
 
 //get names sorted by likes
-router.get('/api/names/sortLikes', function (req, res) {
+router.get('/api/v1/names/sortLikes', function (req, res) {
   var sortedLikes = [];
   Name.find(function (err, names) {
       if(err) {
@@ -35,7 +35,7 @@ router.get('/api/names/sortLikes', function (req, res) {
 });
 
 //get names sorted by dislikes
-router.get('/api/names/sortDislikes', function (req, res) {
+router.get('/api/v1/names/sortDislikes', function (req, res) {
   var sortedLikes = [];
   Name.find(function (err, names) {
       if(err) {
@@ -54,7 +54,7 @@ router.get('/api/names/sortDislikes', function (req, res) {
 });
 
 //get names sorted by difference in likes and dislikes
-router.get('/api/names/sortControversial', function (req, res) {
+router.get('/api/v1/names/sortControversial', function (req, res) {
   var sortedLikes = [];
   Name.find(function (err, names) {
       if(err) {
@@ -74,7 +74,7 @@ router.get('/api/names/sortControversial', function (req, res) {
   });
 });
 
-router.get('/api/names/shuffle', function (req, res) {
+router.get('/api/v1/names/shuffle', function (req, res) {
   Name.find(function (err, names) {
       if(err) {
           return res.status(500).send(err);
@@ -87,7 +87,7 @@ router.get('/api/names/shuffle', function (req, res) {
 });
 
 //create new name
-router.post("/api/names", function (req, res) {
+router.post("/api/v1/names", function (req, res) {
   var name = new Name(req.body);
   name.save(function (err) {
     if (err) {
@@ -98,7 +98,7 @@ router.post("/api/names", function (req, res) {
 });
 
  //delete all names
- router.delete("/api/names", function (req, res) {
+ router.delete("/api/v1/names", function (req, res) {
   Name.deleteMany(function (err, name) {
     if(err) {
       return res.status(500).send(err);
@@ -108,7 +108,7 @@ router.post("/api/names", function (req, res) {
 });
 
 //create comment for specific name
-router.post("/api/names/:id/comments", function (req, res) {
+router.post("/api/v1/names/:id/comments", function (req, res) {
     Name.findById({_id: req.params.id}, function (err, name) {
       if (err) {
         return res.status(500);
@@ -131,7 +131,7 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
  
   //delete specific name
-  router.delete("/api/names/:id", function(req, res) {
+  router.delete("/api/v1/names/:id", function(req, res) {
     var id = req.params.id;
     Name.findByIdAndDelete(id, function(err, name) {
       if(err) {
@@ -145,7 +145,7 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
 
   //delete specific comment from specific name
-  router.delete('/api/names/:name_id/comments/:comment_id', function(req, res) {
+  router.delete('/api/v1/names/:name_id/comments/:comment_id', function(req, res) {
     var id = req.params.comment_id;
     Comment.findById(id)
     .exec(function (err, comment) {
@@ -184,7 +184,7 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
 
   //remove specific tag from specific name
-  router.delete("/api/names/:name_id/tags/:tag_id", function (req, res) {
+  router.delete("/api/v1/names/:name_id/tags/:tag_id", function (req, res) {
     Name.findByIdAndUpdate({_id: req.params.name_id})
     .populate("tags")
     .exec(function (err, name, tag) {
@@ -201,7 +201,7 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
 
   //change number of likes and dislikes for a specific name
-  router.patch("/api/names/:id", function(req, res) {
+  router.patch("/api/v1/names/:id", function(req, res) {
     var id = req.params.id;
     Name.findByIdAndUpdate(id, req.body, { likes: req.likes, dislikes: req.dislikes})
     .then(function (name) {
@@ -216,7 +216,7 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
 
   //change number of likes and dislikes for specific comment
-  router.patch("/api/names/:name_id/comments/:comment_id", function(req, res) {
+  router.patch("/api/v1/names/:name_id/comments/:comment_id", function(req, res) {
     var id = req.params.comment_id;
     Comment.findByIdAndUpdate(id, req.body, { likes: req.likes, dislikes: req.dislikes})
     .then(function (comment) {
@@ -231,7 +231,7 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
 
   //Atach tag to name
-  router.patch("/api/names/:name_id/tags/:tag_id", function (req, res) {
+  router.patch("/api/v1/names/:name_id/tags/:tag_id", function (req, res) {
     var tag = '';
     Tag.findById({_id: req.params.tag_id}, function (err, foundTag) {
       if (err) {
@@ -261,7 +261,7 @@ router.post("/api/names/:id/comments", function (req, res) {
   });
 
 //get specific name
-router.get('/api/names/:id', function(req, res){
+router.get('/api/v1/names/:id', function(req, res){
   Name.findById({_id: req.params.id})
   .populate('comments').exec(function (err, id){
       if(err) {
@@ -275,7 +275,7 @@ router.get('/api/names/:id', function(req, res){
 });
 
 //get all comments for specific name
-router.get('/api/names/:id/comments', function(req, res) {
+router.get('/api/v1/names/:id/comments', function(req, res) {
   Name.findById({_id: req.params.id})
   .populate("comments")
   .exec(function (err, name) {
@@ -290,8 +290,8 @@ router.get('/api/names/:id/comments', function(req, res) {
   });
 });
 
-//get 
-router.get('/api/names/:id/comments/sorted', function(req, res) {
+//get comments sorted for a name
+router.get('/api/v1/names/:id/comments/sorted', function(req, res) {
   sortedComments = [];
   Name.findById({_id: req.params.id})
   .populate("comments")
@@ -314,7 +314,7 @@ router.get('/api/names/:id/comments/sorted', function(req, res) {
 });
 
 //get specific comment for specific name
-router.get('/api/names/:name_id/comments/:comment_id', function(req, res) {
+router.get('/api/v1/names/:name_id/comments/:comment_id', function(req, res) {
   Name.findById({_id: req.params.name_id})
   .populate({path: "comments", 
     match: { _id: { $eq: req.params.comment_id } },
@@ -335,7 +335,7 @@ router.get('/api/names/:name_id/comments/:comment_id', function(req, res) {
 });
 
 // get all tags for specific name
-router.get('/api/names/:id/tags', function(req, res) {
+router.get('/api/v1/names/:id/tags', function(req, res) {
   Name.findById({_id: req.params.id})
   .populate('tags')
   .exec(function (err, name) {
@@ -347,7 +347,7 @@ router.get('/api/names/:id/tags', function(req, res) {
 });
 
 //get specific tag for specific name
-router.get('/api/names/:name_id/tags/:tag_id', function(req, res) {
+router.get('/api/v1/names/:name_id/tags/:tag_id', function(req, res) {
   Name.findById({_id: req.params.name_id})
   .populate({path: "tags", 
     match: { _id: { $eq: req.params.tag_id } },

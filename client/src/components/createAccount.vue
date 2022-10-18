@@ -60,7 +60,7 @@ export default {
       }
       if (this.validateForm()) {
         console.log('hello')
-        Api.post('/accounts', newAccount).then(
+        Api.post('/v1/accounts', newAccount).then(
           (res) => {
             console.log(res)
             this.$bvModal.msgBoxOk('SignUp Successful', this.$router.go(0))

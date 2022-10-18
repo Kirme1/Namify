@@ -5,7 +5,7 @@ const Account = require("../schema/Account")
 const jwt = require('jsonwebtoken');
 
 //Registeration
-router.post("/api/accounts", async (req, res, next) => {
+router.post("/api/v1/accounts", async (req, res, next) => {
     const newAccount = new Account({
       name: req.body.name,
       email: req.body.email,
@@ -29,7 +29,7 @@ router.post("/api/accounts", async (req, res, next) => {
     });
 
 //Login
-router.post('/api/accounts/login', (req, res, next) => {
+router.post('/api/v1/accounts/login', (req, res, next) => {
     Account.findOne({ email: req.body.email }, (err, account) => {
       if (err) return res.status(500).json({
         title: 'server error',
@@ -68,7 +68,7 @@ router.post('/api/accounts/login', (req, res, next) => {
   })
   
   //grabbing user info
-  router.get('/api/accounts', (req, res, next) => {
+  router.get('/api/v1/accounts', (req, res, next) => {
     let token = req.headers.token; //token
     jwt.verify(token, 'secretkey', (err, decoded) => {
       if (err) return res.status(401).json({
@@ -88,7 +88,7 @@ router.post('/api/accounts/login', (req, res, next) => {
   })
 
   //verify account password
-  router.get('/api/accounts/verify', (req, res) => {
+  router.get('/api/v1/accounts/verify', (req, res) => {
     let password = req.headers.password
     let email = req.headers.email
     Account.findOne({ email: email }, (err, account) => {
@@ -109,26 +109,5 @@ router.post('/api/accounts/login', (req, res, next) => {
       })
   })
 })
-
-  module.export = (req, res, next) => {
-    const accountToken = req.headers.token;
-
-    if(accountToken === null) {
-      return res.status(401).json({ error: "User not authenticated"});
-    }
-
-    try {
-      const decodedToken = jwt.verify(accountToken, 'secretkey');
-      if (decoded) {
-        req.authenticated = true;
-        req.userData = decoded;
-        return next();
-      } else {
-        return res.status(401).json({ error: 'Invalid token'});
-      }
-    } catch (err) {
-      return res.status(401).json({ error: 'could not verify token'})
-    }
-  }
 
 module.exports = router;

@@ -5,7 +5,7 @@ var Name = require('../schema/name');
 
 // Create tag C.R.U.D. functions
 //Get all tags
-router.get('/api/tags', function (req, res) {
+router.get('/api/v1/tags', function (req, res) {
     Tag.find(function (err, tags) {
         if(err) {
             return res.status(500).send(err);
@@ -16,7 +16,7 @@ router.get('/api/tags', function (req, res) {
 });
 
 //Get specific tag
-router.get('/api/tags/:id', function (req, res) {
+router.get('/api/v1/tags/:id', function (req, res) {
     Tag.findById({_id: req.params.id}).exec(function (err, tag) {
         if(tag == null)
         {
@@ -30,7 +30,7 @@ router.get('/api/tags/:id', function (req, res) {
 });
 
 // filter by tag
-router.get('/api/tags/:id/names', function(req, res) {
+router.get('/api/v1/tags/:id/names', function(req, res) {
   console.log("finding");
   Name.find({tags: req.params.id}).exec(function (
     err,
@@ -44,7 +44,7 @@ router.get('/api/tags/:id/names', function(req, res) {
 });
 
 //Create new tag
-router.post('/api/tags', function (req, res) {
+router.post('/api/v1/tags', function (req, res) {
     var tag = new Tag(req.body); 
     tag.save(function (err) {
         if (err) {
@@ -56,7 +56,7 @@ router.post('/api/tags', function (req, res) {
 });
 
 //delete tag
-router.delete("/api/tags/:id", function (req, res) {
+router.delete("/api/v1/tags/:id", function (req, res) {
     var id = req.params.id;
     Tag.findById(id, function (err, tag) {
       if (err) {
@@ -75,7 +75,7 @@ router.delete("/api/tags/:id", function (req, res) {
     });
   });
 
-  router.delete("/api/tags", function (req, res) {
+  router.delete("/api/v1/tags", function (req, res) {
     Tag.deleteMany(function (err, tag) {
       if(err) {
         return res.status(500).send(err);

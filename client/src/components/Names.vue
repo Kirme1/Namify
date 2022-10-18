@@ -107,7 +107,7 @@ export default {
   },
   methods: {
     getName() {
-      Api.get('/names/' + this.$route.params.id)
+      Api.get('/v1/names/' + this.$route.params.id)
         .then(response => {
           this.name = response.data
           if (this.name.comments.length > 0) {
@@ -127,7 +127,7 @@ export default {
         })
     },
     getAccount() {
-      Api.get('/accounts', { headers: { token: localStorage.getItem('token') } })
+      Api.get('/v1/accounts', { headers: { token: localStorage.getItem('token') } })
         .then(response => {
           this.accountName = response.data.user.account.name
           this.accountEmail = response.data.user.account.email
@@ -143,7 +143,7 @@ export default {
         name: this.accountName
       }
       this.name.comments.push(newComment)
-      Api.post('/names/' + this.name._id + '/comments', newComment)
+      Api.post('/v1/names/' + this.name._id + '/comments', newComment)
         .then(response => {
           console.log(response)
         })
@@ -170,14 +170,14 @@ export default {
       if (duplicate === false) {
         this.addTagClicked = false
         this.tagMessage = 'Add a tag'
-        Api.post('/tags', postTag)
+        Api.post('/v1/tags', postTag)
           .then(response => {
             console.log(response)
           })
           .catch(error => {
             console.log(error)
           })
-        Api.patch('/names/' + this.name._id + '/tags/' + addTag)
+        Api.patch('/v1/names/' + this.name._id + '/tags/' + addTag)
           .then(response => {
             this.name.tags.push(addTag)
             console.log(response)
@@ -188,13 +188,13 @@ export default {
       }
     },
     deleteComment(comment) {
-      Api.delete('/names/' + this.name._id + '/comments/' + comment._id)
+      Api.delete('/v1/names/' + this.name._id + '/comments/' + comment._id)
       const index = this.name.comments.indexOf(comment._id)
       this.name.comments.splice(index, 1)
     },
     deleteTag(tag) {
       console.log(tag)
-      Api.delete('/names/' + this.name._id + '/tags/' + tag)
+      Api.delete('/v1/names/' + this.name._id + '/tags/' + tag)
         .then(response => {
           const index = this.name.tags.indexOf(tag)
           this.name.tags.splice(index, 1)
