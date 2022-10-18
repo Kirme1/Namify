@@ -1208,6 +1208,11 @@
 			"key": "host",
 			"value": "http://localhost:3000",
 			"type": "string"
+		},
+		{
+			"key": "version",
+			"value": "v1",
+			"type": "string"
 		}
 	]
 }
